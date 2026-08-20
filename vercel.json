@@ -12,6 +12,10 @@
       "dest": "/employee.html"
     },
     {
+      "src": "/campaign",
+      "dest": "/campaign.html"
+    },
+    {
       "src": "/admin",
       "dest": "/admin.html"
     },

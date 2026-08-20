@@ -1,16 +1,11 @@
 /**
  * Retain Social Growth Challenge - Employee Portal Coordinator (Retain Brand Theme)
+ * Laser-focused on the employee dashboard, referral links, and outreach toolkits.
  */
 
 import { store } from './store.js';
-import { renderHero } from './components/hero.js';
-import { renderHowItWorks } from './components/howItWorks.js';
-import { renderScoringSection } from './components/scoringSection.js';
 import { renderEmployeeDashboard } from './components/employeeDashboard.js';
 import { renderSharingToolkit } from './components/sharingToolkit.js';
-import { renderLeaderboard } from './components/leaderboard.js';
-import { renderTimeline } from './components/timeline.js';
-import { renderRulesAccordion } from './components/rulesAccordion.js';
 
 // Global Toast Manager
 window.showToast = function(message, type = 'info') {
@@ -55,14 +50,6 @@ function renderEmployeeView() {
   const dashboardContent = document.getElementById('employee-dashboard-content');
   const navUserSection = document.getElementById('nav-user-section');
 
-  // Always render general campaign information
-  renderHero();
-  renderHowItWorks();
-  renderScoringSection();
-  renderLeaderboard();
-  renderTimeline();
-  renderRulesAccordion();
-
   if (!isLoggedIn) {
     if (loginBox) loginBox.classList.remove('hidden');
     if (dashboardContent) dashboardContent.classList.add('hidden');
@@ -89,7 +76,7 @@ function renderEmployeeView() {
             </div>
             <span class="text-xs font-bold text-slate-900 hidden sm:inline">${currentEmp.name}</span>
           </div>
-          <button id="emp-logout-btn" class="px-3.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all flex items-center gap-1.5">
+          <button id="emp-logout-btn" class="px-3.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer">
             <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
             <span>Log Out</span>
           </button>
@@ -120,7 +107,7 @@ function renderLoginPills() {
 
   const employees = store.getState().employees || [];
   container.innerHTML = employees.map(emp => `
-    <button class="quick-emp-login-btn p-2.5 rounded-2xl bg-[#FAFBF7] hover:bg-white border border-slate-200 hover:border-rose-500 text-left transition-all flex items-center gap-2.5 group shadow-sm" data-code="${emp.referralCode}">
+    <button class="quick-emp-login-btn p-2.5 rounded-2xl bg-[#FAFBF7] hover:bg-white border border-slate-200 hover:border-rose-500 text-left transition-all flex items-center gap-2.5 group shadow-sm cursor-pointer" data-code="${emp.referralCode}">
       <div class="w-8 h-8 rounded-xl flex items-center justify-center text-white font-black text-[10px] flex-shrink-0 shadow-sm" style="background-color: ${emp.color || '#EF4444'}">
         ${emp.avatar}
       </div>
