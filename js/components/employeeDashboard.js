@@ -4,6 +4,7 @@
 
 import { store } from '../store.js';
 import { getSocialIcon } from '../icons.js';
+import { getReferralUrl } from '../scoring.js';
 
 export function renderEmployeeDashboard() {
   const container = document.getElementById('employee-dashboard-section');
@@ -15,12 +16,7 @@ export function renderEmployeeDashboard() {
 
   if (!stats) return;
 
-  const origin = window.location.origin;
-  const currentPath = window.location.pathname;
-  const publicPath = currentPath.endsWith('/') 
-    ? `${currentPath}index.html` 
-    : currentPath.replace(/\/(employee|admin)\.html$/, '/index.html');
-  const personalizedLink = `${origin}${publicPath}?code=${currentEmp.referralCode}`;
+  const personalizedLink = getReferralUrl(currentEmp.referralCode);
 
   // Pre-configured share messages with tokens replaced
   const shareText = encodeURIComponent(

@@ -6,6 +6,7 @@ import { store } from '../store.js';
 import { firebaseService } from '../firebase-config.js';
 import { getSocialIcon } from '../icons.js';
 import { renderAnalytics } from './analytics.js';
+import { getReferralUrl } from '../scoring.js';
 
 export function renderAdminPortal() {
   const container = document.getElementById('admin-portal-section');
@@ -649,12 +650,7 @@ export function renderAdminPortal() {
 
     tbody.innerHTML = employees.map(emp => {
       const stats = store.getEmployeeStats(emp.id);
-      const origin = window.location.origin;
-      const currentPath = window.location.pathname;
-      const publicPath = currentPath.endsWith('/') 
-        ? `${currentPath}index.html` 
-        : currentPath.replace(/\/(employee|admin)\.html$/, '/index.html');
-      const personalizedLink = `${origin}${publicPath}?code=${emp.referralCode}`;
+      const personalizedLink = getReferralUrl(emp.referralCode);
 
       return `
         <tr class="hover:bg-slate-50 transition-colors">
@@ -669,7 +665,7 @@ export function renderAdminPortal() {
           <td class="py-3.5 px-4 text-center font-bold text-slate-900">${stats ? stats.verifiedReferrals : 0}</td>
           <td class="py-3.5 px-4 text-center font-black text-slate-900">${emp.totalPoints}</td>
           <td class="py-3.5 px-4 text-right">
-            <button class="copy-emp-link-btn text-xs text-slate-700 hover:text-slate-950 font-bold" data-code="${emp.referralCode}">
+            <button class="copy-emp-link-btn text-xs text-slate-700 hover:text-slate-950 font-bold cursor-pointer" data-code="${emp.referralCode}">
               Copy Link
             </button>
           </td>
@@ -680,12 +676,7 @@ export function renderAdminPortal() {
     tbody.querySelectorAll('.copy-emp-link-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const code = btn.getAttribute('data-code');
-        const origin = window.location.origin;
-        const currentPath = window.location.pathname;
-        const publicPath = currentPath.endsWith('/') 
-          ? `${currentPath}index.html` 
-          : currentPath.replace(/\/(employee|admin)\.html$/, '/index.html');
-        const link = `${origin}${publicPath}?code=${code}`;
+        const link = getReferralUrl(code);
         navigator.clipboard.writeText(link);
         window.showToast(`Copied link for ${code}`, 'success');
       });

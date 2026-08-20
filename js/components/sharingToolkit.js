@@ -4,6 +4,7 @@
 
 import { store } from '../store.js';
 import { getSocialIcon } from '../icons.js';
+import { getReferralUrl } from '../scoring.js';
 
 export function renderSharingToolkit() {
   const container = document.getElementById('sharing-toolkit-section');
@@ -15,12 +16,7 @@ export function renderSharingToolkit() {
   const state = store.getState();
   const rawTemplates = state.settings.templates || {};
 
-  const origin = window.location.origin;
-  const currentPath = window.location.pathname;
-  const publicPath = currentPath.endsWith('/') 
-    ? `${currentPath}index.html` 
-    : currentPath.replace(/\/(employee|admin)\.html$/, '/index.html');
-  const personalizedLink = `${origin}${publicPath}?code=${currentEmp.referralCode}`;
+  const personalizedLink = getReferralUrl(currentEmp.referralCode);
   const referralCode = currentEmp.referralCode;
   const employeeName = currentEmp.name;
 
