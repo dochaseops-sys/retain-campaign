@@ -11,7 +11,6 @@ import { renderScoringSection } from './components/scoringSection.js';
 import { renderEmployeeDashboard } from './components/employeeDashboard.js';
 import { renderReferralForm } from './components/referralForm.js';
 import { renderLeaderboard } from './components/leaderboard.js';
-import { renderTimeline } from './components/timeline.js';
 import { renderSharingToolkit } from './components/sharingToolkit.js';
 import { renderRulesAccordion } from './components/rulesAccordion.js';
 import { renderAdminPortal } from './components/adminPortal.js';
@@ -105,7 +104,6 @@ function renderAll() {
   renderEmployeeDashboard();
   renderReferralForm();
   renderLeaderboard();
-  renderTimeline();
   renderSharingToolkit();
   renderRulesAccordion();
   renderAdminPortal();

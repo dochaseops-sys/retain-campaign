@@ -8,7 +8,6 @@ import { renderHero } from './components/hero.js';
 import { renderHowItWorks } from './components/howItWorks.js';
 import { renderScoringSection } from './components/scoringSection.js';
 import { renderLeaderboard } from './components/leaderboard.js';
-import { renderTimeline } from './components/timeline.js';
 import { renderRulesAccordion } from './components/rulesAccordion.js';
 
 // Global Toast Manager
@@ -87,7 +86,6 @@ function renderCampaignPage() {
   renderHowItWorks();
   renderScoringSection();
   renderLeaderboard();
-  renderTimeline();
   renderRulesAccordion();
 
   if (window.lucide) {

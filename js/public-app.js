@@ -9,7 +9,6 @@ import { renderSocialCards } from './components/socialCards.js';
 import { renderScoringSection } from './components/scoringSection.js';
 import { renderReferralForm } from './components/referralForm.js';
 import { renderLeaderboard } from './components/leaderboard.js';
-import { renderTimeline } from './components/timeline.js';
 import { renderRulesAccordion } from './components/rulesAccordion.js';
 
 // Global Toast Manager
@@ -93,7 +92,6 @@ function renderPublicPage() {
   renderScoringSection();
   renderReferralForm();
   renderLeaderboard();
-  renderTimeline();
   renderRulesAccordion();
 
   if (window.lucide) {
