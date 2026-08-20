@@ -1,27 +1,26 @@
 {
-  "version": 2,
   "cleanUrls": true,
-  "framework": null,
-  "routes": [
+  "trailingSlash": false,
+  "rewrites": [
     {
-      "src": "/follow",
-      "dest": "/follow.html"
+      "source": "/",
+      "destination": "/index.html"
     },
     {
-      "src": "/employee",
-      "dest": "/employee.html"
+      "source": "/follow",
+      "destination": "/follow.html"
     },
     {
-      "src": "/campaign",
-      "dest": "/campaign.html"
+      "source": "/employee",
+      "destination": "/employee.html"
     },
     {
-      "src": "/admin",
-      "dest": "/admin.html"
+      "source": "/campaign",
+      "destination": "/campaign.html"
     },
     {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "source": "/admin",
+      "destination": "/admin.html"
     }
   ]
 }
