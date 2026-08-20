@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Campaign Portal &bull; Retain Social Growth Challenge</title>
+  <meta name="description" content="Retain employee referral competition, unique code generator, sharing toolkit, and live leaderboard.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            retain: {
+              red: '#EF4444',
+              crimson: '#E11D48',
+              rose: '#F43F5E',
+              orange: '#FB923C',
+              sunset: '#F97316',
+            },
+            cream: {
+              50: '#FFFFFF',
+              100: '#FAFBF7',
+              200: '#F4F6EE',
+              300: '#EAEFE6',
+              400: '#E2E8F0',
+            },
+            charcoal: {
+              800: '#1E293B',
+              900: '#0F172A',
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Firebase App & Firestore Compat SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-[#FAFBF7] text-slate-900 min-h-screen flex flex-col selection:bg-rose-500 selection:text-white">
+
+  <!-- Navigation Header (Clean & Uncluttered) -->
+  <header class="sticky top-0 z-40 bg-[#FAFBF7]/90 backdrop-blur-md border-b border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Brand Logo & Title -->
+        <a href="employee.html" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-2xl bg-slate-900 flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
+            <i data-lucide="trending-up" class="w-5 h-5 text-rose-500"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xl font-black tracking-tight text-slate-900">Retain<span class="text-rose-600">.</span></span>
+              <span class="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-slate-900 text-white uppercase tracking-wider">Internal</span>
+            </div>
+            <span class="text-[11px] font-semibold text-slate-500 block -mt-0.5">Social Growth Challenge</span>
+          </div>
+        </a>
+
+        <!-- Streamlined Navigation Links (Decluttered) -->
+        <nav class="hidden md:flex items-center p-1 bg-white border border-slate-200/90 rounded-full shadow-sm text-xs font-bold text-slate-600">
+          <a href="#employee-access-section" class="px-4 py-2 rounded-full hover:bg-slate-900 hover:text-white transition-all">
+            Dashboard
+          </a>
+          <a href="#leaderboard-section" class="px-4 py-2 rounded-full hover:bg-slate-900 hover:text-white transition-all">
+            Leaderboard
+          </a>
+          <a href="#how-it-works-section" class="px-4 py-2 rounded-full hover:bg-slate-900 hover:text-white transition-all">
+            How It Works
+          </a>
+          <a href="#scoring-section" class="px-4 py-2 rounded-full hover:bg-slate-900 hover:text-white transition-all">
+            Scoring & Rules
+          </a>
+        </nav>
+
+        <!-- Right Side: Quick Action Links & User Profile -->
+        <div class="flex items-center gap-3">
+          <a href="follow.html" target="_blank" class="hidden lg:flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-slate-950 px-3 py-2 rounded-full hover:bg-slate-100 transition-colors" title="Preview public follower confirmation page">
+            <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-500"></i>
+            <span>Public Page</span>
+          </a>
+          <a href="admin.html" class="hidden lg:flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-slate-900 px-2.5 py-2 rounded-full hover:bg-slate-100 transition-colors" title="Campaign Administrator Console">
+            <i data-lucide="shield" class="w-3.5 h-3.5"></i>
+            <span class="hidden xl:inline">Admin</span>
+          </a>
+          
+          <div id="nav-user-section" class="flex items-center gap-3"></div>
+
+          <!-- Mobile Hamburger Toggle -->
+          <button id="mobile-menu-btn" class="md:hidden w-10 h-10 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-700 hover:text-slate-950 shadow-sm" aria-label="Toggle navigation menu">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Slide-Down Menu Drawer -->
+    <div id="mobile-menu-drawer" class="hidden md:hidden border-t border-slate-200 bg-[#FAFBF7] px-4 pt-3 pb-6 space-y-2 animate-slide-up shadow-lg">
+      <a href="#employee-access-section" class="mobile-nav-link block px-4 py-2.5 rounded-xl font-bold text-xs text-slate-800 hover:bg-slate-100">
+        My Dashboard & Toolkit
+      </a>
+      <a href="#leaderboard-section" class="mobile-nav-link block px-4 py-2.5 rounded-xl font-bold text-xs text-slate-800 hover:bg-slate-100">
+        Live Leaderboard
+      </a>
+      <a href="#how-it-works-section" class="mobile-nav-link block px-4 py-2.5 rounded-xl font-bold text-xs text-slate-800 hover:bg-slate-100">
+        How It Works
+      </a>
+      <a href="#scoring-section" class="mobile-nav-link block px-4 py-2.5 rounded-xl font-bold text-xs text-slate-800 hover:bg-slate-100">
+        Scoring & Rules
+      </a>
+      <a href="#timeline-section" class="mobile-nav-link block px-4 py-2.5 rounded-xl font-bold text-xs text-slate-800 hover:bg-slate-100">
+        Campaign Timeline
+      </a>
+      <div class="pt-3 border-t border-slate-200 flex items-center justify-between">
+        <a href="follow.html" target="_blank" class="text-xs font-bold text-slate-600 flex items-center gap-1.5">
+          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          <span>Public Follower Page</span>
+        </a>
+        <a href="admin.html" class="text-xs font-bold text-slate-400 flex items-center gap-1">
+          <i data-lucide="shield" class="w-3.5 h-3.5"></i>
+          <span>Admin</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Flow -->
+  <main class="flex-grow">
+    
+    <!-- 1. Campaign Hero Section (Countdown, Prizes, Dates, Stats) -->
+    <section id="hero-section" class="relative overflow-hidden bg-warm-mesh border-b border-slate-200/60"></section>
+
+    <!-- 2. How It Works Section (4 Steps) -->
+    <section id="how-it-works-section" class="py-16 bg-[#FAFBF7]"></section>
+
+    <!-- 3. Scoring Section & Interactive Calculator -->
+    <section id="scoring-section" class="py-16 bg-warm-yellow-section border-t border-slate-200/80"></section>
+
+    <!-- 4. Employee Access / Dashboard Section (Interactive Login vs Authenticated Hub) -->
+    <section id="employee-access-section" class="border-t border-slate-200/80 bg-[#FAFBF7] scroll-mt-20">
+      
+      <!-- Sub-State A: Login / Registration Box (When employee is logged out) -->
+      <div id="employee-login-box" class="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <span class="category-eyebrow mb-2">(EMPLOYEE ACCESS)</span>
+          <h2 class="text-3xl sm:text-5xl font-black text-slate-900 mb-3">
+            Sign In to Your <span class="marker-highlight">Referral Hub</span>
+          </h2>
+          <p class="text-slate-600 text-sm sm:text-base">
+            Access your personalized referral link, 1-click sharing toolkits, and track your verified points in real time.
+          </p>
+        </div>
+
+        <div class="modern-card p-8 sm:p-12 shadow-xl relative">
+          
+          <!-- Tab Buttons (Sign In vs Register) -->
+          <div class="flex items-center p-1.5 bg-[#FAFBF7] border border-slate-200 rounded-full mb-8 max-w-md mx-auto">
+            <button id="tab-btn-signin" class="flex-1 py-2.5 rounded-full font-bold text-xs bg-slate-900 text-white shadow-sm transition-all">
+              Sign In with Email / Code
+            </button>
+            <button id="tab-btn-register" class="flex-1 py-2.5 rounded-full font-bold text-xs text-slate-500 hover:text-slate-900 transition-all">
+              Register as New Employee
+            </button>
+          </div>
+
+          <!-- Pane 1: Sign In -->
+          <div id="pane-signin" class="space-y-6">
+            <form id="employee-signin-form" class="space-y-4 max-w-lg mx-auto">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                  Official Retain Email or Referral Code *
+                </label>
+                <div class="relative">
+                  <i data-lucide="mail" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5"></i>
+                  <input type="text" id="signin-identifier" required placeholder="e.g. s.jenkins@retaindigital.io or RETAIN-SARAH-92" class="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:border-rose-500 focus:outline-none transition-all" />
+                </div>
+              </div>
+
+              <button type="submit" class="w-full py-3.5 px-6 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow-md hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2">
+                <i data-lucide="log-in" class="w-4 h-4 text-rose-400"></i>
+                <span>Sign In to Dashboard</span>
+              </button>
+            </form>
+
+            <!-- Quick 1-Click Demo Login Selector -->
+            <div class="mt-8 pt-6 border-t border-slate-100">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-500 block mb-3 text-center">
+                Quick 1-Click Demo Sign In (Select Any Employee):
+              </span>
+              <div id="quick-demo-employees" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                <!-- Filled dynamically with employee pills -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Pane 2: Register New Employee -->
+          <div id="pane-register" class="hidden space-y-4 max-w-lg mx-auto">
+            <form id="employee-register-form" class="space-y-4">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Your Full Name *</label>
+                <input type="text" id="reg-name" required placeholder="e.g. Samuel Adekunle" class="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-rose-500" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Official Retain Email *</label>
+                <input type="email" id="reg-email" required placeholder="e.g. s.adekunle@retaindigital.io" class="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-rose-500" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Department *</label>
+                <select id="reg-dept" required class="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-rose-500">
+                  <option value="Marketing & Growth">Marketing & Growth</option>
+                  <option value="Engineering">Engineering</option>
+                  <option value="Product Management">Product Management</option>
+                  <option value="Sales & Partnerships">Sales & Partnerships</option>
+                  <option value="Customer Operations">Customer Operations</option>
+                  <option value="People & Culture">People & Culture</option>
+                  <option value="Executive & Finance">Executive & Finance</option>
+                </select>
+              </div>
+
+              <button type="submit" class="w-full py-3.5 px-6 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2 mt-4">
+                <i data-lucide="zap" class="w-4 h-4 text-rose-400"></i>
+                <span>Register & Generate My Referral Link</span>
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Sub-State B: Authenticated Dashboard (When employee is logged in) -->
+      <div id="employee-dashboard-content" class="hidden">
+        <div id="employee-dashboard-section"></div>
+        <div id="sharing-toolkit-section" class="border-t border-slate-200/80 bg-warm-yellow-section"></div>
+      </div>
+
+    </section>
+
+    <!-- 5. Live Challenge Leaderboard (Overall & Department Standings) -->
+    <section id="leaderboard-section" class="border-t border-slate-200/80 bg-[#FAFBF7]"></section>
+
+    <!-- 6. 4-Week Campaign Timeline Section -->
+    <section id="timeline-section" class="border-t border-slate-200/80 bg-warm-yellow-section"></section>
+
+    <!-- 7. Rules & Fair Play Section (Expandable 9 Rules) -->
+    <section id="rules-section" class="border-t border-slate-200/80 bg-[#FAFBF7]"></section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 bg-[#FAFBF7] text-slate-500 text-xs py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-rose-500 font-black text-sm shadow-sm">
+            RD
+          </div>
+          <div>
+            <span class="font-extrabold text-slate-900 text-sm">Retain Social Growth Challenge</span>
+            <p class="text-slate-500 text-[11px]">Internal employee referral competition.</p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-6 text-slate-500 font-medium">
+          <a href="follow.html" target="_blank" class="hover:text-slate-900 transition-colors">Follower Landing Page</a>
+          <a href="admin.html" class="hover:text-slate-900 transition-colors">Admin Login</a>
+          <a href="#rules-section" class="hover:text-slate-900 transition-colors">Fair Play Rules</a>
+          <a href="#scoring-section" class="hover:text-slate-900 transition-colors">Scoring</a>
+          <a href="#leaderboard-section" class="hover:text-slate-900 transition-colors">Leaderboard</a>
+        </div>
+
+        <div class="text-slate-500 text-[11px] text-center md:text-right font-medium">
+          &copy; 2026 Retain. Internal Staff Only.
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 max-w-sm"></div>
+
+  <!-- Main ES Module Script for Employee Page -->
+  <script type="module" src="js/employee-app.js"></script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+/* Retain Social Growth Challenge - Retain Brand Design System (https://retaindigital.io/) */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  --font-main: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Retain Digital Official Brand Colors */
+  --color-retain-red: #EF4444;
+  --color-retain-crimson: #E11D48;
+  --color-retain-rose: #F43F5E;
+  --color-retain-orange: #FB923C;
+  --color-retain-sunset: #F97316;
+  
+  /* Highlight Pill Colors */
+  --color-highlight-coral: #FFE4E6;
+  --color-highlight-rose: #FECDD3;
+  --color-highlight-orange: #FFEDD5;
+  --color-highlight-lime: #E2F163;
+
+  /* Dark Slate / Obsidian Surfaces */
+  --bg-dark-obsidian: #080C14;
+  --bg-dark-card: #0F1626;
+  --bg-dark-elevated: #162032;
+
+  /* Light Cream Surfaces */
+  --bg-cream: #FAFBF7;
+  --bg-cream-card: #FFFFFF;
+  --bg-warm-tint: #F4F6EE;
+
+  --color-charcoal: #0F172A;
+  --color-slate-muted: #64748B;
+  --color-slate-light: #94A3B8;
+
+  --border-light: #E2E8F0;
+  --border-subtle: #F1F5F9;
+
+  --shadow-soft: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 4px 12px -2px rgba(0, 0, 0, 0.025);
+  --shadow-card: 0 20px 40px -15px rgba(15, 23, 42, 0.07), 0 0 0 1px rgba(15, 23, 42, 0.04);
+  --shadow-retain: 0 20px 40px -10px rgba(239, 68, 68, 0.35);
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-cream);
+  color: var(--color-charcoal);
+  overflow-x: hidden;
+  letter-spacing: -0.015em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Marker Pen Highlight Effect (Retain Coral / Rose Highlight) */
+.marker-highlight {
+  background: linear-gradient(135deg, #FFE4E6 0%, #FECDD3 100%);
+  color: #BE123C;
+  padding: 0.12em 0.45em;
+  border-radius: 0.55rem;
+  display: inline-block;
+  font-weight: 800;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.marker-highlight-solid {
+  background: linear-gradient(135deg, #EF4444 0%, #F43F5E 50%, #FB923C 100%);
+  color: #FFFFFF;
+  padding: 0.12em 0.45em;
+  border-radius: 0.55rem;
+  display: inline-block;
+  font-weight: 800;
+}
+
+.marker-highlight-yellow {
+  background-color: #FEF08A;
+  color: #0F172A;
+  padding: 0.12em 0.45em;
+  border-radius: 0.55rem;
+  display: inline-block;
+  font-weight: 800;
+}
+
+/* Category Eyebrow Tag */
+.category-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #E11D48;
+  display: inline-block;
+}
+
+/* White Modern Card */
+.modern-card {
+  background: #FFFFFF;
+  border: 1px solid #EAEFE6;
+  border-radius: 1.75rem;
+  box-shadow: var(--shadow-card);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modern-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 25px 45px -15px rgba(239, 68, 68, 0.1), 0 0 0 1px rgba(244, 63, 94, 0.15);
+}
+
+/* Retain Coral/Rose Gradient Card (From Reference Image) */
+.retain-card, .emerald-card {
+  background: radial-gradient(circle at 80% 20%, #E11D48 0%, #BE123C 45%, #0F1626 100%);
+  border-radius: 2rem;
+  color: #FFFFFF;
+  box-shadow: var(--shadow-retain);
+  position: relative;
+  overflow: hidden;
+}
+
+.retain-card::after, .emerald-card::after {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -20%;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(251, 146, 60, 0.35) 0%, rgba(225, 29, 72, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Retain Coral Button */
+.btn-retain, .btn-lime {
+  background: linear-gradient(135deg, #EF4444 0%, #F43F5E 55%, #FB923C 100%);
+  color: #FFFFFF;
+  font-weight: 800;
+  border-radius: 9999px;
+  padding: 0.65rem 1.4rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+}
+
+.btn-retain:hover, .btn-lime:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+}
+
+.btn-retain:active, .btn-lime:active {
+  transform: scale(0.98);
+}
+
+/* Clean Dark Pill Button */
+.btn-dark-pill {
+  background-color: #0F172A;
+  color: #FFFFFF;
+  font-weight: 800;
+  border-radius: 9999px;
+  padding: 0.65rem 1.4rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
+}
+
+.btn-dark-pill:hover {
+  background-color: #1E293B;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.25);
+}
+
+/* Outline Pill Button */
+.btn-outline-pill {
+  background-color: transparent;
+  color: #0F172A;
+  font-weight: 700;
+  border: 1.5px solid #0F172A;
+  border-radius: 9999px;
+  padding: 0.55rem 1.25rem;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-pill:hover {
+  background-color: #0F172A;
+  color: #FFFFFF;
+}
+
+/* Floating Status Pill */
+.floating-pill {
+  background: #0F172A;
+  color: #FFFFFF;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+.floating-pill-light {
+  background: #FFFFFF;
+  color: #0F172A;
+  border: 1px solid #E2E8F0;
+  padding: 0.4rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+}
+
+/* Warm Fluid Section Backgrounds */
+.bg-warm-mesh {
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(239, 68, 68, 0.08) 0%, rgba(250, 251, 247, 0) 50%),
+    radial-gradient(circle at 90% 80%, rgba(251, 146, 60, 0.1) 0%, rgba(250, 251, 247, 0) 60%),
+    #FAFBF7;
+}
+
+.bg-warm-yellow-section {
+  background: linear-gradient(180deg, #FAFBF7 0%, #FFF5F5 45%, #FAFBF7 100%);
+}
+
+.bg-soft-cream {
+  background-color: #FAFBF7;
+}
+
+.bg-pure-white {
+  background-color: #FFFFFF;
+}
+
+/* Retain Gradient Utilities */
+.bg-gradient-retain, .bg-gradient-dochase {
+  background: linear-gradient(135deg, #EF4444 0%, #F43F5E 55%, #FB923C 100%);
+}
+
+.text-gradient-retain {
+  background: linear-gradient(135deg, #EF4444 0%, #F43F5E 50%, #FB923C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAFBF7;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Micro-Interactions & Animations */
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-7px); }
+}
+
+.animate-float {
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* Toast Notification Styles */
+#toast-container {
+  pointer-events: none;
+}
+
+#toast-container > div {
+  pointer-events: auto;
+}

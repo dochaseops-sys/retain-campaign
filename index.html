@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Follow Retain &bull; Official Social Channels & Follow Confirmation</title>
+  <meta name="description" content="Follow Retain across our official social channels and confirm your follow.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            retain: {
+              red: '#EF4444',
+              crimson: '#E11D48',
+              rose: '#F43F5E',
+              orange: '#FB923C',
+              sunset: '#F97316',
+            },
+            cream: {
+              50: '#FFFFFF',
+              100: '#FAFBF7',
+              200: '#F4F6EE',
+              300: '#EAEFE6',
+              400: '#E2E8F0',
+            },
+            charcoal: {
+              800: '#1E293B',
+              900: '#0F172A',
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Firebase App & Firestore Compat SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-[#FAFBF7] text-slate-900 min-h-screen flex flex-col selection:bg-rose-500 selection:text-white">
+
+  <!-- Clean Minimalist Header (No links to internal pages) -->
+  <header class="sticky top-0 z-40 bg-[#FAFBF7]/90 backdrop-blur-md border-b border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Brand Logo & Badge -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-slate-900 flex items-center justify-center text-white shadow-sm">
+            <i data-lucide="trending-up" class="w-5 h-5 text-rose-500"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xl font-black tracking-tight text-slate-900">Retain<span class="text-rose-600">.</span></span>
+              <span class="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 uppercase tracking-wider">Official</span>
+            </div>
+            <span class="text-[11px] font-semibold text-slate-500 block -mt-0.5">Social Channels & Community</span>
+          </div>
+        </div>
+
+        <!-- Right Quick Action -->
+        <div>
+          <a href="#referral-form-section" class="btn-dark-pill text-xs flex items-center gap-2">
+            <i data-lucide="check-circle" class="w-3.5 h-3.5 text-rose-400"></i>
+            <span>Confirm Follow</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Flow -->
+  <main class="flex-grow">
+    
+    <!-- Hero / Intro Banner with Reference Style -->
+    <section class="relative overflow-hidden bg-warm-mesh py-16 sm:py-24 border-b border-slate-200/60">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        
+        <!-- Category Eyebrow -->
+        <div class="mb-4">
+          <span class="category-eyebrow">(RETAIN COMMUNITY)</span>
+        </div>
+
+        <!-- Headline with Marker Pen Highlight -->
+        <h1 class="text-4xl sm:text-6xl font-black text-slate-900 tracking-tight mb-6 leading-[1.15]">
+          Connect with us. <br class="hidden sm:inline" />
+          Meet your <span class="marker-highlight">one of a kind</span> growth journey.
+        </h1>
+
+        <!-- Supporting Text -->
+        <p class="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed mb-8">
+          Follow Retain across our official social channels to stay up-to-date with our latest technology innovations, industry insights, and updates.
+        </p>
+
+        <!-- Social Proof Pill Badge -->
+        <div class="inline-flex items-center gap-3 bg-white px-4 py-2 rounded-full border border-slate-200 shadow-sm">
+          <div class="flex -space-x-2">
+            <div class="w-7 h-7 rounded-full bg-[#EF4444] text-white flex items-center justify-center font-bold text-[10px] border-2 border-white">SJ</div>
+            <div class="w-7 h-7 rounded-full bg-[#1E293B] text-white flex items-center justify-center font-bold text-[10px] border-2 border-white">KM</div>
+            <div class="w-7 h-7 rounded-full bg-[#FB923C] text-white flex items-center justify-center font-bold text-[10px] border-2 border-white">ER</div>
+          </div>
+          <span class="text-xs font-bold text-slate-700">12,000+ people follow Retain everyday 🔥</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 1: Follow Retain Everywhere (Social Cards) -->
+    <section id="social-cards-section" class="py-16 bg-[#FAFBF7]"></section>
+
+    <!-- SECTION 2: Confirm Your Follow & Support (Referral Confirmation Form) -->
+    <section id="referral-form-section" class="py-16 bg-warm-yellow-section border-t border-slate-200/80"></section>
+
+  </main>
+
+  <!-- Clean Standalone Footer (No links to internal pages) -->
+  <footer class="border-t border-slate-200 bg-[#FAFBF7] text-slate-500 text-xs py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5">
+        <div class="w-7 h-7 rounded-lg bg-slate-900 flex items-center justify-center text-rose-500 font-black text-xs">RD</div>
+        <span class="font-extrabold text-slate-900">Retain</span>
+        <span class="text-slate-400">&bull; Official Social Hub</span>
+      </div>
+      <div class="text-slate-500 text-[11px] text-center sm:text-right font-medium">
+        &copy; 2026 Retain. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 max-w-sm"></div>
+
+  <!-- Script for Standalone Follower Page -->
+  <script type="module" src="js/follow-app.js"></script>
+</body>
+</html>

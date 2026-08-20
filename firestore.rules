@@ -1,0 +1,31 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Follower submissions: Public can submit; staff & admin can view and verify
+    match /submissions/{submissionId} {
+      allow read, write: if true;
+    }
+    
+    // Employee directory & referral codes
+    match /employees/{employeeId} {
+      allow read, write: if true;
+    }
+    
+    // Official audit trail
+    match /audit_logs/{logId} {
+      allow read, write: if true;
+    }
+    
+    // Campaign settings, platform links & outreach templates
+    match /settings/{settingId} {
+      allow read, write: if true;
+    }
+
+    // Default fallback rule for all other campaign documents
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

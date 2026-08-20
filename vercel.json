@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "framework": null,
+  "routes": [
+    {
+      "src": "/follow",
+      "dest": "/follow.html"
+    },
+    {
+      "src": "/employee",
+      "dest": "/employee.html"
+    },
+    {
+      "src": "/admin",
+      "dest": "/admin.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
+}
