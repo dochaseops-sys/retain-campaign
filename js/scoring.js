@@ -104,18 +104,29 @@ export function getMilestoneProgress(points) {
 
 /**
  * Universal dynamic referral link generator
- * Automatically resolves to the current domain (e.g. Vercel, custom domain, or localhost)
+ * Automatically resolves to the dedicated standalone /follow page on current domain
  */
 export function getReferralUrl(referralCode) {
   if (!referralCode) return window.location.origin;
   const origin = window.location.origin;
   const pathname = window.location.pathname;
-  let basePath = pathname.replace(/\/(employee|admin|follow)(\.html)?$/, '');
+
+  // Strip any current subpage / filename from path
+  let basePath = pathname.replace(/\/(employee|admin|follow|index)(\.html)?$/, '');
   if (basePath.endsWith('/')) {
     basePath = basePath.slice(0, -1);
   }
+
+  // If running from local file preview
   if (origin === 'null' || origin.startsWith('file://')) {
-    return `index.html?code=${encodeURIComponent(referralCode)}`;
+    return `follow.html?code=${encodeURIComponent(referralCode)}`;
   }
-  return `${origin}${basePath}/?code=${encodeURIComponent(referralCode)}`;
+
+  // If local server serving explicit .html files (e.g. localhost/employee.html)
+  if (pathname.endsWith('.html')) {
+    return `${origin}${basePath}/follow.html?code=${encodeURIComponent(referralCode)}`;
+  }
+
+  // On Vercel / production with clean URLs: /follow?code=...
+  return `${origin}${basePath}/follow?code=${encodeURIComponent(referralCode)}`;
 }
