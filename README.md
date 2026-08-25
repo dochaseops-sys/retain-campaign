@@ -17,7 +17,7 @@ A responsive, high-performance web application designed for the **Retain Social 
 
 2. **Internal Employee Portal (`employee.html`)**:
    - **Access**: Protected by Employee Login / Registration.
-   - **Login & Registration**: Sign in with official Retain email or referral code (`s.jenkins@retaindigital.io` or `RETAIN-SARAH-92`), or register as a new employee. Includes 1-click demo employee sign-in pills.
+   - **Login & Registration**: Sign in with official Retain email or referral code, or register as a new employee.
    - **Authenticated Dashboard**:
      - Personalized referral link (`https://.../index.html?code=...`) & unique code with 1-click copy
      - 1-Click sharing toolkit for WhatsApp, LinkedIn, X, Facebook, Email
@@ -27,7 +27,7 @@ A responsive, high-performance web application designed for the **Retain Social 
      - Complete internal campaign details: Hero with dates & prize showcase, How It Works, Scoring rules & calculator, Live Leaderboard (Top 3 podium + filtered table), 4-Week Timeline, and Rules & Fair Play.
 
 3. **Administrator Control Center (`admin.html`)**:
-   - **Access**: Protected by Admin Authentication (`admin@retaindigital.io` / `retain2026!`, with 1-click demo login).
+   - **Access**: Protected by Administrator Authentication (`admin@retaindigital.io` / `retain2026!`).
    - **Authenticated Control Center**:
      - Submissions review queue with duplicate warnings, one-click Verify / Reject with reason categories and custom audit notes
      - **Editable Social Links & Channels**: Directly edit platform names, handles, URLs, and baseline counts from the dashboard

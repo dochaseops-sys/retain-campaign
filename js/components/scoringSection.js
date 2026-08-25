@@ -17,7 +17,6 @@ export function renderScoringSection() {
       
       <!-- Section Header -->
       <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="category-eyebrow mb-3">(TRANSPARENT SCORING)</span>
         <h2 class="text-3xl sm:text-5xl font-black text-slate-900 mt-2 mb-4">
           Every action counts. Meet our <span class="marker-highlight">scoring rules</span>.
         </h2>

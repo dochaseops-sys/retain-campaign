@@ -1,0 +1,140 @@
+/**
+ * Retain Social Growth Challenge - Prizes & Rewards Showcase Component (Retain Brand Theme)
+ */
+
+import { store } from '../store.js';
+
+export function renderPrizesSection() {
+  const container = document.getElementById('prizes-section');
+  if (!container) return;
+
+  const state = store.getState();
+  const prizes = state.settings.prizes || {};
+
+  container.innerHTML = `
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="category-eyebrow mb-3">(PRIZES & REWARDS)</span>
+        <h2 class="text-3xl sm:text-5xl font-black text-slate-900 mt-2 mb-4">
+          Compete for <span class="marker-highlight">flagship rewards</span>.
+        </h2>
+        <p class="text-slate-600 text-base leading-relaxed">
+          Over $5,000 in flagship tech packages, professional grants, executive trophies, and milestone rewards for top performers.
+        </p>
+      </div>
+
+      <!-- Prizes Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        
+        <!-- 2nd Place Prize Card -->
+        <div class="modern-card p-8 flex flex-col justify-between border-slate-200 hover:scale-105 transition-all">
+          <div>
+            <div class="flex items-center justify-between mb-6">
+              <span class="w-10 h-10 rounded-2xl bg-slate-100 text-slate-800 font-black text-sm flex items-center justify-center border border-slate-200">2</span>
+              <span class="text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full bg-slate-100 text-slate-700">Runner-Up</span>
+            </div>
+            
+            <div class="w-16 h-16 rounded-2xl bg-slate-900 text-rose-400 flex items-center justify-center mb-6 shadow-md">
+              <i data-lucide="award" class="w-8 h-8"></i>
+            </div>
+
+            <h3 class="text-xl font-black text-slate-900 mb-2">${prizes.second?.reward || 'Apple iPad Pro 11" + $500 Learning Grant'}</h3>
+            <p class="text-xs text-slate-600 leading-relaxed mb-6">
+              ${prizes.second?.desc || 'Awarded to the #2 ranked employee on the final verified leaderboard + executive silver plaque.'}
+            </p>
+          </div>
+
+          <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-400">Position</span>
+            <span class="text-sm font-black text-slate-900">2nd Place</span>
+          </div>
+        </div>
+
+        <!-- 1st Place Grand Champion Card (Featured / Taller) -->
+        <div class="retain-card p-8 sm:p-10 flex flex-col justify-between relative md:-translate-y-4 shadow-2xl hover:scale-105 transition-all">
+          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#FB923C] text-slate-950 font-black text-[11px] uppercase tracking-wider flex items-center gap-1.5 shadow-md">
+            <i data-lucide="crown" class="w-3.5 h-3.5"></i>
+            <span>Grand Champion</span>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-6 mt-2">
+              <span class="w-10 h-10 rounded-2xl bg-white/20 text-white font-black text-sm flex items-center justify-center border border-white/20">1</span>
+              <span class="text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full bg-white text-slate-950">Grand Prize</span>
+            </div>
+
+            <div class="w-18 h-18 rounded-2xl bg-white text-slate-950 flex items-center justify-center mb-6 shadow-xl ring-4 ring-rose-400/40">
+              <i data-lucide="trophy" class="w-9 h-9 text-rose-600"></i>
+            </div>
+
+            <h3 class="text-2xl font-black text-white mb-2 leading-snug">${prizes.first?.reward || 'MacBook Air M3 + $1,000 Professional Grant'}</h3>
+            <p class="text-xs sm:text-sm text-rose-100/90 leading-relaxed mb-6">
+              ${prizes.first?.desc || 'Awarded to the #1 overall growth champion with the highest verified score + executive gold trophy.'}
+            </p>
+          </div>
+
+          <div class="pt-4 border-t border-white/20 flex items-center justify-between">
+            <span class="text-xs font-bold text-rose-200">Position</span>
+            <span class="text-base font-black text-white">1st Place Champion</span>
+          </div>
+        </div>
+
+        <!-- 3rd Place Prize Card -->
+        <div class="modern-card p-8 flex flex-col justify-between border-slate-200 hover:scale-105 transition-all">
+          <div>
+            <div class="flex items-center justify-between mb-6">
+              <span class="w-10 h-10 rounded-2xl bg-amber-50 text-amber-800 font-black text-sm flex items-center justify-center border border-amber-200">3</span>
+              <span class="text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full bg-amber-50 text-amber-800">2nd Runner-Up</span>
+            </div>
+
+            <div class="w-16 h-16 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center mb-6 shadow-md">
+              <i data-lucide="star" class="w-8 h-8"></i>
+            </div>
+
+            <h3 class="text-xl font-black text-slate-900 mb-2">${prizes.third?.reward || 'Sony WH-1000XM5 Headphones + $250 Experience Voucher'}</h3>
+            <p class="text-xs text-slate-600 leading-relaxed mb-6">
+              ${prizes.third?.desc || 'Awarded to the #3 ranked employee on the final verified leaderboard.'}
+            </p>
+          </div>
+
+          <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-400">Position</span>
+            <span class="text-sm font-black text-slate-900">3rd Place</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Milestone Swag & Recognition Banner -->
+      <div class="modern-card p-8 bg-[#FAFBF7] border-2 border-dashed border-slate-300">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+          <div class="md:col-span-8 flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-slate-900 text-rose-400 flex items-center justify-center flex-shrink-0 shadow-sm">
+              <i data-lucide="sparkles" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <span class="category-eyebrow mb-1">(EVERY PARTICIPANT REWARDED)</span>
+              <h4 class="text-lg font-black text-slate-900">Milestone Rewards & Swag for Every Mark Reached</h4>
+              <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                You don’t have to finish in the top 3 to win. Earn limited-edition <strong>Retain Growth Champion Hoodies</strong> at 10+ followers, and <strong>VIP Founder Lunches</strong> at 25+ followers.
+              </p>
+            </div>
+          </div>
+          <div class="md:col-span-4 flex justify-start md:justify-end">
+            <a href="employee.html" class="btn-retain text-xs py-3 px-6 inline-flex items-center gap-2">
+              <span>View Milestone Swag</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  `;
+
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
+}

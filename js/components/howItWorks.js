@@ -38,7 +38,6 @@ export function renderHowItWorks() {
       
       <!-- Section Header -->
       <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="category-eyebrow mb-3">(4-STEP PROCESS)</span>
         <h2 class="text-3xl sm:text-5xl font-black text-slate-900 mt-2 mb-4">
           Turn your network into <span class="marker-highlight">points & rewards</span>.
         </h2>

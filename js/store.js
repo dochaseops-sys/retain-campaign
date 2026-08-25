@@ -16,8 +16,8 @@ import { firebaseService } from './firebase-config.js';
 const SEED_DATA = {
   settings: {
     title: 'Retain Social Growth Challenge',
-    tagline: 'Grow the community. Expand our reach. Win the reward.',
-    supportingText: 'Use your network to help more people discover Retain. Invite genuine followers, earn points and climb the leaderboard.',
+    tagline: 'Grow the community. Own the leaderboard.',
+    supportingText: 'This is your Growth Challenge, invite genuine followers, earn points, and see your name climb to the top!',
     startDate: '2026-08-15',
     endDate: '2026-09-12T23:59:59',
     prizes: {
@@ -47,12 +47,12 @@ const SEED_DATA = {
       }
     },
     platforms: {
-      linkedin: { name: 'LinkedIn', handle: 'company/retaindigital', url: 'https://linkedin.com/company/retaindigital', enabled: true, icon: 'linkedin', baseline: 14800, campaignGrowth: 342 },
-      instagram: { name: 'Instagram', handle: '@retaindigital', url: 'https://instagram.com/retaindigital', enabled: true, icon: 'instagram', baseline: 8900, campaignGrowth: 418 },
-      x: { name: 'X (Twitter)', handle: '@RetainHQ', url: 'https://x.com/RetainHQ', enabled: true, icon: 'twitter', baseline: 12100, campaignGrowth: 289 },
-      tiktok: { name: 'TikTok', handle: '@retain_official', url: 'https://tiktok.com/@retain_official', enabled: true, icon: 'video', baseline: 4100, campaignGrowth: 512 },
-      facebook: { name: 'Facebook', handle: 'RetainGlobal', url: 'https://facebook.com/RetainGlobal', enabled: true, icon: 'facebook', baseline: 9600, campaignGrowth: 175 },
-      youtube: { name: 'YouTube', handle: '@RetainMedia', url: 'https://youtube.com/@RetainMedia', enabled: true, icon: 'youtube', baseline: 3050, campaignGrowth: 198 }
+      linkedin: { name: 'LinkedIn', handle: 'company/retaindigital', url: 'https://linkedin.com/company/retaindigital', enabled: true, icon: 'linkedin', baseline: 14800, campaignGrowth: 0 },
+      instagram: { name: 'Instagram', handle: '@retaindigital', url: 'https://instagram.com/retaindigital', enabled: true, icon: 'instagram', baseline: 8900, campaignGrowth: 0 },
+      x: { name: 'X (Twitter)', handle: '@RetainHQ', url: 'https://x.com/RetainHQ', enabled: true, icon: 'twitter', baseline: 12100, campaignGrowth: 0 },
+      tiktok: { name: 'TikTok', handle: '@retain_official', url: 'https://tiktok.com/@retain_official', enabled: true, icon: 'video', baseline: 4100, campaignGrowth: 0 },
+      facebook: { name: 'Facebook', handle: 'RetainGlobal', url: 'https://facebook.com/RetainGlobal', enabled: true, icon: 'facebook', baseline: 9600, campaignGrowth: 0 },
+      youtube: { name: 'YouTube', handle: '@RetainMedia', url: 'https://youtube.com/@RetainMedia', enabled: true, icon: 'youtube', baseline: 3050, campaignGrowth: 0 }
     },
     templates: {
       whatsapp: {
@@ -88,258 +88,17 @@ const SEED_DATA = {
     announcement: {
       enabled: true,
       type: 'info',
-      message: '🚀 Week 2 Mid-Sprint Update: Double bonus points active for all 6-platform follows verified this week! Check the updated leaderboard below.'
+      message: 'Week 2 Mid-Sprint Update: Double bonus points active for all 6-platform follows verified this week! Check the updated leaderboard below.'
     },
     winnerPublished: false,
     winnerDetails: null
   },
-  currentEmployeeId: 'emp-1',
+  currentEmployeeId: null,
   currentRole: 'public', // 'public' | 'employee' | 'admin'
-  linkVisitsCount: 1420,
-  employees: [
-    { id: 'emp-1', name: 'Sarah Jenkins', email: 's.jenkins@retaindigital.io', department: 'Marketing & Growth', referralCode: 'RETAIN-SARAH-92', avatar: 'SJ', color: '#EF4444', customPointsAdjustment: 2 },
-    { id: 'emp-2', name: 'Kwame Mensah', email: 'k.mensah@retaindigital.io', department: 'Engineering', referralCode: 'RETAIN-KWAME-47', avatar: 'KM', color: '#10B981', customPointsAdjustment: 0 },
-    { id: 'emp-3', name: 'Elena Rostova', email: 'e.rostova@retaindigital.io', department: 'Product Management', referralCode: 'RETAIN-ELENA-18', avatar: 'ER', color: '#8B5CF6', customPointsAdjustment: 0 },
-    { id: 'emp-4', name: 'Tunde Balogun', email: 't.balogun@retaindigital.io', department: 'Sales & Partnerships', referralCode: 'RETAIN-TUNDE-63', avatar: 'TB', color: '#F59E0B', customPointsAdjustment: 1 },
-    { id: 'emp-5', name: 'Amina Yusuf', email: 'a.yusuf@retaindigital.io', department: 'Marketing & Growth', referralCode: 'RETAIN-AMINA-31', avatar: 'AY', color: '#EC4899', customPointsAdjustment: 0 },
-    { id: 'emp-6', name: 'David Chen', email: 'd.chen@retaindigital.io', department: 'Engineering', referralCode: 'RETAIN-DAVID-84', avatar: 'DC', color: '#06B6D4', customPointsAdjustment: 0 },
-    { id: 'emp-7', name: 'Zainab Al-Mansoor', email: 'z.mansoor@retaindigital.io', department: 'Customer Operations', referralCode: 'RETAIN-ZAINAB-55', avatar: 'ZM', color: '#14B8A6', customPointsAdjustment: 0 },
-    { id: 'emp-8', name: 'Chukwudi Okafor', email: 'c.okafor@retaindigital.io', department: 'People & Culture', referralCode: 'RETAIN-CHUKWUDI-79', avatar: 'CO', color: '#6366F1', customPointsAdjustment: 0 }
-  ],
-  submissions: [
-    {
-      id: 'sub-101',
-      fullName: 'Marcus Vance',
-      email: 'm.vance@techfin.io',
-      handle: '@marcusvance',
-      platforms: ['linkedin', 'x', 'instagram', 'youtube', 'facebook', 'tiktok'],
-      employeeCode: 'RETAIN-SARAH-92',
-      engaged: true,
-      consent: true,
-      status: 'verified',
-      rejectionReason: '',
-      submittedAt: '2026-08-16T10:15:00Z',
-      verifiedAt: '2026-08-16T11:00:00Z',
-      verifiedBy: 'Admin (System)',
-      pointsAwarded: 7
-    },
-    {
-      id: 'sub-102',
-      fullName: 'Dr. Aisha Bello',
-      email: 'aisha.bello@consulting.org',
-      handle: '@dr_aishabello',
-      platforms: ['linkedin', 'x', 'instagram'],
-      employeeCode: 'RETAIN-SARAH-92',
-      engaged: false,
-      consent: true,
-      status: 'verified',
-      rejectionReason: '',
-      submittedAt: '2026-08-16T12:30:00Z',
-      verifiedAt: '2026-08-16T13:00:00Z',
-      verifiedBy: 'Admin (System)',
-      pointsAwarded: 4
-    },
-    {
-      id: 'sub-103',
-      fullName: 'Oluwaseun Adeyemi',
-      email: 'o.adeyemi@venturecapital.com',
-      handle: '@seun_adeyemi',
-      platforms: ['linkedin', 'x', 'instagram', 'youtube'],
-      employeeCode: 'RETAIN-KWAME-47',
-      engaged: true,
-      consent: true,
-      status: 'verified',
-      rejectionReason: '',
-      submittedAt: '2026-08-17T09:00:00Z',
-      verifiedAt: '2026-08-17T09:45:00Z',
-      verifiedBy: 'Admin (System)',
-      pointsAwarded: 6
-    },
-    {
-      id: 'sub-104',
-      fullName: 'Claire Montgomery',
-      email: 'claire.m@globalmedia.co.uk',
-      handle: '@claire_montgomery',
-      platforms: ['linkedin', 'instagram', 'tiktok'],
-      employeeCode: 'RETAIN-KWAME-47',
-      engaged: false,
-      consent: true,
-      status: 'verified',
-      rejectionReason: '',
-      submittedAt: '2026-08-17T14:20:00Z',
-      verifiedAt: '2026-08-17T15:00:00Z',
-      verifiedBy: 'Admin (System)',
-      pointsAwarded: 4
-    },
-    {
-      id: 'sub-105',
-      fullName: 'Kenji Sato',
-      email: 'kenji.sato@tokyotech.jp',
-      handle: '@kenji_sato_dev',
-      platforms: ['x', 'youtube', 'tiktok'],
-      employeeCode: 'RETAIN-ELENA-18',
-      engaged: true,
-      consent: true,
-      status: 'verified',
-      rejectionReason: '',
-      submittedAt: '2026-08-18T08:10:00Z',
-      verifiedAt: '2026-08-18T08:50:00Z',
-      verifiedBy: 'Admin (System)',
-      pointsAwarded: 5
-    },
-    {
-      id: 'sub-106',
-      fullName: 'Fatima Al-Hassan',
-      email: 'f.alhassan@emiratesad.ae',
-      handle: '@fatima_growth',
-      platforms: ['linkedin', 'instagram'],
-      employeeCode: 'RETAIN-TUNDE-63',
-      engaged: false,
-      consent: true,
-      status: 'verified',
-      rejectionReason: '',
-      submittedAt: '2026-08-18T11:40:00Z',
-      verifiedAt: '2026-08-18T12:15:00Z',
-      verifiedBy: 'Admin (System)',
-      pointsAwarded: 2
-    },
-    {
-      id: 'sub-107',
-      fullName: 'Lucas Silva',
-      email: 'lucas.silva@saopauload.br',
-      handle: '@lucassilva_mkt',
-      platforms: ['linkedin', 'x', 'instagram', 'facebook'],
-      employeeCode: 'RETAIN-AMINA-31',
-      engaged: false,
-      consent: true,
-      status: 'verified',
-      rejectionReason: '',
-      submittedAt: '2026-08-19T07:30:00Z',
-      verifiedAt: '2026-08-19T08:00:00Z',
-      verifiedBy: 'Admin (System)',
-      pointsAwarded: 5
-    },
-    {
-      id: 'sub-108',
-      fullName: 'Jessica Taylor',
-      email: 'jtaylor@fintechweekly.com',
-      handle: '@jtaylor_fin',
-      platforms: ['linkedin'],
-      employeeCode: 'RETAIN-DAVID-84',
-      engaged: true,
-      consent: true,
-      status: 'verified',
-      rejectionReason: '',
-      submittedAt: '2026-08-19T13:10:00Z',
-      verifiedAt: '2026-08-19T13:40:00Z',
-      verifiedBy: 'Admin (System)',
-      pointsAwarded: 2
-    },
-    {
-      id: 'sub-109',
-      fullName: 'Ibrahim Diallo',
-      email: 'ibrahim.diallo@westafricadigital.sn',
-      handle: '@idiallo_sn',
-      platforms: ['linkedin', 'x', 'facebook', 'youtube', 'tiktok', 'instagram'],
-      employeeCode: 'RETAIN-SARAH-92',
-      engaged: true,
-      consent: true,
-      status: 'pending',
-      rejectionReason: '',
-      submittedAt: '2026-08-20T06:00:00Z',
-      verifiedAt: null,
-      verifiedBy: null,
-      pointsAwarded: 0
-    },
-    {
-      id: 'sub-110',
-      fullName: 'Hannah Schmidt',
-      email: 'hannah.schmidt@berlindata.de',
-      handle: '@hannah_data',
-      platforms: ['linkedin', 'x', 'instagram'],
-      employeeCode: 'RETAIN-KWAME-47',
-      engaged: false,
-      consent: true,
-      status: 'pending',
-      rejectionReason: '',
-      submittedAt: '2026-08-20T07:15:00Z',
-      verifiedAt: null,
-      verifiedBy: null,
-      pointsAwarded: 0
-    },
-    {
-      id: 'sub-111',
-      fullName: 'Bot User 99',
-      email: 'temp123@disposablemail.org',
-      handle: '@crypto_bot_99',
-      platforms: ['x'],
-      employeeCode: 'RETAIN-TUNDE-63',
-      engaged: false,
-      consent: true,
-      status: 'rejected',
-      rejectionReason: 'Suspicious bot account / disposable email address',
-      submittedAt: '2026-08-18T16:00:00Z',
-      verifiedAt: '2026-08-18T16:30:00Z',
-      verifiedBy: 'Admin (Audit Filter)',
-      pointsAwarded: 0
-    }
-  ],
-  auditLogs: [
-    {
-      id: 'aud-01',
-      timestamp: '2026-08-16T11:00:00Z',
-      action: 'SUBMISSION_VERIFIED',
-      target: 'Marcus Vance (@marcusvance) -> Sarah Jenkins',
-      actor: 'Admin (System)',
-      note: 'Verified 6 platform follows + meaningful post engagement.',
-      pointsChange: '+7'
-    },
-    {
-      id: 'aud-02',
-      timestamp: '2026-08-16T13:00:00Z',
-      action: 'SUBMISSION_VERIFIED',
-      target: 'Dr. Aisha Bello (@dr_aishabello) -> Sarah Jenkins',
-      actor: 'Admin (System)',
-      note: 'Verified 3 platform follows.',
-      pointsChange: '+4'
-    },
-    {
-      id: 'aud-03',
-      timestamp: '2026-08-17T09:45:00Z',
-      action: 'SUBMISSION_VERIFIED',
-      target: 'Oluwaseun Adeyemi (@seun_adeyemi) -> Kwame Mensah',
-      actor: 'Admin (System)',
-      note: 'Verified 4 platform follows + post comment.',
-      pointsChange: '+6'
-    },
-    {
-      id: 'aud-04',
-      timestamp: '2026-08-18T16:30:00Z',
-      action: 'SUBMISSION_REJECTED',
-      target: 'Bot User 99 (@crypto_bot_99) -> Tunde Balogun',
-      actor: 'Admin (Audit Filter)',
-      note: 'Rejected: Suspicious bot account / disposable email address.',
-      pointsChange: '0'
-    },
-    {
-      id: 'aud-05',
-      timestamp: '2026-08-19T10:00:00Z',
-      action: 'POINT_ADJUSTMENT',
-      target: 'Sarah Jenkins (RETAIN-SARAH-92)',
-      actor: 'Admin (Manual Adjustment)',
-      note: 'Awarded bonus points for organizing team social share storm.',
-      pointsChange: '+2'
-    },
-    {
-      id: 'aud-06',
-      timestamp: '2026-08-19T10:05:00Z',
-      action: 'POINT_ADJUSTMENT',
-      target: 'Tunde Balogun (RETAIN-TUNDE-63)',
-      actor: 'Admin (Manual Adjustment)',
-      note: 'Awarded +1 bonus point for LinkedIn viral reshare.',
-      pointsChange: '+1'
-    }
-  ],
+  linkVisitsCount: 0,
+  employees: [],
+  submissions: [],
+  auditLogs: [],
   auth: {
     employee: {
       isLoggedIn: false,
@@ -561,8 +320,12 @@ class Store {
 
   // --- Employee Management ---
   getCurrentEmployee() {
-    const empId = this.state.auth?.employee?.employeeId || this.state.currentEmployeeId || 'emp-1';
-    return this.state.employees.find(e => e.id === empId) || this.state.employees[0];
+    const empId = this.state.auth?.employee?.employeeId || this.state.currentEmployeeId;
+    if (empId) {
+      const found = this.state.employees.find(e => e.id === empId);
+      if (found) return found;
+    }
+    return this.state.employees[0] || null;
   }
 
   setCurrentEmployee(id) {
@@ -1104,7 +867,7 @@ class Store {
       ? Math.round((activeEmployeesWithPoints / leaderboard.length) * 100)
       : 0;
 
-    const visits = this.state.linkVisitsCount || 1420;
+    const visits = this.state.linkVisitsCount || 0;
     const completionRate = visits > 0 
       ? Math.round((totalSubmissions / visits) * 100)
       : 0;

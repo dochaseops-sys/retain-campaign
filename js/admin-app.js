@@ -222,15 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Quick 1-Click Demo Admin Login button
-  const demoLoginBtn = document.getElementById('demo-admin-login-btn');
-  if (demoLoginBtn) {
-    demoLoginBtn.addEventListener('click', () => {
-      store.loginAdmin('admin@retaindigital.io', 'retain2026!');
-      window.showToast('Signed in as Retain Campaign Administrator.', 'success');
-    });
-  }
-
   // Edit Platform Form submission
   const editPlatForm = document.getElementById('modal-edit-platform-form');
   if (editPlatForm) {

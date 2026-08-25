@@ -19,7 +19,6 @@ export function renderLeaderboard() {
       
       <!-- Section Header -->
       <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="category-eyebrow mb-3">(LIVE STANDINGS)</span>
         <h2 class="text-3xl sm:text-5xl font-black text-slate-900 mt-2 mb-4">
           Challenge <span class="marker-highlight">leaderboard</span>.
         </h2>
@@ -105,76 +104,136 @@ export function renderLeaderboard() {
     // Render Podium for Top 3 (from overall leaderboard)
     const overallTop = store.getLeaderboard('all');
     const podiumEl = document.getElementById('leaderboard-podium');
-    if (podiumEl && overallTop.length >= 3) {
-      const first = overallTop[0];
-      const second = overallTop[1];
-      const third = overallTop[2];
+    if (podiumEl) {
+      if (overallTop.length === 0) {
+        podiumEl.innerHTML = `
+          <!-- 2nd Place Slot -->
+          <div class="order-2 md:order-1 modern-card p-6 text-center relative border-dashed border-2 border-slate-300">
+            <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-700 font-black text-sm flex items-center justify-center mx-auto mb-2.5 border border-slate-200">2</div>
+            <div class="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center bg-slate-100 text-slate-400 font-black text-xl mb-3">
+              <i data-lucide="award" class="w-7 h-7 text-slate-500"></i>
+            </div>
+            <h4 class="font-black text-slate-800 text-sm">2nd Place Slot</h4>
+            <span class="text-[11px] text-slate-500 block mt-0.5">Apple iPad Pro + $500</span>
+          </div>
 
-      podiumEl.innerHTML = `
-        <!-- 2nd Place -->
-        <div class="order-2 md:order-1 modern-card p-6 text-center relative border-slate-200 hover:scale-105 transition-all">
-          <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-700 font-black text-sm flex items-center justify-center mx-auto mb-2.5 border border-slate-200">2</div>
-          <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-white font-black text-xl mb-3 shadow-md" style="background-color: ${second.color || '#1E293B'}">
-            ${second.avatar}
-          </div>
-          <h4 class="font-black text-slate-900 text-base">${second.name}</h4>
-          <span class="text-xs text-slate-500 block">${second.department}</span>
-          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-center gap-4">
-            <div>
-              <span class="text-[10px] text-slate-400 block font-medium">Followers</span>
-              <span class="text-sm font-bold text-slate-800">${second.verifiedFollowerCount}</span>
+          <!-- 1st Place Slot -->
+          <div class="order-1 md:order-2 retain-card p-8 text-center relative md:-translate-y-4 shadow-xl">
+            <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#FB923C] text-slate-950 font-black text-[11px] uppercase tracking-wider flex items-center gap-1.5 shadow-md">
+              <i data-lucide="crown" class="w-3.5 h-3.5"></i>
+              <span>Grand Champion Slot</span>
             </div>
-            <div>
-              <span class="text-[10px] text-slate-400 block font-medium">Points</span>
-              <span class="text-xl font-black text-slate-900">${second.totalPoints}</span>
+            <div class="w-10 h-10 rounded-full bg-white/20 text-white font-black text-base flex items-center justify-center mx-auto mt-2 mb-3 border border-white/20">1</div>
+            <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center bg-white text-slate-950 font-black text-2xl mb-3 shadow-lg ring-4 ring-rose-400/40">
+              <i data-lucide="trophy" class="w-8 h-8 text-rose-600"></i>
             </div>
+            <h4 class="font-black text-white text-base">Claim the Crown</h4>
+            <span class="text-xs text-rose-200 block font-medium mt-1">MacBook Air M3 + $1,000 Grant</span>
           </div>
-        </div>
 
-        <!-- 1st Place (Center / Taller / Retain Card) -->
-        <div class="order-1 md:order-2 retain-card p-8 text-center relative md:-translate-y-6 shadow-2xl hover:scale-105 transition-all">
-          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#FB923C] text-slate-950 font-black text-[11px] uppercase tracking-wider flex items-center gap-1.5 shadow-md">
-            <i data-lucide="crown" class="w-3.5 h-3.5"></i>
-            <span>Current Leader</span>
-          </div>
-          <div class="w-10 h-10 rounded-full bg-white/20 text-white font-black text-base flex items-center justify-center mx-auto mt-2 mb-3 border border-white/20">1</div>
-          <div class="w-18 h-18 rounded-2xl mx-auto flex items-center justify-center text-slate-950 font-black text-2xl mb-3 shadow-xl ring-4 ring-rose-400/40 bg-white">
-            ${first.avatar}
-          </div>
-          <h4 class="font-black text-white text-lg">${first.name}</h4>
-          <span class="text-xs text-rose-200 block font-medium">${first.department}</span>
-          <div class="mt-4 pt-3 border-t border-white/20 flex items-center justify-center gap-5">
-            <div>
-              <span class="text-[10px] text-rose-200 block font-medium">Followers</span>
-              <span class="text-sm font-bold text-white">${first.verifiedFollowerCount}</span>
+          <!-- 3rd Place Slot -->
+          <div class="order-3 md:order-3 modern-card p-6 text-center relative border-dashed border-2 border-slate-300">
+            <div class="w-8 h-8 rounded-full bg-amber-50 text-amber-800 font-black text-sm flex items-center justify-center mx-auto mb-2.5 border border-amber-200">3</div>
+            <div class="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center bg-amber-50 text-amber-600 font-black text-xl mb-3">
+              <i data-lucide="star" class="w-7 h-7 text-amber-600"></i>
             </div>
-            <div>
-              <span class="text-[10px] text-rose-200 block font-black">Total Points</span>
-              <span class="text-2xl font-black text-white">${first.totalPoints}</span>
-            </div>
+            <h4 class="font-black text-slate-800 text-sm">3rd Place Slot</h4>
+            <span class="text-[11px] text-slate-500 block mt-0.5">Sony XM5 Headphones</span>
           </div>
-        </div>
+        `;
+      } else {
+        const first = overallTop[0];
+        const second = overallTop.length > 1 ? overallTop[1] : null;
+        const third = overallTop.length > 2 ? overallTop[2] : null;
 
-        <!-- 3rd Place -->
-        <div class="order-3 md:order-3 modern-card p-6 text-center relative border-slate-200 hover:scale-105 transition-all">
-          <div class="w-8 h-8 rounded-full bg-amber-50 text-amber-800 font-black text-sm flex items-center justify-center mx-auto mb-2.5 border border-amber-200">3</div>
-          <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-white font-black text-xl mb-3 shadow-md" style="background-color: ${third.color || '#D97706'}">
-            ${third.avatar}
-          </div>
-          <h4 class="font-black text-slate-900 text-base">${third.name}</h4>
-          <span class="text-xs text-slate-500 block">${third.department}</span>
-          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-center gap-4">
-            <div>
-              <span class="text-[10px] text-slate-400 block font-medium">Followers</span>
-              <span class="text-sm font-bold text-slate-800">${third.verifiedFollowerCount}</span>
+        podiumEl.innerHTML = `
+          <!-- 2nd Place -->
+          ${second ? `
+            <div class="order-2 md:order-1 modern-card p-6 text-center relative border-slate-200 hover:scale-105 transition-all">
+              <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-700 font-black text-sm flex items-center justify-center mx-auto mb-2.5 border border-slate-200">2</div>
+              <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-white font-black text-xl mb-3 shadow-md" style="background-color: ${second.color || '#1E293B'}">
+                ${second.avatar || second.name.substring(0, 2).toUpperCase()}
+              </div>
+              <h4 class="font-black text-slate-900 text-base">${second.name}</h4>
+              <span class="text-xs text-slate-500 block">${second.department}</span>
+              <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-center gap-4">
+                <div>
+                  <span class="text-[10px] text-slate-400 block font-medium">Followers</span>
+                  <span class="text-sm font-bold text-slate-800">${second.verifiedFollowerCount}</span>
+                </div>
+                <div>
+                  <span class="text-[10px] text-slate-400 block font-medium">Points</span>
+                  <span class="text-xl font-black text-slate-900">${second.totalPoints}</span>
+                </div>
+              </div>
             </div>
-            <div>
-              <span class="text-[10px] text-slate-400 block font-medium">Points</span>
-              <span class="text-xl font-black text-amber-700">${third.totalPoints}</span>
+          ` : `
+            <div class="order-2 md:order-1 modern-card p-6 text-center relative border-dashed border-2 border-slate-300">
+              <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-700 font-black text-sm flex items-center justify-center mx-auto mb-2.5 border border-slate-200">2</div>
+              <div class="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center bg-slate-100 text-slate-400 font-black text-xl mb-3">
+                <i data-lucide="award" class="w-7 h-7 text-slate-500"></i>
+              </div>
+              <h4 class="font-black text-slate-800 text-sm">2nd Place Open</h4>
+              <span class="text-[11px] text-slate-500 block mt-0.5">Apple iPad Pro + $500</span>
+            </div>
+          `}
+
+          <!-- 1st Place (Center / Taller / Retain Card) -->
+          <div class="order-1 md:order-2 retain-card p-8 text-center relative md:-translate-y-6 shadow-2xl hover:scale-105 transition-all">
+            <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#FB923C] text-slate-950 font-black text-[11px] uppercase tracking-wider flex items-center gap-1.5 shadow-md">
+              <i data-lucide="crown" class="w-3.5 h-3.5"></i>
+              <span>Current Leader</span>
+            </div>
+            <div class="w-10 h-10 rounded-full bg-white/20 text-white font-black text-base flex items-center justify-center mx-auto mt-2 mb-3 border border-white/20">1</div>
+            <div class="w-18 h-18 rounded-2xl mx-auto flex items-center justify-center text-slate-950 font-black text-2xl mb-3 shadow-xl ring-4 ring-rose-400/40 bg-white">
+              ${first.avatar || first.name.substring(0, 2).toUpperCase()}
+            </div>
+            <h4 class="font-black text-white text-lg">${first.name}</h4>
+            <span class="text-xs text-rose-200 block font-medium">${first.department}</span>
+            <div class="mt-4 pt-3 border-t border-white/20 flex items-center justify-center gap-5">
+              <div>
+                <span class="text-[10px] text-rose-200 block font-medium">Followers</span>
+                <span class="text-sm font-bold text-white">${first.verifiedFollowerCount}</span>
+              </div>
+              <div>
+                <span class="text-[10px] text-rose-200 block font-black">Total Points</span>
+                <span class="text-2xl font-black text-white">${first.totalPoints}</span>
+              </div>
             </div>
           </div>
-        </div>
-      `;
+
+          <!-- 3rd Place -->
+          ${third ? `
+            <div class="order-3 md:order-3 modern-card p-6 text-center relative border-slate-200 hover:scale-105 transition-all">
+              <div class="w-8 h-8 rounded-full bg-amber-50 text-amber-800 font-black text-sm flex items-center justify-center mx-auto mb-2.5 border border-amber-200">3</div>
+              <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-white font-black text-xl mb-3 shadow-md" style="background-color: ${third.color || '#D97706'}">
+                ${third.avatar || third.name.substring(0, 2).toUpperCase()}
+              </div>
+              <h4 class="font-black text-slate-900 text-base">${third.name}</h4>
+              <span class="text-xs text-slate-500 block">${third.department}</span>
+              <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-center gap-4">
+                <div>
+                  <span class="text-[10px] text-slate-400 block font-medium">Followers</span>
+                  <span class="text-sm font-bold text-slate-800">${third.verifiedFollowerCount}</span>
+                </div>
+                <div>
+                  <span class="text-[10px] text-slate-400 block font-medium">Points</span>
+                  <span class="text-xl font-black text-amber-700">${third.totalPoints}</span>
+                </div>
+              </div>
+            </div>
+          ` : `
+            <div class="order-3 md:order-3 modern-card p-6 text-center relative border-dashed border-2 border-slate-300">
+              <div class="w-8 h-8 rounded-full bg-amber-50 text-amber-800 font-black text-sm flex items-center justify-center mx-auto mb-2.5 border border-amber-200">3</div>
+              <div class="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center bg-amber-50 text-amber-600 font-black text-xl mb-3">
+                <i data-lucide="star" class="w-7 h-7 text-amber-600"></i>
+              </div>
+              <h4 class="font-black text-slate-800 text-sm">3rd Place Open</h4>
+              <span class="text-[11px] text-slate-500 block mt-0.5">Sony XM5 Headphones</span>
+            </div>
+          `}
+        `;
+      }
     }
 
     // Render Table Rows
@@ -184,11 +243,22 @@ export function renderLeaderboard() {
     if (filtered.length === 0) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="6" class="text-center py-10 text-slate-400 text-sm">
-            No employees found matching filter.
+          <td colspan="6" class="text-center py-12 text-slate-500 text-sm">
+            <div class="max-w-md mx-auto">
+              <div class="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center mx-auto mb-3">
+                <i data-lucide="trophy" class="w-6 h-6"></i>
+              </div>
+              <p class="font-black text-slate-900 text-base">The challenge leaderboard is live!</p>
+              <p class="text-xs text-slate-500 mt-1 mb-4">Sign in to your employee portal, access your personal referral link & 1-click sharing toolkit, and start climbing the ranks.</p>
+              <a href="employee.html" class="btn-retain py-2.5 px-5 text-xs font-bold inline-flex items-center gap-1.5 shadow-md">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-white"></i>
+                <span>Open Employee Portal</span>
+              </a>
+            </div>
           </td>
         </tr>
       `;
+      if (window.lucide) window.lucide.createIcons();
       return;
     }
 

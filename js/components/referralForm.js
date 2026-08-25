@@ -13,12 +13,12 @@ export function renderReferralForm() {
   const state = store.getState();
   const activePlatforms = Object.entries(state.settings.platforms || {}).filter(([_, p]) => p.enabled);
 
-  // Check URL query parameters for referral code e.g. ?code=RETAIN-SARAH-92
+  // Check URL query parameters for referral code e.g. ?code=RETAIN-CODE-12
   const urlParams = new URLSearchParams(window.location.search);
   const codeParam = urlParams.get('code') || urlParams.get('ref') || '';
 
   // Get current active employee code if no url param
-  const defaultCode = codeParam || store.getCurrentEmployee().referralCode;
+  const defaultCode = codeParam || store.getCurrentEmployee()?.referralCode || '';
 
   container.innerHTML = `
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -100,7 +100,7 @@ export function renderReferralForm() {
               </label>
               <div class="relative">
                 <i data-lucide="key" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5"></i>
-                <input type="text" id="employee-ref-code" value="${defaultCode}" required placeholder="e.g. RETAIN-SARAH-92" class="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl pl-10 pr-4 py-3 text-sm font-mono font-bold text-slate-900 placeholder-slate-400 uppercase focus:border-rose-500 focus:outline-none transition-all" />
+                <input type="text" id="employee-ref-code" value="${defaultCode}" required placeholder="e.g. RETAIN-CODE-12" class="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl pl-10 pr-4 py-3 text-sm font-mono font-bold text-slate-900 placeholder-slate-400 uppercase focus:border-rose-500 focus:outline-none transition-all" />
               </div>
               <span id="ref-code-helper" class="text-[11px] text-slate-500 mt-1 block font-medium">
                 ${defaultCode ? `Referred by code: ${defaultCode}` : 'Enter the code provided by the Retain employee.'}

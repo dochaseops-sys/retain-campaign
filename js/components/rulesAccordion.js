@@ -76,7 +76,6 @@ export function renderRulesAccordion() {
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
       
       <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="category-eyebrow mb-3">(OFFICIAL GUIDELINES)</span>
         <h2 class="text-3xl sm:text-5xl font-black text-slate-900 mt-2 mb-4">
           Rules & fair play <span class="marker-highlight">standards</span>.
         </h2>

@@ -12,8 +12,8 @@ export function renderEmployeeDashboard() {
 
   const state = store.getState();
   const currentEmp = store.getCurrentEmployee();
+  if (!currentEmp) return;
   const stats = store.getEmployeeStats(currentEmp.id);
-
   if (!stats) return;
 
   const personalizedLink = getReferralUrl(currentEmp.referralCode);
@@ -152,7 +152,7 @@ export function renderEmployeeDashboard() {
             <i data-lucide="trophy" class="w-4 h-4 text-rose-600"></i>
           </div>
           <span class="text-3xl sm:text-4xl font-black text-slate-900 block">#${stats.rank} <span class="text-xs text-slate-500 font-normal">of ${stats.totalEmployees}</span></span>
-          <span class="text-[11px] text-rose-600 font-bold">${stats.rank <= 3 ? '🏆 Top 3 Podium Position!' : 'Within striking distance'}</span>
+          <span class="text-[11px] text-rose-600 font-bold">${stats.rank <= 3 ? 'Top 3 Podium Position' : 'Within striking distance'}</span>
         </div>
 
         <!-- Verified Referrals -->

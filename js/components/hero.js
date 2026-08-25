@@ -36,26 +36,21 @@ export function renderHero() {
         
         <!-- Left Column: Editorial Headline & Floating Widgets -->
         <div class="lg:col-span-7">
-          
-          <!-- Category Eyebrow Tag -->
-          <div class="mb-4">
-            <span class="category-eyebrow">(RETAIN GROWTH CHALLENGE)</span>
-          </div>
 
           <!-- Headline with Marker Pen Highlight -->
           <h1 class="text-4xl sm:text-6xl font-black text-slate-900 tracking-tight leading-[1.12] mb-6">
             Grow the community. <br />
-            Meet your <span class="marker-highlight">one of a kind</span> growth challenge.
+            <span class="marker-highlight">Own the leaderboard</span>.
           </h1>
 
           <!-- Supporting Text -->
           <p class="text-slate-600 text-base sm:text-lg leading-relaxed max-w-xl mb-8">
-            ${settings.supportingText || 'Use your network to help more people discover Retain. Invite genuine followers, earn points and climb the leaderboard.'}
+            ${settings.supportingText || 'This is your Growth Challenge, invite genuine followers, earn points, and see your name climb to the top!'}
           </p>
 
           <!-- Floating Badges & Action Buttons -->
           <div class="flex flex-wrap items-center gap-4 mb-8">
-            <a href="#employee-access-section" class="btn-retain flex items-center gap-2">
+            <a href="employee.html" class="btn-retain flex items-center gap-2">
               <span>Join the Challenge</span>
               <i data-lucide="arrow-right" class="w-4 h-4"></i>
             </a>
@@ -72,12 +67,16 @@ export function renderHero() {
             <div class="modern-card p-4 flex items-center justify-between gap-3">
               <div>
                 <span class="text-[11px] font-bold text-slate-800 block">Staff Participation</span>
-                <span class="text-xs text-slate-500 font-medium">${activeEmployees} active team members</span>
+                <span class="text-xs text-slate-500 font-medium">${employees.length > 0 ? `${employees.length} team members registered` : 'All Retain employees eligible'}</span>
               </div>
               <div class="flex -space-x-2">
-                <div class="w-7 h-7 rounded-full bg-[#EF4444] text-white flex items-center justify-center font-bold text-[9px] border-2 border-white">SJ</div>
-                <div class="w-7 h-7 rounded-full bg-[#1E293B] text-white flex items-center justify-center font-bold text-[9px] border-2 border-white">KM</div>
-                <div class="w-7 h-7 rounded-full bg-[#FB923C] text-white flex items-center justify-center font-bold text-[9px] border-2 border-white">ER</div>
+                ${employees.length > 0 ? employees.slice(0, 3).map(e => `
+                  <div class="w-7 h-7 rounded-full flex items-center justify-center font-bold text-[9px] border-2 border-white text-white" style="background-color: ${e.color || '#EF4444'}">${e.avatar || e.name.substring(0, 2).toUpperCase()}</div>
+                `).join('') : `
+                  <div class="w-7 h-7 rounded-full bg-[#EF4444] text-white flex items-center justify-center font-bold text-[9px] border-2 border-white">RD</div>
+                  <div class="w-7 h-7 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-[9px] border-2 border-white">RT</div>
+                  <div class="w-7 h-7 rounded-full bg-[#FB923C] text-white flex items-center justify-center font-bold text-[9px] border-2 border-white">HQ</div>
+                `}
               </div>
             </div>
 
@@ -121,24 +120,27 @@ export function renderHero() {
             <!-- Bottom Section: Action & Social Proof Pill -->
             <div>
               <div class="mb-6">
-                <a href="#employee-access-section" class="px-5 py-2.5 rounded-full bg-white hover:bg-slate-100 text-slate-950 font-black text-xs inline-flex items-center gap-2 shadow-md transition-all">
+                <a href="employee.html" class="px-5 py-2.5 rounded-full bg-white hover:bg-slate-100 text-slate-950 font-black text-xs inline-flex items-center gap-2 shadow-md transition-all">
                   <span>Get started now</span>
-                  <i data-lucide="sparkles" class="w-3.5 h-3.5 text-rose-600"></i>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-rose-600"></i>
                 </a>
               </div>
 
               <!-- Social Proof Pill Badge -->
               <div class="bg-black/30 backdrop-blur-md p-3 rounded-2xl border border-white/10 flex items-center justify-between gap-3">
                 <div class="flex items-center gap-2.5">
-                  <div class="w-8 h-8 rounded-full bg-gradient-retain text-white font-black text-xs flex items-center justify-center">
-                    🏆
+                  <div class="w-8 h-8 rounded-full bg-white/15 text-white font-black text-xs flex items-center justify-center">
+                    <i data-lucide="award" class="w-4 h-4 text-amber-300"></i>
                   </div>
                   <div>
-                    <span class="text-xs font-bold text-white block">24+ Employees active</span>
-                    <span class="text-[10px] text-rose-200">Competing for ₦1.5M Prize Pool</span>
+                    <span class="text-xs font-bold text-white block">${employees.length > 0 ? `${employees.length} Team Members Registered` : 'All Departments Competing'}</span>
+                    <span class="text-[10px] text-rose-200">Flagship Prizes & Grants</span>
                   </div>
                 </div>
-                <span class="text-xs font-bold text-[#FB923C]">Active 🔥</span>
+                <span class="text-xs font-bold text-[#FB923C] flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#FB923C] animate-ping"></span>
+                  <span>Active</span>
+                </span>
               </div>
             </div>
 
@@ -178,11 +180,11 @@ export function renderHero() {
             </div>
           </div>
 
-          <!-- Big Stat Numbers (400+ / 100% / 6) -->
+          <!-- Big Stat Numbers -->
           <div class="lg:col-span-7">
             <div class="grid grid-cols-3 gap-6 text-center">
               <div>
-                <span class="text-3xl sm:text-5xl font-black text-slate-900 block tracking-tight">400+</span>
+                <span class="text-3xl sm:text-5xl font-black text-slate-900 block tracking-tight">${verifiedCount}</span>
                 <span class="text-xs sm:text-sm font-semibold text-slate-500 mt-1 block">Verified Referrals</span>
               </div>
               <div class="border-x border-slate-200 px-4">

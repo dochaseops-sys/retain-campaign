@@ -61,7 +61,7 @@ export function renderAdminPortal() {
             <i data-lucide="award" class="w-4 h-4 text-white"></i>
             <span>${settings.winnerPublished ? 'Winner Finalized' : 'Finalize Winner'}</span>
           </button>
-          <button id="admin-reset-demo-btn" class="px-3 py-2 rounded-full bg-rose-50 hover:bg-rose-100 border border-rose-200 text-xs font-bold text-rose-700 transition-all" title="Reset sample demo data">
+          <button id="admin-reset-demo-btn" class="px-3 py-2 rounded-full bg-rose-50 hover:bg-rose-100 border border-rose-200 text-xs font-bold text-rose-700 transition-all" title="Reset campaign data to clean initial state">
             <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
           </button>
         </div>
@@ -226,9 +226,9 @@ export function renderAdminPortal() {
               <div>
                 <label class="block text-[11px] font-bold uppercase text-slate-700 mb-1">Target Employee *</label>
                 <select id="adjust-emp-id" required class="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-rose-500">
-                  ${employees.map(e => `
+                  ${employees.length > 0 ? employees.map(e => `
                     <option value="${e.id}">${e.name} (${e.referralCode})</option>
-                  `).join('')}
+                  `).join('') : '<option value="" disabled selected>No registered employees yet</option>'}
                 </select>
               </div>
 
@@ -258,7 +258,13 @@ export function renderAdminPortal() {
               <button id="export-audit-csv-btn" class="text-xs text-slate-700 hover:underline font-bold cursor-pointer">Export Audit CSV</button>
             </div>
             <div class="p-4 divide-y divide-slate-100 max-h-[450px] overflow-y-auto font-medium">
-              ${auditLogs.map(log => `
+              ${auditLogs.length === 0 ? `
+                <div class="py-12 text-center text-slate-400 text-xs">
+                  <i data-lucide="shield" class="w-8 h-8 text-slate-300 mx-auto mb-2"></i>
+                  <p class="font-bold text-slate-500">No audit events recorded yet.</p>
+                  <p class="text-[11px] text-slate-400 mt-0.5">Audit events will be logged in real time when submissions are verified or points adjusted.</p>
+                </div>
+              ` : auditLogs.map(log => `
                 <div class="py-3.5 flex items-start justify-between gap-4">
                   <div class="flex items-start gap-3">
                     <div class="w-9 h-9 rounded-xl bg-[#FAFBF7] border border-slate-200 flex items-center justify-center text-xs font-bold text-slate-700 flex-shrink-0">
@@ -338,7 +344,7 @@ export function renderAdminPortal() {
               <p class="text-xs text-slate-500 mb-3">Displays a high-visibility banner across the entire landing page.</p>
 
               <form id="admin-announcement-form" class="space-y-3">
-                <textarea id="announcement-text" rows="2" placeholder="e.g. 🚀 Double bonus points active for all 6-platform follows this week!" class="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl p-3 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-rose-500">${settings.announcement?.message || ''}</textarea>
+                <textarea id="announcement-text" rows="2" placeholder="e.g. Double bonus points active for all 6-platform follows this week!" class="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl p-3 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-rose-500">${settings.announcement?.message || ''}</textarea>
                 <div class="flex items-center justify-between">
                   <label class="flex items-center gap-2 text-xs text-slate-700 cursor-pointer">
                     <input type="checkbox" id="announcement-enabled" ${settings.announcement?.enabled ? 'checked' : ''} class="rounded bg-white text-slate-900" />
@@ -648,6 +654,17 @@ export function renderAdminPortal() {
     const tbody = document.getElementById('admin-employees-tbody');
     if (!tbody) return;
 
+    if (employees.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="6" class="text-center py-10 text-slate-400 text-xs font-medium">
+            No employees registered yet. Employees will appear here once they register on the employee portal.
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
     tbody.innerHTML = employees.map(emp => {
       const stats = store.getEmployeeStats(emp.id);
       const personalizedLink = getReferralUrl(emp.referralCode);
@@ -663,7 +680,7 @@ export function renderAdminPortal() {
           <td class="py-3.5 px-4 text-slate-600">${emp.department}</td>
           <td class="py-3.5 px-4 font-mono font-bold text-slate-900">${emp.referralCode}</td>
           <td class="py-3.5 px-4 text-center font-bold text-slate-900">${stats ? stats.verifiedReferrals : 0}</td>
-          <td class="py-3.5 px-4 text-center font-black text-slate-900">${emp.totalPoints}</td>
+          <td class="py-3.5 px-4 text-center font-black text-slate-900">${stats ? stats.totalPoints : 0}</td>
           <td class="py-3.5 px-4 text-right">
             <button class="copy-emp-link-btn text-xs text-slate-700 hover:text-slate-950 font-bold cursor-pointer" data-code="${emp.referralCode}">
               Copy Link
@@ -878,9 +895,9 @@ export function renderAdminPortal() {
   const resetDemoBtn = document.getElementById('admin-reset-demo-btn');
   if (resetDemoBtn) {
     resetDemoBtn.addEventListener('click', () => {
-      if (confirm('Reset application to original sample demo data? This will overwrite local changes.')) {
+      if (confirm('Reset application to clean campaign data? This will clear local state changes.')) {
         store.resetToSeedData();
-        window.showToast('Demo data reset.', 'info');
+        window.showToast('Campaign data reset to clean state.', 'info');
       }
     });
   }

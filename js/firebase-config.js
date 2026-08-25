@@ -6,15 +6,8 @@
 
 const FIREBASE_CONFIG_KEY = 'retain_firebase_config';
 
-// Official Firebase project configuration
-const DEFAULT_FIREBASE_CONFIG = {
-  apiKey: "AIzaSyBOZe98lOEbJtkKTJqYnpaFncKtSApsf9g",
-  authDomain: "dochase-internal-campaign.firebaseapp.com",
-  projectId: "dochase-internal-campaign",
-  storageBucket: "dochase-internal-campaign.firebasestorage.app",
-  messagingSenderId: "164273389297",
-  appId: "1:164273389297:web:d94ed9d5cfce55b3e57350"
-};
+// Default Firebase config is null until configured by an administrator
+const DEFAULT_FIREBASE_CONFIG = null;
 
 class FirebaseService {
   constructor() {
@@ -27,7 +20,7 @@ class FirebaseService {
 
   loadStoredConfig() {
     try {
-      const stored = sessionStorage.getItem(FIREBASE_CONFIG_KEY) || localStorage.getItem(FIREBASE_CONFIG_KEY) || localStorage.getItem('dochase_firebase_config');
+      const stored = sessionStorage.getItem(FIREBASE_CONFIG_KEY) || localStorage.getItem(FIREBASE_CONFIG_KEY);
       if (stored) {
         return JSON.parse(stored);
       }
@@ -49,16 +42,17 @@ class FirebaseService {
   }
 
   clearConfig() {
-    this.config = DEFAULT_FIREBASE_CONFIG;
+    this.config = null;
     localStorage.removeItem(FIREBASE_CONFIG_KEY);
     localStorage.removeItem('dochase_firebase_config');
     sessionStorage.removeItem(FIREBASE_CONFIG_KEY);
     this.isConfigured = false;
+    this.db = null;
   }
 
   async initialize() {
-    if (!this.config || !this.config.projectId) {
-      console.info('Firestore configuration not available.');
+    if (!this.config || !this.config.projectId || !this.config.apiKey) {
+      this.isConfigured = false;
       return false;
     }
 
@@ -70,7 +64,7 @@ class FirebaseService {
         this.db = firebase.firestore();
         this.auth = firebase.auth ? firebase.auth() : null;
         this.isConfigured = true;
-        console.log('✅ Cloud Firestore connected for project:', this.config.projectId);
+        console.log('[Firestore] Connected for project:', this.config.projectId);
         return true;
       } else {
         console.warn('Firebase SDK not loaded on window.');
@@ -144,7 +138,7 @@ class FirebaseService {
       );
       this.unsubscribeListeners.push(unsubSettings);
 
-      console.log('✅ Real-time Firestore sync active across all collections.');
+      console.log('[Firestore] Real-time sync active across all collections.');
     } catch (err) {
       console.warn('Error setting up Firestore real-time listeners:', err);
     }
@@ -157,7 +151,7 @@ class FirebaseService {
     try {
       const empSnap = await this.db.collection('employees').limit(1).get();
       if (empSnap.empty && seedData.employees && seedData.employees.length > 0) {
-        console.log('🌱 Seeding Cloud Firestore with initial campaign data...');
+        console.log('[Firestore] Seeding Cloud Firestore with initial campaign data...');
         const batch = this.db.batch();
 
         // Seed Employees
@@ -185,7 +179,7 @@ class FirebaseService {
         }
 
         await batch.commit();
-        console.log('✅ Cloud Firestore successfully seeded with campaign data.');
+        console.log('[Firestore] Cloud Firestore successfully seeded with campaign data.');
       }
     } catch (err) {
       console.warn('Firestore seed check notice:', err.message);

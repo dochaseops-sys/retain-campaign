@@ -178,7 +178,10 @@ export function renderAnalytics(targetId = 'analytics-container') {
       <div class="modern-card border-slate-200 overflow-hidden shadow-xl">
         <div class="p-5 bg-[#FAFBF7] border-b border-slate-200 flex items-center justify-between">
           <h3 class="text-sm font-black text-slate-900">Department Leaderboard Summary</h3>
-          <span class="text-xs text-rose-600 font-bold">🏆 Department Trophy Competition</span>
+          <span class="text-xs text-rose-600 font-bold flex items-center gap-1.5">
+            <i data-lucide="award" class="w-3.5 h-3.5"></i>
+            <span>Department Standings</span>
+          </span>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs text-slate-700">
@@ -192,7 +195,13 @@ export function renderAnalytics(targetId = 'analytics-container') {
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-100 font-medium">
-              ${Object.entries(data.departmentPerformance).map(([dept, d]) => {
+              ${Object.entries(data.departmentPerformance).length === 0 ? `
+                <tr>
+                  <td colspan="5" class="text-center py-8 text-slate-400 text-xs font-medium">
+                    No department data available yet.
+                  </td>
+                </tr>
+              ` : Object.entries(data.departmentPerformance).map(([dept, d]) => {
                 const avg = d.employeeCount > 0 ? (d.totalPoints / d.employeeCount).toFixed(1) : '0';
                 return `
                   <tr class="hover:bg-slate-50 transition-colors">
@@ -236,12 +245,12 @@ function initCharts(data) {
   if (platCanvas) {
     const labels = ['LinkedIn', 'Instagram', 'X (Twitter)', 'TikTok', 'Facebook', 'YouTube'];
     const platformData = [
-      data.platformBreakdown.linkedin || 4,
-      data.platformBreakdown.instagram || 5,
-      data.platformBreakdown.x || 3,
-      data.platformBreakdown.tiktok || 4,
-      data.platformBreakdown.facebook || 2,
-      data.platformBreakdown.youtube || 3
+      data.platformBreakdown.linkedin || 0,
+      data.platformBreakdown.instagram || 0,
+      data.platformBreakdown.x || 0,
+      data.platformBreakdown.tiktok || 0,
+      data.platformBreakdown.facebook || 0,
+      data.platformBreakdown.youtube || 0
     ];
 
     if (platformChartInstance) platformChartInstance.destroy();

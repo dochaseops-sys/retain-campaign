@@ -61,13 +61,12 @@ function renderEmployeeView() {
         </a>
       `;
     }
-    renderLoginPills();
   } else {
     if (loginBox) loginBox.classList.add('hidden');
     if (dashboardContent) dashboardContent.classList.remove('hidden');
 
     const currentEmp = store.getCurrentEmployee();
-    if (navUserSection) {
+    if (navUserSection && currentEmp) {
       navUserSection.innerHTML = `
         <div class="flex items-center gap-3">
           <div class="flex items-center gap-2">
@@ -99,36 +98,6 @@ function renderEmployeeView() {
   if (window.lucide) {
     window.lucide.createIcons();
   }
-}
-
-function renderLoginPills() {
-  const container = document.getElementById('quick-demo-employees');
-  if (!container) return;
-
-  const employees = store.getState().employees || [];
-  container.innerHTML = employees.map(emp => `
-    <button class="quick-emp-login-btn p-2.5 rounded-2xl bg-[#FAFBF7] hover:bg-white border border-slate-200 hover:border-rose-500 text-left transition-all flex items-center gap-2.5 group shadow-sm cursor-pointer" data-code="${emp.referralCode}">
-      <div class="w-8 h-8 rounded-xl flex items-center justify-center text-white font-black text-[10px] flex-shrink-0 shadow-sm" style="background-color: ${emp.color || '#EF4444'}">
-        ${emp.avatar}
-      </div>
-      <div class="min-w-0">
-        <span class="text-xs font-bold text-slate-900 block truncate group-hover:text-rose-600">${emp.name}</span>
-        <span class="text-[10px] text-slate-400 font-mono block truncate">${emp.referralCode}</span>
-      </div>
-    </button>
-  `).join('');
-
-  container.querySelectorAll('.quick-emp-login-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const code = btn.getAttribute('data-code');
-      try {
-        const emp = store.loginEmployee(code);
-        window.showToast(`Welcome back, ${emp.name}!`, 'success');
-      } catch (err) {
-        window.showToast(err.message, 'error');
-      }
-    });
-  });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
