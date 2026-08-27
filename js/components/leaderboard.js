@@ -185,7 +185,7 @@ export function renderLeaderboard() {
               <span>Current Leader</span>
             </div>
             <div class="w-10 h-10 rounded-full bg-white/20 text-white font-black text-base flex items-center justify-center mx-auto mt-2 mb-3 border border-white/20">1</div>
-            <div class="w-18 h-18 rounded-2xl mx-auto flex items-center justify-center text-slate-950 font-black text-2xl mb-3 shadow-xl ring-4 ring-rose-400/40 bg-white">
+            <div class="w-20 h-20 rounded-2xl mx-auto flex items-center justify-center text-slate-950 font-black text-2xl mb-3 shadow-xl ring-4 ring-rose-400/40 bg-white">
               ${first.avatar || first.name.substring(0, 2).toUpperCase()}
             </div>
             <h4 class="font-black text-white text-lg">${first.name}</h4>

@@ -98,6 +98,7 @@ export function getMilestoneProgress(points) {
     nextMilestone: milestones[milestones.length - 1],
     currentProgress: 100,
     remainingPoints: 0,
+    isCompleted: true,
     completed: true
   };
 }
@@ -112,7 +113,7 @@ export function getReferralUrl(referralCode) {
   const pathname = window.location.pathname;
 
   // Strip any current subpage / filename from path
-  let basePath = pathname.replace(/\/(employee|admin|follow|index)(\.html)?$/, '');
+  let basePath = pathname.replace(/\/(employee|admin|follow|index|campaign)(\.html)?$/, '');
   if (basePath.endsWith('/')) {
     basePath = basePath.slice(0, -1);
   }
@@ -130,3 +131,4 @@ export function getReferralUrl(referralCode) {
   // On Vercel / production with clean URLs: /follow?code=...
   return `${origin}${basePath}/follow?code=${encodeURIComponent(referralCode)}`;
 }
+

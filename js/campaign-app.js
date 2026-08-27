@@ -6,6 +6,7 @@
 import { store } from './store.js';
 import { renderHero } from './components/hero.js';
 import { renderHowItWorks } from './components/howItWorks.js';
+import { renderPrizesSection } from './components/prizesSection.js';
 import { renderScoringSection } from './components/scoringSection.js';
 import { renderLeaderboard } from './components/leaderboard.js';
 import { renderRulesAccordion } from './components/rulesAccordion.js';
@@ -46,6 +47,39 @@ window.showToast = function(message, type = 'info') {
   }, 4000);
 };
 
+function renderWinnerBanner() {
+  const container = document.getElementById('winner-celebration-banner');
+  if (!container) return;
+
+  const state = store.getState();
+  if (state.settings.winnerPublished && state.settings.winnerDetails?.winner) {
+    const winner = state.settings.winnerDetails.winner;
+    container.classList.remove('hidden');
+    container.className = 'w-full py-3.5 px-4 bg-gradient-to-r from-amber-500 via-rose-500 to-orange-500 text-white shadow-xl border-b border-white/20 relative z-50 animate-slide-up';
+    container.innerHTML = `
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-white text-slate-950 flex items-center justify-center font-black shadow-md flex-shrink-0">
+            <i data-lucide="crown" class="w-5 h-5 text-amber-500"></i>
+          </div>
+          <div>
+            <span class="text-xs font-black uppercase tracking-wider block">OFFICIAL CAMPAIGN WINNER FINALIZED!</span>
+            <p class="text-sm font-black">
+              Congratulations <span class="underline decoration-white decoration-2">${winner.name}</span> (${winner.department}) &bull; Champion with ${winner.totalPoints} verified points!
+            </p>
+          </div>
+        </div>
+        <a href="#leaderboard-section" class="px-4 py-1.5 rounded-full bg-white text-slate-950 font-black text-xs hover:bg-slate-100 transition-all shadow-md flex-shrink-0">
+          View Final Standings &rarr;
+        </a>
+      </div>
+    `;
+  } else {
+    container.classList.add('hidden');
+    container.innerHTML = '';
+  }
+}
+
 function renderAnnouncementBanner() {
   const container = document.getElementById('announcement-banner');
   if (!container) return;
@@ -81,9 +115,11 @@ function renderAnnouncementBanner() {
 }
 
 function renderCampaignPage() {
+  renderWinnerBanner();
   renderAnnouncementBanner();
   renderHero();
   renderHowItWorks();
+  renderPrizesSection();
   renderScoringSection();
   renderLeaderboard();
   renderRulesAccordion();
@@ -92,6 +128,7 @@ function renderCampaignPage() {
     window.lucide.createIcons();
   }
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
   // Mobile drawer toggle

@@ -86,9 +86,9 @@ const SEED_DATA = {
       }
     },
     announcement: {
-      enabled: true,
+      enabled: false,
       type: 'info',
-      message: 'Week 2 Mid-Sprint Update: Double bonus points active for all 6-platform follows verified this week! Check the updated leaderboard below.'
+      message: ''
     },
     winnerPublished: false,
     winnerDetails: null
@@ -151,9 +151,15 @@ class Store {
         // Fetch initial full state from Cloud Firestore
         const cloudData = await firebaseService.fetchFullState();
         if (cloudData) {
-          if (cloudData.employees) this.state.employees = cloudData.employees;
-          if (cloudData.submissions) this.state.submissions = cloudData.submissions;
-          if (cloudData.auditLogs) this.state.auditLogs = cloudData.auditLogs;
+          if (cloudData.employees) {
+            this.state.employees = cloudData.employees.filter(e => !['emp-1', 'emp-2', 'emp-3', 'emp-4', 'emp-5', 'emp-6', 'emp-7', 'emp-8'].includes(e.id));
+          }
+          if (cloudData.submissions) {
+            this.state.submissions = cloudData.submissions.filter(s => !['sub-101', 'sub-102', 'sub-103', 'sub-104', 'sub-105', 'sub-106', 'sub-107', 'sub-108', 'sub-109', 'sub-110'].includes(s.id));
+          }
+          if (cloudData.auditLogs) {
+            this.state.auditLogs = cloudData.auditLogs.filter(l => !['aud-01', 'aud-02', 'aud-03', 'aud-04', 'aud-05', 'aud-06', 'aud-07', 'aud-08', 'aud-09'].includes(l.id));
+          }
           if (cloudData.settings) {
             this.state.settings = {
               ...this.state.settings,
@@ -234,8 +240,15 @@ class Store {
     return this.state;
   }
 
-  resetToSeedData() {
+  async resetToSeedData() {
     this.state = JSON.parse(JSON.stringify(SEED_DATA));
+    if (firebaseService.isConfigured) {
+      await firebaseService.clearAllFirestoreData(this.state.settings);
+    }
+    try {
+      sessionStorage.removeItem('retain_current_emp_id');
+      localStorage.removeItem('retain_app_state');
+    } catch (e) {}
     this.saveState();
   }
 
@@ -320,12 +333,12 @@ class Store {
 
   // --- Employee Management ---
   getCurrentEmployee() {
-    const empId = this.state.auth?.employee?.employeeId || this.state.currentEmployeeId;
+    const empId = this.state.auth?.employee?.employeeId || (this.state.auth?.employee?.isLoggedIn ? this.state.currentEmployeeId : null);
     if (empId) {
       const found = this.state.employees.find(e => e.id === empId);
       if (found) return found;
     }
-    return this.state.employees[0] || null;
+    return null;
   }
 
   setCurrentEmployee(id) {
@@ -422,7 +435,7 @@ class Store {
     const cleanEmail = (email || '').trim().toLowerCase();
     const cleanHandle = (handle || '').trim().toLowerCase().replace(/^@/, '');
 
-    const existingEmail = this.state.submissions.find(s => s.email.toLowerCase() === cleanEmail);
+    const existingEmail = this.state.submissions.find(s => s.status !== 'rejected' && s.email.toLowerCase() === cleanEmail);
     if (existingEmail) {
       return {
         isDuplicate: true,
@@ -430,7 +443,7 @@ class Store {
       };
     }
 
-    const existingHandle = this.state.submissions.find(s => s.handle.toLowerCase().replace(/^@/, '') === cleanHandle);
+    const existingHandle = this.state.submissions.find(s => s.status !== 'rejected' && s.handle.toLowerCase().replace(/^@/, '') === cleanHandle);
     if (existingHandle) {
       return {
         isDuplicate: true,
@@ -563,6 +576,15 @@ class Store {
     sub.verifiedBy = rejectedBy;
     sub.pointsAwarded = 0;
 
+    // If previously verified, decrement campaign growth on platforms
+    if (previousStatus === 'verified') {
+      (sub.platforms || []).forEach(plat => {
+        if (this.state.settings.platforms[plat]) {
+          this.state.settings.platforms[plat].campaignGrowth = Math.max(0, (this.state.settings.platforms[plat].campaignGrowth || 0) - 1);
+        }
+      });
+    }
+
     const emp = this.getEmployeeByCode(sub.employeeCode);
     const empName = emp ? emp.name : sub.employeeCode;
 
@@ -581,6 +603,7 @@ class Store {
     // Sync to Cloud Firestore
     if (firebaseService.isConfigured) {
       firebaseService.updateSubmission(sub.id, sub);
+      firebaseService.saveSettings(this.state.settings);
       firebaseService.saveAuditLog(auditEntry);
     }
 
@@ -591,6 +614,15 @@ class Store {
   deleteSubmission(submissionId) {
     const sub = this.state.submissions.find(s => s.id === submissionId);
     if (!sub) return;
+
+    // If previously verified, decrement campaign growth on platforms
+    if (sub.status === 'verified') {
+      (sub.platforms || []).forEach(plat => {
+        if (this.state.settings.platforms[plat]) {
+          this.state.settings.platforms[plat].campaignGrowth = Math.max(0, (this.state.settings.platforms[plat].campaignGrowth || 0) - 1);
+        }
+      });
+    }
 
     this.state.submissions = this.state.submissions.filter(s => s.id !== submissionId);
 
@@ -609,6 +641,7 @@ class Store {
     // Sync to Cloud Firestore
     if (firebaseService.isConfigured) {
       firebaseService.deleteSubmission(submissionId);
+      firebaseService.saveSettings(this.state.settings);
       firebaseService.saveAuditLog(auditEntry);
     }
 
@@ -891,6 +924,7 @@ class Store {
   }
 
   exportCSV(type = 'submissions') {
+    const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
     let headers = [];
     let rows = [];
     let filename = `retain-growth-${type}-${new Date().toISOString().slice(0, 10)}.csv`;
@@ -900,19 +934,19 @@ class Store {
       rows = this.state.submissions.map(s => {
         const emp = this.getEmployeeByCode(s.employeeCode);
         return [
-          s.id,
-          `"${s.fullName}"`,
-          `"${s.email}"`,
-          `"${s.handle}"`,
-          s.employeeCode,
-          `"${emp ? emp.name : 'Unknown'}"`,
-          `"${(s.platforms || []).join(', ')}"`,
+          esc(s.id),
+          esc(s.fullName),
+          esc(s.email),
+          esc(s.handle),
+          esc(s.employeeCode),
+          esc(emp ? emp.name : 'Unknown'),
+          esc((s.platforms || []).join(', ')),
           s.engaged ? 'Yes' : 'No',
-          s.status,
+          esc(s.status),
           s.pointsAwarded || 0,
-          s.submittedAt,
-          s.verifiedAt || '',
-          `"${s.rejectionReason || ''}"`
+          esc(s.submittedAt),
+          esc(s.verifiedAt || ''),
+          esc(s.rejectionReason || '')
         ];
       });
     } else if (type === 'leaderboard') {
@@ -920,25 +954,25 @@ class Store {
       headers = ['Rank', 'Employee Name', 'Email', 'Department', 'Referral Code', 'Verified Followers', 'Pending Referrals', 'Total Points', 'Achievement Badge'];
       rows = standings.map(e => [
         e.rank,
-        `"${e.name}"`,
-        e.email,
-        `"${e.department}"`,
-        e.referralCode,
+        esc(e.name),
+        esc(e.email),
+        esc(e.department),
+        esc(e.referralCode),
         e.verifiedFollowerCount,
         e.pendingCount,
         e.totalPoints,
-        `"${e.badge.name}"`
+        esc(e.badge?.name || '')
       ]);
     } else if (type === 'audit') {
       headers = ['Log ID', 'Timestamp', 'Action', 'Target', 'Actor', 'Note', 'Points Change'];
       rows = this.state.auditLogs.map(l => [
-        l.id,
-        l.timestamp,
-        l.action,
-        `"${l.target}"`,
-        `"${l.actor}"`,
-        `"${l.note}"`,
-        l.pointsChange
+        esc(l.id),
+        esc(l.timestamp),
+        esc(l.action),
+        esc(l.target),
+        esc(l.actor),
+        esc(l.note),
+        esc(l.pointsChange)
       ]);
     }
 

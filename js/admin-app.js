@@ -126,25 +126,6 @@ window.closeEditTemplateModal = function() {
   if (modal) modal.classList.add('hidden');
 };
 
-// Firebase Config Modal
-window.openFirebaseModal = function() {
-  const modal = document.getElementById('firebase-config-modal');
-  if (modal) {
-    const config = firebaseService.config || {};
-    document.getElementById('fb-api-key').value = config.apiKey || '';
-    document.getElementById('fb-project-id').value = config.projectId || '';
-    document.getElementById('fb-auth-domain').value = config.authDomain || '';
-    document.getElementById('fb-storage-bucket').value = config.storageBucket || '';
-    document.getElementById('fb-app-id').value = config.appId || '';
-    modal.classList.remove('hidden');
-  }
-};
-
-window.closeFirebaseModal = function() {
-  const modal = document.getElementById('firebase-config-modal');
-  if (modal) modal.classList.add('hidden');
-};
-
 function renderAdminView() {
   const state = store.getState();
   const isAdminLoggedIn = store.isAdminLoggedIn();
@@ -302,34 +283,6 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (err) {
         window.showToast(err.message, 'error');
       }
-    });
-  }
-
-  // Firebase Config Modal Events
-  const fbForm = document.getElementById('modal-firebase-form');
-  if (fbForm) {
-    fbForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const apiKey = document.getElementById('fb-api-key').value.trim();
-      const projectId = document.getElementById('fb-project-id').value.trim();
-      const authDomain = document.getElementById('fb-auth-domain').value.trim();
-      const storageBucket = document.getElementById('fb-storage-bucket').value.trim();
-      const appId = document.getElementById('fb-app-id').value.trim();
-
-      const config = { apiKey, projectId, authDomain, storageBucket, appId };
-      firebaseService.saveConfig(config);
-      await store.initFirebase();
-      window.closeFirebaseModal();
-      window.showToast('Firebase credentials saved and synchronized!', 'success');
-    });
-  }
-
-  const fbClearBtn = document.getElementById('fb-clear-config-btn');
-  if (fbClearBtn) {
-    fbClearBtn.addEventListener('click', () => {
-      firebaseService.clearConfig();
-      window.closeFirebaseModal();
-      window.showToast('Firebase configuration cleared. Running in local state mode.', 'info');
     });
   }
 

@@ -65,7 +65,7 @@ export function renderPrizesSection() {
               <span class="text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full bg-white text-slate-950">Grand Prize</span>
             </div>
 
-            <div class="w-18 h-18 rounded-2xl bg-white text-slate-950 flex items-center justify-center mb-6 shadow-xl ring-4 ring-rose-400/40">
+            <div class="w-20 h-20 rounded-2xl bg-white text-slate-950 flex items-center justify-center mb-6 shadow-xl ring-4 ring-rose-400/40">
               <i data-lucide="trophy" class="w-9 h-9 text-rose-600"></i>
             </div>
 

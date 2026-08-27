@@ -8,6 +8,8 @@ import { getSocialIcon } from '../icons.js';
 import { renderAnalytics } from './analytics.js';
 import { getReferralUrl } from '../scoring.js';
 
+let currentActiveAdminTab = 'submissions';
+
 export function renderAdminPortal() {
   const container = document.getElementById('admin-portal-section');
   if (!container) return;
@@ -35,13 +37,6 @@ export function renderAdminPortal() {
       <!-- Admin Header -->
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-8 pb-6 border-b border-slate-200">
         <div>
-          <div class="flex items-center gap-2 mb-1">
-            <span class="category-eyebrow">(AUTHORIZED ADMIN PORTAL)</span>
-            <span class="text-xs ${firebaseService.isConfigured ? 'text-emerald-700 font-bold' : 'text-slate-500 font-medium'} flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full ${firebaseService.isConfigured ? 'bg-emerald-500 animate-ping' : 'bg-slate-400'}"></span>
-              ${firebaseService.isConfigured ? 'Cloud Firestore Database Active (Real-Time Sync)' : 'Connecting Cloud Firestore...'}
-            </span>
-          </div>
           <h2 class="text-3xl font-black text-slate-900">
             Campaign Control <span class="marker-highlight">Center</span>
           </h2>
@@ -52,10 +47,6 @@ export function renderAdminPortal() {
           <button id="admin-export-csv-btn" class="btn-outline-pill text-xs py-2 px-4 flex items-center gap-1.5 shadow-sm">
             <i data-lucide="download" class="w-4 h-4 text-slate-700"></i>
             <span>Export CSV</span>
-          </button>
-          <button id="admin-config-firebase-btn" class="px-4 py-2 rounded-full bg-amber-100 hover:bg-amber-200 border border-amber-300 text-xs font-bold text-amber-900 transition-all flex items-center gap-1.5 shadow-sm">
-            <i data-lucide="database" class="w-4 h-4"></i>
-            <span>Firebase Config</span>
           </button>
           <button id="admin-publish-winner-btn" class="btn-retain text-xs py-2 px-4 flex items-center gap-1.5">
             <i data-lucide="award" class="w-4 h-4 text-white"></i>
@@ -69,56 +60,56 @@ export function renderAdminPortal() {
 
       <!-- Admin Navigation Tabs (4 Cohesive Tabs) -->
       <div class="flex items-center gap-2 border-b border-slate-200 mb-8 overflow-x-auto scrollbar-none">
-        <button class="admin-tab-btn px-4 py-2.5 text-xs font-black border-b-2 border-rose-600 text-rose-600 flex items-center gap-2" data-tab="submissions">
+        <button class="admin-tab-btn px-4 py-2.5 text-xs ${currentActiveAdminTab === 'submissions' ? 'font-black border-b-2 border-rose-600 text-rose-600' : 'font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900'} flex items-center gap-2" data-tab="submissions">
           <i data-lucide="list-checks" class="w-4 h-4"></i>
           <span>Submissions Queue</span>
           <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">${pendingCount} pending</span>
         </button>
-        <button class="admin-tab-btn px-4 py-2.5 text-xs font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2" data-tab="employees">
+        <button class="admin-tab-btn px-4 py-2.5 text-xs ${currentActiveAdminTab === 'employees' ? 'font-black border-b-2 border-rose-600 text-rose-600' : 'font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900'} flex items-center gap-2" data-tab="employees">
           <i data-lucide="users" class="w-4 h-4"></i>
           <span>Employees & Points Audit</span>
           <span class="text-slate-400 text-[10px]">(${employees.length})</span>
         </button>
-        <button class="admin-tab-btn px-4 py-2.5 text-xs font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2" data-tab="settings">
+        <button class="admin-tab-btn px-4 py-2.5 text-xs ${currentActiveAdminTab === 'settings' ? 'font-black border-b-2 border-rose-600 text-rose-600' : 'font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900'} flex items-center gap-2" data-tab="settings">
           <i data-lucide="settings" class="w-4 h-4"></i>
           <span>Campaign Settings & Toolkit</span>
         </button>
-        <button class="admin-tab-btn px-4 py-2.5 text-xs font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2" data-tab="analytics">
+        <button class="admin-tab-btn px-4 py-2.5 text-xs ${currentActiveAdminTab === 'analytics' ? 'font-black border-b-2 border-rose-600 text-rose-600' : 'font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900'} flex items-center gap-2" data-tab="analytics">
           <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
           <span>Campaign Intelligence</span>
         </button>
       </div>
 
       <!-- TAB 1: Submissions Queue -->
-      <div id="admin-tab-submissions" class="admin-tab-pane">
+      <div id="admin-tab-submissions" class="admin-tab-pane ${currentActiveAdminTab === 'submissions' ? '' : 'hidden'}">
         
         <!-- Queue Filter Bar -->
-        <div class="modern-card p-5 border-slate-200 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
-          <div class="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0">
-            <button class="sub-filter-btn px-3.5 py-1.5 rounded-full text-xs font-black bg-slate-900 text-white shadow-sm" data-status="all">
+        <div class="modern-card p-4 sm:p-5 border-slate-200 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm min-w-0">
+          <div class="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-none flex-nowrap sm:flex-wrap min-w-0">
+            <button class="sub-filter-btn px-3.5 py-1.5 rounded-full text-xs font-black bg-slate-900 text-white shadow-sm flex-shrink-0" data-status="all">
               All (${submissions.length})
             </button>
-            <button class="sub-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#FAFBF7] text-slate-700 hover:bg-slate-100 border border-slate-200" data-status="pending">
+            <button class="sub-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#FAFBF7] text-slate-700 hover:bg-slate-100 border border-slate-200 flex-shrink-0" data-status="pending">
               Pending (${pendingCount})
             </button>
-            <button class="sub-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#FAFBF7] text-slate-700 hover:bg-slate-100 border border-slate-200" data-status="verified">
+            <button class="sub-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#FAFBF7] text-slate-700 hover:bg-slate-100 border border-slate-200 flex-shrink-0" data-status="verified">
               Verified (${verifiedCount})
             </button>
-            <button class="sub-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#FAFBF7] text-slate-700 hover:bg-slate-100 border border-slate-200" data-status="rejected">
+            <button class="sub-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#FAFBF7] text-slate-700 hover:bg-slate-100 border border-slate-200 flex-shrink-0" data-status="rejected">
               Rejected (${rejectedCount})
             </button>
           </div>
 
-          <div class="relative min-w-[220px]">
+          <div class="relative w-full sm:w-auto min-w-[220px]">
             <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5"></i>
             <input type="text" id="admin-submission-search" placeholder="Search name, handle, code..." class="w-full bg-[#FAFBF7] border border-slate-200 rounded-full pl-9 pr-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-rose-500" />
           </div>
         </div>
 
         <!-- Submissions Table -->
-        <div class="modern-card border-slate-200 overflow-hidden shadow-xl">
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs text-slate-700">
+        <div class="modern-card border-slate-200 overflow-hidden shadow-xl min-w-0">
+          <div class="overflow-x-auto w-full">
+            <table class="w-full text-left text-xs text-slate-700 min-w-[700px]">
               <thead class="text-[10px] font-black uppercase tracking-wider text-slate-500 bg-[#FAFBF7] border-b border-slate-200">
                 <tr>
                   <th class="py-3.5 px-4">Follower Details</th>
@@ -141,7 +132,7 @@ export function renderAdminPortal() {
       </div>
 
       <!-- TAB 2: Employees & Points Audit (Combined) -->
-      <div id="admin-tab-employees" class="admin-tab-pane hidden space-y-8">
+      <div id="admin-tab-employees" class="admin-tab-pane ${currentActiveAdminTab === 'employees' ? '' : 'hidden'} space-y-8">
         
         <!-- Section A: Employee Directory & Add Form -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -168,13 +159,11 @@ export function renderAdminPortal() {
               <div>
                 <label class="block text-[11px] font-bold uppercase text-slate-700 mb-1">Department *</label>
                 <select id="new-emp-dept" required class="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-rose-500">
-                  <option value="Marketing & Growth">Marketing & Growth</option>
-                  <option value="Engineering">Engineering</option>
-                  <option value="Product Management">Product Management</option>
-                  <option value="Sales & Partnerships">Sales & Partnerships</option>
-                  <option value="Customer Operations">Customer Operations</option>
-                  <option value="People & Culture">People & Culture</option>
-                  <option value="Executive & Finance">Executive & Finance</option>
+                  <option value="Sales">Sales</option>
+                  <option value="Accounts">Accounts</option>
+                  <option value="Finance">Finance</option>
+                  <option value="Operations">Operations</option>
+                  <option value="Monetisation">Monetisation</option>
                 </select>
               </div>
 
@@ -249,15 +238,15 @@ export function renderAdminPortal() {
           </div>
 
           <!-- Audit Log Stream -->
-          <div class="lg:col-span-8 modern-card border-slate-200 overflow-hidden shadow-xl">
-            <div class="p-5 bg-[#FAFBF7] border-b border-slate-200 flex items-center justify-between">
+          <div class="lg:col-span-8 modern-card border-slate-200 overflow-hidden shadow-xl min-w-0">
+            <div class="p-5 bg-[#FAFBF7] border-b border-slate-200 flex items-center justify-between flex-wrap gap-2">
               <h4 class="text-sm font-black text-slate-900 flex items-center gap-2">
                 <i data-lucide="shield" class="w-4 h-4 text-slate-700"></i>
                 <span>Official Verification & Audit Trail (${auditLogs.length})</span>
               </h4>
               <button id="export-audit-csv-btn" class="text-xs text-slate-700 hover:underline font-bold cursor-pointer">Export Audit CSV</button>
             </div>
-            <div class="p-4 divide-y divide-slate-100 max-h-[450px] overflow-y-auto font-medium">
+            <div class="p-4 divide-y divide-slate-100 max-h-[450px] overflow-y-auto font-medium min-w-0">
               ${auditLogs.length === 0 ? `
                 <div class="py-12 text-center text-slate-400 text-xs">
                   <i data-lucide="shield" class="w-8 h-8 text-slate-300 mx-auto mb-2"></i>
@@ -265,22 +254,22 @@ export function renderAdminPortal() {
                   <p class="text-[11px] text-slate-400 mt-0.5">Audit events will be logged in real time when submissions are verified or points adjusted.</p>
                 </div>
               ` : auditLogs.map(log => `
-                <div class="py-3.5 flex items-start justify-between gap-4">
-                  <div class="flex items-start gap-3">
+                <div class="py-3.5 flex flex-col sm:flex-row sm:items-start justify-between gap-2 sm:gap-4 min-w-0">
+                  <div class="flex items-start gap-3 min-w-0 flex-1">
                     <div class="w-9 h-9 rounded-xl bg-[#FAFBF7] border border-slate-200 flex items-center justify-center text-xs font-bold text-slate-700 flex-shrink-0">
                       <i data-lucide="file-text" class="w-4 h-4"></i>
                     </div>
-                    <div>
+                    <div class="min-w-0 flex-1 break-words">
                       <div class="flex items-center gap-2 flex-wrap">
                         <span class="font-black text-slate-900 text-xs">${log.action}</span>
-                        <span class="text-[10px] px-2 py-0.2 rounded-full bg-rose-100 text-rose-800 font-mono font-bold">${log.pointsChange || '0'}</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 font-mono font-bold flex-shrink-0">${log.pointsChange || '0'}</span>
                         <span class="text-[11px] text-slate-500">&bull; by ${log.actor}</span>
                       </div>
-                      <p class="text-xs text-slate-700 mt-0.5">Target: <strong>${log.target}</strong></p>
-                      <p class="text-xs text-slate-500 mt-0.5 italic">"${log.note}"</p>
+                      <p class="text-xs text-slate-700 mt-0.5 break-words">Target: <strong class="font-bold">${log.target}</strong></p>
+                      <p class="text-xs text-slate-500 mt-0.5 italic break-words">"${log.note}"</p>
                     </div>
                   </div>
-                  <span class="text-[10px] text-slate-400 whitespace-nowrap font-mono">
+                  <span class="text-[10px] text-slate-400 whitespace-nowrap font-mono flex-shrink-0 sm:self-start self-end">
                     ${new Date(log.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                   </span>
                 </div>
@@ -293,7 +282,7 @@ export function renderAdminPortal() {
       </div>
 
       <!-- TAB 3: Campaign Settings & Toolkit (Combined) -->
-      <div id="admin-tab-settings" class="admin-tab-pane hidden space-y-8">
+      <div id="admin-tab-settings" class="admin-tab-pane ${currentActiveAdminTab === 'settings' ? '' : 'hidden'} space-y-8">
         
         <!-- Part 1: Campaign Configuration & Social Links -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -384,7 +373,7 @@ export function renderAdminPortal() {
                       <div class="min-w-0">
                         <div class="flex items-center gap-2">
                           <span class="text-xs font-black text-slate-900">${p.name}</span>
-                          ${p.enabled ? '<span class="text-[9px] font-bold px-2 py-0.2 rounded-full bg-emerald-100 text-emerald-800">Active</span>' : '<span class="text-[9px] font-bold px-2 py-0.2 rounded-full bg-slate-200 text-slate-600">Disabled</span>'}
+                          ${p.enabled ? '<span class="text-[9px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">Active</span>' : '<span class="text-[9px] font-bold px-2 py-0.5 rounded-full bg-slate-200 text-slate-600">Disabled</span>'}
                         </div>
                         <span class="text-[11px] text-slate-500 font-mono block truncate">${p.handle}</span>
                         <a href="${p.url}" target="_blank" class="text-[10px] text-rose-600 hover:underline truncate block font-mono">
@@ -500,7 +489,7 @@ export function renderAdminPortal() {
       </div>
 
       <!-- TAB 4: Campaign Intelligence & Performance Analytics -->
-      <div id="admin-tab-analytics" class="admin-tab-pane hidden">
+      <div id="admin-tab-analytics" class="admin-tab-pane ${currentActiveAdminTab === 'analytics' ? '' : 'hidden'}">
         <div id="analytics-container" class="modern-card p-6 sm:p-10 border-slate-200 shadow-sm bg-white"></div>
       </div>
 
@@ -559,16 +548,16 @@ export function renderAdminPortal() {
 
       return `
         <tr class="hover:bg-slate-50 transition-colors">
-          <td class="py-3.5 px-4">
-            <span class="font-bold text-slate-900 block">${sub.fullName}</span>
-            <span class="text-[11px] text-slate-500 font-mono">${sub.email}</span>
+          <td class="py-3.5 px-4 min-w-[160px]">
+            <span class="font-bold text-slate-900 block truncate max-w-[180px]" title="${sub.fullName}">${sub.fullName}</span>
+            <span class="text-[11px] text-slate-500 font-mono block truncate max-w-[180px]" title="${sub.email}">${sub.email}</span>
           </td>
 
-          <td class="py-3.5 px-4 font-mono text-slate-900 font-bold">
-            ${sub.handle}
+          <td class="py-3.5 px-4 font-mono text-slate-900 font-bold min-w-[120px]">
+            <span class="truncate block max-w-[140px]" title="${sub.handle}">${sub.handle}</span>
           </td>
 
-          <td class="py-3.5 px-4">
+          <td class="py-3.5 px-4 min-w-[140px]">
             <div class="flex items-center gap-1 flex-wrap">
               ${(sub.platforms || []).map(p => `
                 <span class="px-2 py-0.5 rounded-md bg-[#FAFBF7] border border-slate-200 text-[9px] text-slate-700 font-semibold uppercase">${p}</span>
@@ -576,28 +565,28 @@ export function renderAdminPortal() {
             </div>
           </td>
 
-          <td class="py-3.5 px-4">
-            <span class="font-mono font-bold text-slate-900 block">${sub.employeeCode}</span>
-            <span class="text-[10px] text-slate-500">${emp ? emp.name : 'Unknown Staff'}</span>
+          <td class="py-3.5 px-4 min-w-[140px]">
+            <span class="font-mono font-bold text-slate-900 block truncate max-w-[140px]" title="${sub.employeeCode}">${sub.employeeCode}</span>
+            <span class="text-[10px] text-slate-500 block truncate max-w-[140px]">${emp ? emp.name : 'Unknown Staff'}</span>
           </td>
 
-          <td class="py-3.5 px-4">
+          <td class="py-3.5 px-4 whitespace-nowrap">
             ${sub.engaged ? '<span class="text-emerald-700 font-bold">Yes (+1)</span>' : '<span class="text-slate-400">No</span>'}
           </td>
 
-          <td class="py-3.5 px-4">
-            <div>
+          <td class="py-3.5 px-4 min-w-[160px]">
+            <div class="break-words">
               ${statusBadge}
               ${duplicateWarning}
-              ${sub.rejectionReason ? `<p class="text-[10px] text-rose-600 italic mt-0.5">"${sub.rejectionReason}"</p>` : ''}
+              ${sub.rejectionReason ? `<p class="text-[10px] text-rose-600 italic mt-0.5 break-words">"${sub.rejectionReason}"</p>` : ''}
             </div>
           </td>
 
-          <td class="py-3.5 px-4 text-center font-black ${sub.status === 'verified' ? 'text-slate-900 text-sm' : 'text-slate-400'}">
+          <td class="py-3.5 px-4 text-center font-black whitespace-nowrap ${sub.status === 'verified' ? 'text-slate-900 text-sm' : 'text-slate-400'}">
             ${sub.pointsAwarded || 0} pts
           </td>
 
-          <td class="py-3.5 px-4 text-right">
+          <td class="py-3.5 px-4 text-right whitespace-nowrap">
             <div class="flex items-center justify-end gap-1.5">
               ${sub.status !== 'verified' ? `
                 <button class="admin-verify-btn p-1.5 rounded-lg bg-emerald-100 hover:bg-emerald-600 text-emerald-800 hover:text-white transition-all" data-id="${sub.id}" title="Verify Submission">
@@ -706,12 +695,17 @@ export function renderAdminPortal() {
 
   // Initial render
   renderSubmissionsRows();
+  renderEmployeesTable();
+  if (currentActiveAdminTab === 'analytics') {
+    renderAnalytics('analytics-container');
+  }
 
   // Tab switching
   const tabBtns = container.querySelectorAll('.admin-tab-btn');
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const tabName = btn.getAttribute('data-tab');
+      currentActiveAdminTab = tabName;
       tabBtns.forEach(b => {
         b.className = 'admin-tab-btn px-4 py-2.5 text-xs font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2';
       });
@@ -871,13 +865,6 @@ export function renderAdminPortal() {
     exportAuditBtn.addEventListener('click', () => {
       store.exportCSV('audit');
       window.showToast('Audit Log CSV downloaded.', 'success');
-    });
-  }
-
-  const configFirebaseBtn = document.getElementById('admin-config-firebase-btn');
-  if (configFirebaseBtn) {
-    configFirebaseBtn.addEventListener('click', () => {
-      window.openFirebaseModal();
     });
   }
 

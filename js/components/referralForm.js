@@ -16,9 +16,7 @@ export function renderReferralForm() {
   // Check URL query parameters for referral code e.g. ?code=RETAIN-CODE-12
   const urlParams = new URLSearchParams(window.location.search);
   const codeParam = urlParams.get('code') || urlParams.get('ref') || '';
-
-  // Get current active employee code if no url param
-  const defaultCode = codeParam || store.getCurrentEmployee()?.referralCode || '';
+  const defaultCode = codeParam.trim();
 
   container.innerHTML = `
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -27,7 +25,6 @@ export function renderReferralForm() {
         
         <!-- Header -->
         <div class="text-center max-w-2xl mx-auto mb-12">
-          <span class="category-eyebrow mb-3">(NEW FOLLOWER CONFIRMATION)</span>
           <h2 class="text-3xl sm:text-5xl font-black text-slate-900 mb-4">
             Confirm your follow & <span class="marker-highlight">support</span>.
           </h2>
