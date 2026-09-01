@@ -177,33 +177,6 @@ export function renderEmployeeDashboard() {
 
       </div>
 
-      <!-- Milestone Progress Bar -->
-      <div class="modern-card p-8 border-slate-200 mb-8">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-          <div class="flex items-center gap-2">
-            <i data-lucide="flag" class="w-5 h-5 text-amber-500"></i>
-            <h4 class="text-base font-black text-slate-900">Next Milestone: ${stats.milestone.nextMilestone.label}</h4>
-          </div>
-          <span class="text-xs text-slate-500 font-semibold">
-            ${stats.milestone.isCompleted ? 'All milestones achieved!' : `${stats.milestone.remainingPoints} points needed to unlock`}
-          </span>
-        </div>
-
-        <!-- Progress Bar -->
-        <div class="w-full bg-slate-100 rounded-full h-4 p-0.5 border border-slate-200 overflow-hidden mb-3">
-          <div class="bg-gradient-retain h-full rounded-full transition-all duration-500 shadow-sm" style="width: ${stats.milestone.currentProgress}%"></div>
-        </div>
-
-        <div class="flex items-center justify-between text-xs text-slate-600 font-medium">
-          <span>Current: <strong class="text-slate-900">${stats.totalPoints} pts</strong></span>
-          <span class="text-amber-800 font-bold flex items-center gap-1">
-            <i data-lucide="gift" class="w-3.5 h-3.5"></i>
-            Reward: ${stats.milestone.nextMilestone.reward}
-          </span>
-          <span>Target: <strong class="text-slate-900">${stats.milestone.nextMilestone.target} pts</strong></span>
-        </div>
-      </div>
-
       <!-- Recent Referral Activity Log (Privacy Protected) -->
       <div class="modern-card p-8 border-slate-200">
         <div class="flex items-center justify-between mb-5">

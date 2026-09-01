@@ -38,12 +38,6 @@ const SEED_DATA = {
         reward: '₦15,000 Cash Prize',
         desc: 'Awarded to the #3 ranked employee on the final verified leaderboard',
         icon: 'star'
-      },
-      milestones: {
-        title: 'Milestone Rewards & Swag',
-        reward: 'Dochase Swag Packs, Founder Lunches & Recognition',
-        desc: 'Limited-edition Dochase Champion Gear for 10+ followers, and VIP Founder Lunch for 25+ followers',
-        icon: 'zap'
       }
     },
     platforms: {
@@ -69,13 +63,6 @@ const SEED_DATA = {
         title: 'LinkedIn Network Share',
         template: "I'm proud to be part of the team at Retain. We're growing our online community and inviting more people to follow our journey. Connect with Retain across our official social channels here: {link}. My campaign referral code is {code}."
       },
-      email: {
-        id: 'email',
-        platform: 'Email Invite',
-        icon: 'email',
-        title: 'Official Email Outreach',
-        subject: 'Invitation: Connect with Retain Community',
-        template: "I'd love to invite you to follow Retain across our official social-media channels. You'll receive company updates, useful insights and news about what we are building. Follow here: {link}, and enter my referral code: {code}."
       },
       x: {
         id: 'x',
@@ -110,6 +97,62 @@ const SEED_DATA = {
     }
   }
 };
+
+function sanitizeSettings(incomingSettings) {
+  const defaults = SEED_DATA.settings;
+  const merged = {
+    ...defaults,
+    ...(incomingSettings || {})
+  };
+
+  // Enforce September 1 - September 30 campaign window
+  if (!merged.startDate || merged.startDate === '2026-08-15') {
+    merged.startDate = '2026-09-01';
+  }
+  if (!merged.endDate || merged.endDate === '2026-09-12T23:59:59' || merged.endDate === '2026-09-12' || merged.endDate === '2026-10-01T23:59:59') {
+    merged.endDate = '2026-09-30T23:59:59';
+  }
+
+  // Sanitize prizes - ensure old tech grants are replaced with canonical cash prizes
+  const p = incomingSettings?.prizes || {};
+  const isOldPrize = (val) => !val || typeof val !== 'string' || val.includes('MacBook') || val.includes('iPad') || val.includes('Sony') || val.includes('$1,000') || val.includes('$500') || val.includes('$250');
+
+  merged.prizes = {
+    first: {
+      title: 'Grand Prize Champion',
+      reward: isOldPrize(p.first?.reward) ? '₦50,000 Cash Prize' : p.first.reward,
+      desc: isOldPrize(p.first?.reward) ? 'Awarded to the #1 overall growth champion with the highest verified score + executive gold trophy' : (p.first?.desc || 'Awarded to the #1 overall growth champion with the highest verified score + executive gold trophy'),
+      icon: 'trophy'
+    },
+    second: {
+      title: 'First Runner-Up',
+      reward: isOldPrize(p.second?.reward) ? '₦30,000 Cash Prize' : p.second.reward,
+      desc: isOldPrize(p.second?.reward) ? 'Awarded to the #2 ranked employee on the final verified leaderboard + executive silver plaque' : (p.second?.desc || 'Awarded to the #2 ranked employee on the final verified leaderboard + executive silver plaque'),
+      icon: 'award'
+    },
+    third: {
+      title: 'Second Runner-Up',
+      reward: isOldPrize(p.third?.reward) ? '₦15,000 Cash Prize' : p.third.reward,
+      desc: isOldPrize(p.third?.reward) ? 'Awarded to the #3 ranked employee on the final verified leaderboard' : (p.third?.desc || 'Awarded to the #3 ranked employee on the final verified leaderboard'),
+      icon: 'star'
+    }
+  };
+
+  // Remove any legacy milestone rewards & swag
+  delete merged.prizes.milestones;
+
+  merged.platforms = {
+    ...defaults.platforms,
+    ...(incomingSettings?.platforms || {})
+  };
+
+  merged.templates = {
+    ...defaults.templates,
+    ...(incomingSettings?.templates || {})
+  };
+
+  return merged;
+}
 
 class Store {
   constructor() {
@@ -161,22 +204,10 @@ class Store {
             this.state.auditLogs = cloudData.auditLogs.filter(l => !['aud-01', 'aud-02', 'aud-03', 'aud-04', 'aud-05', 'aud-06', 'aud-07', 'aud-08', 'aud-09'].includes(l.id));
           }
           if (cloudData.settings) {
-            this.state.settings = {
-              ...this.state.settings,
-              ...cloudData.settings,
-              prizes: {
-                ...this.state.settings.prizes,
-                ...(cloudData.settings.prizes || {})
-              },
-              platforms: {
-                ...this.state.settings.platforms,
-                ...(cloudData.settings.platforms || {})
-              },
-              templates: {
-                ...this.state.settings.templates,
-                ...(cloudData.settings.templates || {})
-              }
-            };
+            const sanitized = sanitizeSettings(cloudData.settings);
+            this.state.settings = sanitized;
+            // Write sanitized settings back to Firestore to ensure cloud is in sync
+            firebaseService.saveSettings(sanitized).catch(console.warn);
           }
           this.initSession();
           this.notify();
@@ -197,22 +228,7 @@ class Store {
             this.notify();
           },
           onSettingsUpdate: (settings) => {
-            this.state.settings = {
-              ...this.state.settings,
-              ...settings,
-              prizes: {
-                ...this.state.settings.prizes,
-                ...(settings.prizes || {})
-              },
-              platforms: {
-                ...this.state.settings.platforms,
-                ...(settings.platforms || {})
-              },
-              templates: {
-                ...this.state.settings.templates,
-                ...(settings.templates || {})
-              }
-            };
+            this.state.settings = sanitizeSettings(settings);
             this.notify();
           }
         });
@@ -690,10 +706,10 @@ class Store {
 
   // --- Campaign Settings & Social Links Management ---
   updateSettings(newSettings) {
-    this.state.settings = {
+    this.state.settings = sanitizeSettings({
       ...this.state.settings,
       ...newSettings
-    };
+    });
     this.saveState();
   }
 
@@ -702,6 +718,7 @@ class Store {
       ...this.state.settings.prizes,
       ...prizes
     };
+    delete this.state.settings.prizes.milestones;
     this.saveState();
   }
 

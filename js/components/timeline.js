@@ -31,7 +31,7 @@ export function renderTimeline() {
       dates: 'Sep 15 &ndash; Sep 21',
       status: 'upcoming',
       description: 'Highlighting employee stories and driving meaningful post comments and community engagement.',
-      deliverables: ['Content engagement push (+1 bonus)', 'Department sprint rallies', 'Milestone swag awards'],
+      deliverables: ['Content engagement push (+1 bonus)', 'Department sprint rallies', 'Mid-sprint leaderboard rally'],
       icon: 'users'
     },
     {

@@ -21,12 +21,12 @@ export function renderPrizesSection() {
           Compete for <span class="marker-highlight">cash rewards</span>.
         </h2>
         <p class="text-slate-600 text-base leading-relaxed">
-          Over ₦95,000 in total cash prizes, executive trophies, and milestone rewards for Dochase top performers.
+          Over ₦95,000 in total cash prizes and executive trophies for Dochase top performers.
         </p>
       </div>
 
       <!-- Prizes Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         
         <!-- 2nd Place Prize Card -->
         <div class="modern-card p-8 flex flex-col justify-between border-slate-200 hover:scale-105 transition-all">
@@ -105,30 +105,6 @@ export function renderPrizesSection() {
           </div>
         </div>
 
-      </div>
-
-      <!-- Milestone Swag & Recognition Banner -->
-      <div class="modern-card p-8 bg-[#FAFBF7] border-2 border-dashed border-slate-300">
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-          <div class="md:col-span-8 flex items-start gap-4">
-            <div class="w-12 h-12 rounded-2xl bg-slate-900 text-rose-400 flex items-center justify-center flex-shrink-0 shadow-sm">
-              <i data-lucide="sparkles" class="w-6 h-6"></i>
-            </div>
-            <div>
-              <span class="category-eyebrow mb-1">(EVERY PARTICIPANT REWARDED)</span>
-              <h4 class="text-lg font-black text-slate-900">Milestone Rewards & Swag for Every Mark Reached</h4>
-              <p class="text-xs sm:text-sm text-slate-600 mt-1">
-                You don’t have to finish in the top 3 to win. Earn limited-edition <strong>Retain Growth Champion Hoodies</strong> at 10+ followers, and <strong>VIP Founder Lunches</strong> at 25+ followers.
-              </p>
-            </div>
-          </div>
-          <div class="md:col-span-4 flex justify-start md:justify-end">
-            <a href="employee.html" class="btn-retain text-xs py-3 px-6 inline-flex items-center gap-2">
-              <span>View Milestone Swag</span>
-              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-            </a>
-          </div>
-        </div>
       </div>
 
     </div>

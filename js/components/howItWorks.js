@@ -27,8 +27,8 @@ export function renderHowItWorks() {
     },
     {
       number: '04',
-      title: 'Earn Points & Win Big',
-      description: 'Earn 1 to 6+ points per referral, climb the live company leaderboard, unlock milestone swag, and win the grand prize!',
+      title: 'Earn Points & Win Cash',
+      description: 'Earn 1 to 6+ points per referral, climb the live company leaderboard, and win cash prizes up to ₦50,000!',
       icon: 'trophy'
     }
   ];
