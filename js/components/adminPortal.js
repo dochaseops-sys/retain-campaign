@@ -310,16 +310,67 @@ export function renderAdminPortal() {
                 <div class="grid grid-cols-2 gap-3">
                   <div>
                     <label class="block text-[11px] font-bold uppercase text-slate-700 mb-1">Start Date</label>
-                    <input type="date" id="settings-start-date" value="${settings.startDate || '2026-08-15'}" class="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-rose-500" />
+                    <input type="date" id="settings-start-date" value="${settings.startDate || '2026-09-01'}" class="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-rose-500" />
                   </div>
                   <div>
                     <label class="block text-[11px] font-bold uppercase text-slate-700 mb-1">End Date</label>
-                    <input type="date" id="settings-end-date" value="${(settings.endDate || '2026-09-12').slice(0, 10)}" class="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-rose-500" />
+                    <input type="date" id="settings-end-date" value="${(settings.endDate || '2026-09-30').slice(0, 10)}" class="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-rose-500" />
                   </div>
                 </div>
 
                 <button type="submit" class="w-full py-3 rounded-full bg-slate-900 text-white font-black text-xs shadow-md hover:bg-slate-800 transition-all cursor-pointer">
                   Save Campaign Configuration
+                </button>
+              </form>
+            </div>
+
+            <!-- Prize Rewards & Amounts Card -->
+            <div class="modern-card p-7 border-slate-200 shadow-sm">
+              <h3 class="text-base font-black text-slate-900 mb-2 flex items-center gap-2">
+                <i data-lucide="trophy" class="w-4 h-4 text-rose-600"></i>
+                <span>Prize Tiers & Rewards</span>
+              </h3>
+              <p class="text-xs text-slate-500 mb-4">Edit the 1st, 2nd, and 3rd place prizes shown across the challenge.</p>
+
+              <form id="admin-prizes-form" class="space-y-4">
+                <div class="p-3.5 rounded-xl bg-[#FAFBF7] border border-slate-200 space-y-2">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-black text-slate-900 flex items-center gap-1.5">
+                      <span class="w-5 h-5 rounded-full bg-slate-900 text-white text-[10px] flex items-center justify-center font-bold">1</span>
+                      <span>1st Place Grand Champion</span>
+                    </span>
+                    <span class="text-[10px] font-bold text-rose-600 uppercase">Top Prize</span>
+                  </div>
+                  <input type="text" id="prize-first-reward" value="${settings.prizes?.first?.reward || '₦50,000 Cash Prize'}" placeholder="e.g. ₦50,000 Cash Prize" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs font-bold text-slate-900 focus:outline-none focus:border-rose-500" />
+                  <input type="text" id="prize-first-desc" value="${settings.prizes?.first?.desc || 'Awarded to the #1 overall growth champion with the highest verified score + executive gold trophy'}" placeholder="Reward details & trophy" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-[11px] text-slate-600 focus:outline-none focus:border-rose-500" />
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-[#FAFBF7] border border-slate-200 space-y-2">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-black text-slate-900 flex items-center gap-1.5">
+                      <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-800 text-[10px] flex items-center justify-center font-bold">2</span>
+                      <span>2nd Place Runner-Up</span>
+                    </span>
+                    <span class="text-[10px] font-bold text-slate-500 uppercase">Silver</span>
+                  </div>
+                  <input type="text" id="prize-second-reward" value="${settings.prizes?.second?.reward || '₦30,000 Cash Prize'}" placeholder="e.g. ₦30,000 Cash Prize" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs font-bold text-slate-900 focus:outline-none focus:border-rose-500" />
+                  <input type="text" id="prize-second-desc" value="${settings.prizes?.second?.desc || 'Awarded to the #2 ranked employee on the final verified leaderboard + executive silver plaque'}" placeholder="Reward details & plaque" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-[11px] text-slate-600 focus:outline-none focus:border-rose-500" />
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-[#FAFBF7] border border-slate-200 space-y-2">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-black text-slate-900 flex items-center gap-1.5">
+                      <span class="w-5 h-5 rounded-full bg-amber-100 text-amber-900 text-[10px] flex items-center justify-center font-bold">3</span>
+                      <span>3rd Place 2nd Runner-Up</span>
+                    </span>
+                    <span class="text-[10px] font-bold text-amber-700 uppercase">Bronze</span>
+                  </div>
+                  <input type="text" id="prize-third-reward" value="${settings.prizes?.third?.reward || '₦15,000 Cash Prize'}" placeholder="e.g. ₦15,000 Cash Prize" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs font-bold text-slate-900 focus:outline-none focus:border-rose-500" />
+                  <input type="text" id="prize-third-desc" value="${settings.prizes?.third?.desc || 'Awarded to the #3 ranked employee on the final verified leaderboard'}" placeholder="Reward details" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-[11px] text-slate-600 focus:outline-none focus:border-rose-500" />
+                </div>
+
+                <button type="submit" class="w-full py-2.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-black text-xs shadow-md transition-all cursor-pointer">
+                  Save Prize Rewards
                 </button>
               </form>
             </div>
@@ -825,6 +876,27 @@ export function renderAdminPortal() {
 
       store.updateSettings({ title, tagline, startDate, endDate });
       window.showToast('Campaign settings updated.', 'success');
+    });
+  }
+
+  const prizesForm = document.getElementById('admin-prizes-form');
+  if (prizesForm) {
+    prizesForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const firstReward = document.getElementById('prize-first-reward').value.trim();
+      const firstDesc = document.getElementById('prize-first-desc').value.trim();
+      const secondReward = document.getElementById('prize-second-reward').value.trim();
+      const secondDesc = document.getElementById('prize-second-desc').value.trim();
+      const thirdReward = document.getElementById('prize-third-reward').value.trim();
+      const thirdDesc = document.getElementById('prize-third-desc').value.trim();
+
+      const existingPrizes = store.getState().settings.prizes || {};
+      store.updatePrizes({
+        first: { ...existingPrizes.first, reward: firstReward, desc: firstDesc, title: 'Grand Prize Champion', icon: 'trophy' },
+        second: { ...existingPrizes.second, reward: secondReward, desc: secondDesc, title: 'First Runner-Up', icon: 'award' },
+        third: { ...existingPrizes.third, reward: thirdReward, desc: thirdDesc, title: 'Second Runner-Up', icon: 'star' }
+      });
+      window.showToast('Prize rewards and amounts updated.', 'success');
     });
   }
 

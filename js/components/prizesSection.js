@@ -18,10 +18,10 @@ export function renderPrizesSection() {
       <div class="text-center max-w-3xl mx-auto mb-16">
         <span class="category-eyebrow mb-3">(PRIZES & REWARDS)</span>
         <h2 class="text-3xl sm:text-5xl font-black text-slate-900 mt-2 mb-4">
-          Compete for <span class="marker-highlight">flagship rewards</span>.
+          Compete for <span class="marker-highlight">cash rewards</span>.
         </h2>
         <p class="text-slate-600 text-base leading-relaxed">
-          Over $5,000 in flagship tech packages, professional grants, executive trophies, and milestone rewards for top performers.
+          Over ₦95,000 in total cash prizes, executive trophies, and milestone rewards for Dochase top performers.
         </p>
       </div>
 
@@ -40,7 +40,7 @@ export function renderPrizesSection() {
               <i data-lucide="award" class="w-8 h-8"></i>
             </div>
 
-            <h3 class="text-xl font-black text-slate-900 mb-2">${prizes.second?.reward || 'Apple iPad Pro 11" + $500 Learning Grant'}</h3>
+            <h3 class="text-xl font-black text-slate-900 mb-2">${prizes.second?.reward || '₦30,000 Cash Prize'}</h3>
             <p class="text-xs text-slate-600 leading-relaxed mb-6">
               ${prizes.second?.desc || 'Awarded to the #2 ranked employee on the final verified leaderboard + executive silver plaque.'}
             </p>
@@ -69,7 +69,7 @@ export function renderPrizesSection() {
               <i data-lucide="trophy" class="w-9 h-9 text-rose-600"></i>
             </div>
 
-            <h3 class="text-2xl font-black text-white mb-2 leading-snug">${prizes.first?.reward || 'MacBook Air M3 + $1,000 Professional Grant'}</h3>
+            <h3 class="text-2xl font-black text-white mb-2 leading-snug">${prizes.first?.reward || '₦50,000 Cash Prize'}</h3>
             <p class="text-xs sm:text-sm text-rose-100/90 leading-relaxed mb-6">
               ${prizes.first?.desc || 'Awarded to the #1 overall growth champion with the highest verified score + executive gold trophy.'}
             </p>
@@ -93,7 +93,7 @@ export function renderPrizesSection() {
               <i data-lucide="star" class="w-8 h-8"></i>
             </div>
 
-            <h3 class="text-xl font-black text-slate-900 mb-2">${prizes.third?.reward || 'Sony WH-1000XM5 Headphones + $250 Experience Voucher'}</h3>
+            <h3 class="text-xl font-black text-slate-900 mb-2">${prizes.third?.reward || '₦15,000 Cash Prize'}</h3>
             <p class="text-xs text-slate-600 leading-relaxed mb-6">
               ${prizes.third?.desc || 'Awarded to the #3 ranked employee on the final verified leaderboard.'}
             </p>

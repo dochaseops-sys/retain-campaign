@@ -18,31 +18,31 @@ const SEED_DATA = {
     title: 'Retain Social Growth Challenge',
     tagline: 'Grow the community. Own the leaderboard.',
     supportingText: 'This is your Growth Challenge, invite genuine followers, earn points, and see your name climb to the top!',
-    startDate: '2026-08-15',
-    endDate: '2026-09-12T23:59:59',
+    startDate: '2026-09-01',
+    endDate: '2026-09-30T23:59:59',
     prizes: {
       first: {
         title: 'Grand Prize Champion',
-        reward: 'Apple MacBook Air M3 + $1,000 Professional Grant & Executive Trophy',
-        desc: 'Awarded to the #1 employee with the highest verified points at campaign close',
+        reward: '₦50,000 Cash Prize',
+        desc: 'Awarded to the #1 overall growth champion with the highest verified score + executive gold trophy',
         icon: 'trophy'
       },
       second: {
         title: 'First Runner-Up',
-        reward: 'Apple iPad Pro 11" + $500 Learning Grant & Silver Plaque',
-        desc: 'Awarded to the #2 ranked employee on the final verified leaderboard',
+        reward: '₦30,000 Cash Prize',
+        desc: 'Awarded to the #2 ranked employee on the final verified leaderboard + executive silver plaque',
         icon: 'award'
       },
       third: {
         title: 'Second Runner-Up',
-        reward: 'Sony WH-1000XM5 Noise-Canceling Headphones + $250 Experience Voucher',
+        reward: '₦15,000 Cash Prize',
         desc: 'Awarded to the #3 ranked employee on the final verified leaderboard',
         icon: 'star'
       },
       milestones: {
         title: 'Milestone Rewards & Swag',
-        reward: 'Retain Swag Packs, Founder Lunches & Wellness Credits',
-        desc: 'Limited-edition Retain Growth Champion Hoodies for 10+ followers, and VIP Founder Lunch for 25+ followers',
+        reward: 'Dochase Swag Packs, Founder Lunches & Recognition',
+        desc: 'Limited-edition Dochase Champion Gear for 10+ followers, and VIP Founder Lunch for 25+ followers',
         icon: 'zap'
       }
     },
@@ -164,6 +164,10 @@ class Store {
             this.state.settings = {
               ...this.state.settings,
               ...cloudData.settings,
+              prizes: {
+                ...this.state.settings.prizes,
+                ...(cloudData.settings.prizes || {})
+              },
               platforms: {
                 ...this.state.settings.platforms,
                 ...(cloudData.settings.platforms || {})
@@ -196,6 +200,10 @@ class Store {
             this.state.settings = {
               ...this.state.settings,
               ...settings,
+              prizes: {
+                ...this.state.settings.prizes,
+                ...(settings.prizes || {})
+              },
               platforms: {
                 ...this.state.settings.platforms,
                 ...(settings.platforms || {})
@@ -685,6 +693,14 @@ class Store {
     this.state.settings = {
       ...this.state.settings,
       ...newSettings
+    };
+    this.saveState();
+  }
+
+  updatePrizes(prizes) {
+    this.state.settings.prizes = {
+      ...this.state.settings.prizes,
+      ...prizes
     };
     this.saveState();
   }

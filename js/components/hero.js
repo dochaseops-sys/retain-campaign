@@ -103,17 +103,17 @@ export function renderHero() {
             <div>
               <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold mb-6">
                 <span class="w-2 h-2 rounded-full bg-[#FB923C] animate-ping"></span>
-                <span>Active Sprint &bull; Week 2 Live</span>
+                <span>Active Sprint &bull; 30-Day Sprint Live</span>
               </div>
 
               <!-- Grand Prize Title -->
               <h3 class="text-2xl sm:text-3xl font-black text-white leading-snug mb-4">
                 Grand Champion: <br />
-                <span class="text-[#FFEDD5]">MacBook Air M3</span> + $1,000 Grant
+                <span class="text-[#FFEDD5]">₦50,000</span> Cash Prize
               </h3>
 
               <p class="text-rose-100/90 text-xs sm:text-sm leading-relaxed mb-6">
-                Top referrer at the end of Week 4 takes home the flagship tech package and executive trophy.
+                Top referrer at the end of the challenge takes home the ₦50,000 grand prize and executive champion trophy.
               </p>
             </div>
 
@@ -134,7 +134,7 @@ export function renderHero() {
                   </div>
                   <div>
                     <span class="text-xs font-bold text-white block">${employees.length > 0 ? `${employees.length} Team Members Registered` : 'All Departments Competing'}</span>
-                    <span class="text-[10px] text-rose-200">Flagship Prizes & Grants</span>
+                    <span class="text-[10px] text-rose-200">₦95,000 Prize Pool & Trophies</span>
                   </div>
                 </div>
                 <span class="text-xs font-bold text-[#FB923C] flex items-center gap-1">
@@ -205,7 +205,7 @@ export function renderHero() {
   `;
 
   // Start countdown timer
-  initCountdownTimer(settings.endDate || '2026-09-12T23:59:59');
+  initCountdownTimer(settings.endDate || '2026-09-30T23:59:59');
 
   if (window.lucide) {
     window.lucide.createIcons();

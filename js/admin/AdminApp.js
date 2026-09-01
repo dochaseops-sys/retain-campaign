@@ -784,11 +784,19 @@ function AdminLoginForm({ onLogin }) {
 function CampaignSettingsTab({ settings, showToast, onEditPlatform, onEditTemplate }) {
   const [title, setTitle] = useState(settings.title || '');
   const [tagline, setTagline] = useState(settings.tagline || '');
-  const [startDate, setStartDate] = useState(settings.startDate || '2026-08-15');
-  const [endDate, setEndDate] = useState((settings.endDate || '2026-09-12').slice(0, 10));
+  const [startDate, setStartDate] = useState(settings.startDate || '2026-09-01');
+  const [endDate, setEndDate] = useState((settings.endDate || '2026-09-30').slice(0, 10));
 
   const [announcementMsg, setAnnouncementMsg] = useState(settings.announcement?.message || '');
   const [announcementEnabled, setAnnouncementEnabled] = useState(Boolean(settings.announcement?.enabled));
+
+  const prizes = settings.prizes || {};
+  const [firstPrize, setFirstPrize] = useState(prizes.first?.reward || '₦50,000 Cash Prize');
+  const [firstDesc, setFirstDesc] = useState(prizes.first?.desc || 'Awarded to the #1 overall growth champion with the highest verified score + executive gold trophy');
+  const [secondPrize, setSecondPrize] = useState(prizes.second?.reward || '₦30,000 Cash Prize');
+  const [secondDesc, setSecondDesc] = useState(prizes.second?.desc || 'Awarded to the #2 ranked employee on the final verified leaderboard + executive silver plaque');
+  const [thirdPrize, setThirdPrize] = useState(prizes.third?.reward || '₦15,000 Cash Prize');
+  const [thirdDesc, setThirdDesc] = useState(prizes.third?.desc || 'Awarded to the #3 ranked employee on the final verified leaderboard');
 
   const handleSaveCampaignDates = (e) => {
     e.preventDefault();
@@ -800,6 +808,16 @@ function CampaignSettingsTab({ settings, showToast, onEditPlatform, onEditTempla
     e.preventDefault();
     store.updateAnnouncement(announcementMsg, announcementEnabled);
     showToast('Announcement banner settings updated.', 'success');
+  };
+
+  const handleSavePrizes = (e) => {
+    e.preventDefault();
+    store.updatePrizes({
+      first: { ...(prizes.first || {}), reward: firstPrize, desc: firstDesc, title: 'Grand Prize Champion', icon: 'trophy' },
+      second: { ...(prizes.second || {}), reward: secondPrize, desc: secondDesc, title: 'First Runner-Up', icon: 'award' },
+      third: { ...(prizes.third || {}), reward: thirdPrize, desc: thirdDesc, title: 'Second Runner-Up', icon: 'star' }
+    });
+    showToast('Prize rewards and amounts updated.', 'success');
   };
 
   return html`
@@ -865,7 +883,93 @@ function CampaignSettingsTab({ settings, showToast, onEditPlatform, onEditTempla
             </form>
           </div>
 
-          
+          <!-- Prize Rewards & Amounts Card -->
+          <div className="modern-card p-6 sm:p-7 border-slate-200 shadow-sm min-w-0">
+            <h3 className="text-base font-black text-slate-900 mb-2 flex items-center gap-2">
+              <i data-lucide="trophy" className="w-4 h-4 text-rose-600"></i>
+              <span>Prize Tiers & Rewards</span>
+            </h3>
+            <p className="text-xs text-slate-500 mb-4">Edit the 1st, 2nd, and 3rd place prizes shown across the challenge.</p>
+
+            <form onSubmit=${handleSavePrizes} className="space-y-4">
+              <div className="p-3.5 rounded-xl bg-[#FAFBF7] border border-slate-200 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black text-slate-900 flex items-center gap-1.5">
+                    <span className="w-5 h-5 rounded-full bg-slate-900 text-white text-[10px] flex items-center justify-center font-bold">1</span>
+                    <span>1st Place Grand Champion</span>
+                  </span>
+                  <span className="text-[10px] font-bold text-rose-600 uppercase">Top Prize</span>
+                </div>
+                <input 
+                  type="text" 
+                  value=${firstPrize} 
+                  onInput=${(e) => setFirstPrize(e.target.value)} 
+                  placeholder="e.g. ₦50,000 Cash Prize"
+                  className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs font-bold text-slate-900 focus:outline-none focus:border-rose-500" 
+                />
+                <input 
+                  type="text" 
+                  value=${firstDesc} 
+                  onInput=${(e) => setFirstDesc(e.target.value)} 
+                  placeholder="Reward details & trophy"
+                  className="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-[11px] text-slate-600 focus:outline-none focus:border-rose-500" 
+                />
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-[#FAFBF7] border border-slate-200 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black text-slate-900 flex items-center gap-1.5">
+                    <span className="w-5 h-5 rounded-full bg-slate-200 text-slate-800 text-[10px] flex items-center justify-center font-bold">2</span>
+                    <span>2nd Place Runner-Up</span>
+                  </span>
+                  <span className="text-[10px] font-bold text-slate-500 uppercase">Silver</span>
+                </div>
+                <input 
+                  type="text" 
+                  value=${secondPrize} 
+                  onInput=${(e) => setSecondPrize(e.target.value)} 
+                  placeholder="e.g. ₦30,000 Cash Prize"
+                  className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs font-bold text-slate-900 focus:outline-none focus:border-rose-500" 
+                />
+                <input 
+                  type="text" 
+                  value=${secondDesc} 
+                  onInput=${(e) => setSecondDesc(e.target.value)} 
+                  placeholder="Reward details & plaque"
+                  className="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-[11px] text-slate-600 focus:outline-none focus:border-rose-500" 
+                />
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-[#FAFBF7] border border-slate-200 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black text-slate-900 flex items-center gap-1.5">
+                    <span className="w-5 h-5 rounded-full bg-amber-100 text-amber-900 text-[10px] flex items-center justify-center font-bold">3</span>
+                    <span>3rd Place 2nd Runner-Up</span>
+                  </span>
+                  <span className="text-[10px] font-bold text-amber-700 uppercase">Bronze</span>
+                </div>
+                <input 
+                  type="text" 
+                  value=${thirdPrize} 
+                  onInput=${(e) => setThirdPrize(e.target.value)} 
+                  placeholder="e.g. ₦15,000 Cash Prize"
+                  className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs font-bold text-slate-900 focus:outline-none focus:border-rose-500" 
+                />
+                <input 
+                  type="text" 
+                  value=${thirdDesc} 
+                  onInput=${(e) => setThirdDesc(e.target.value)} 
+                  placeholder="Reward details"
+                  className="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-[11px] text-slate-600 focus:outline-none focus:border-rose-500" 
+                />
+              </div>
+
+              <button type="submit" className="w-full py-2.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-black text-xs shadow-md transition-all cursor-pointer">
+                Save Prize Rewards
+              </button>
+            </form>
+          </div>
+
           <div className="modern-card p-6 sm:p-7 border-slate-200 shadow-sm min-w-0">
             <h3 className="text-base font-black text-slate-900 mb-2 flex items-center gap-2">
               <i data-lucide="megaphone" className="w-4 h-4 text-amber-600"></i>

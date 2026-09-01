@@ -10,8 +10,8 @@ export function renderTimeline() {
     {
       week: 'Week 1',
       title: 'Campaign Launch & Distribution',
-      dates: 'Aug 15 &ndash; Aug 21',
-      status: 'completed',
+      dates: 'Sep 01 &ndash; Sep 07',
+      status: 'current',
       description: 'Official campaign kickoff, employee referral code distribution, and initial network mobilization.',
       deliverables: ['Kickoff all-hands briefing', 'Personalized link issuance', 'Initial sharing toolkit rollout'],
       icon: 'rocket'
@@ -19,8 +19,8 @@ export function renderTimeline() {
     {
       week: 'Week 2',
       title: 'Leaderboard Updates & Recognition',
-      dates: 'Aug 22 &ndash; Aug 28',
-      status: 'current',
+      dates: 'Sep 08 &ndash; Sep 14',
+      status: 'upcoming',
       description: 'First official verification rounds, early leader spotlight, and mid-sprint double-points boost.',
       deliverables: ['First live standings reveal', 'Weekly top-referrer shoutout', 'Multi-platform follow challenge'],
       icon: 'flame'
@@ -28,7 +28,7 @@ export function renderTimeline() {
     {
       week: 'Week 3',
       title: 'Story & Community Push',
-      dates: 'Aug 29 &ndash; Sep 04',
+      dates: 'Sep 15 &ndash; Sep 21',
       status: 'upcoming',
       description: 'Highlighting employee stories and driving meaningful post comments and community engagement.',
       deliverables: ['Content engagement push (+1 bonus)', 'Department sprint rallies', 'Milestone swag awards'],
@@ -37,10 +37,10 @@ export function renderTimeline() {
     {
       week: 'Week 4',
       title: 'Final Sprint, Verification & Winner',
-      dates: 'Sep 05 &ndash; Sep 12',
+      dates: 'Sep 22 &ndash; Sep 30',
       status: 'upcoming',
       description: 'Final referral sprint, comprehensive audit and verification, and grand prize winner announcement.',
-      deliverables: ['Final submission cutoff (Sep 12)', 'Complete integrity audit', 'Executive award ceremony'],
+      deliverables: ['Final submission cutoff (Sep 30)', 'Complete integrity audit', 'Executive award ceremony'],
       icon: 'trophy'
     }
   ];

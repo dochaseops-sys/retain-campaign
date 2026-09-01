@@ -114,7 +114,7 @@ export function renderLeaderboard() {
               <i data-lucide="award" class="w-7 h-7 text-slate-500"></i>
             </div>
             <h4 class="font-black text-slate-800 text-sm">2nd Place Slot</h4>
-            <span class="text-[11px] text-slate-500 block mt-0.5">Apple iPad Pro + $500</span>
+            <span class="text-[11px] text-slate-500 block mt-0.5">₦30,000 Cash Prize</span>
           </div>
 
           <!-- 1st Place Slot -->
@@ -128,7 +128,7 @@ export function renderLeaderboard() {
               <i data-lucide="trophy" class="w-8 h-8 text-rose-600"></i>
             </div>
             <h4 class="font-black text-white text-base">Claim the Crown</h4>
-            <span class="text-xs text-rose-200 block font-medium mt-1">MacBook Air M3 + $1,000 Grant</span>
+            <span class="text-xs text-rose-200 block font-medium mt-1">₦50,000 Cash Prize</span>
           </div>
 
           <!-- 3rd Place Slot -->
@@ -138,7 +138,7 @@ export function renderLeaderboard() {
               <i data-lucide="star" class="w-7 h-7 text-amber-600"></i>
             </div>
             <h4 class="font-black text-slate-800 text-sm">3rd Place Slot</h4>
-            <span class="text-[11px] text-slate-500 block mt-0.5">Sony XM5 Headphones</span>
+            <span class="text-[11px] text-slate-500 block mt-0.5">₦15,000 Cash Prize</span>
           </div>
         `;
       } else {
@@ -174,7 +174,7 @@ export function renderLeaderboard() {
                 <i data-lucide="award" class="w-7 h-7 text-slate-500"></i>
               </div>
               <h4 class="font-black text-slate-800 text-sm">2nd Place Open</h4>
-              <span class="text-[11px] text-slate-500 block mt-0.5">Apple iPad Pro + $500</span>
+              <span class="text-[11px] text-slate-500 block mt-0.5">₦30,000 Cash Prize</span>
             </div>
           `}
 
@@ -229,7 +229,7 @@ export function renderLeaderboard() {
                 <i data-lucide="star" class="w-7 h-7 text-amber-600"></i>
               </div>
               <h4 class="font-black text-slate-800 text-sm">3rd Place Open</h4>
-              <span class="text-[11px] text-slate-500 block mt-0.5">Sony XM5 Headphones</span>
+              <span class="text-[11px] text-slate-500 block mt-0.5">₦15,000 Cash Prize</span>
             </div>
           `}
         `;

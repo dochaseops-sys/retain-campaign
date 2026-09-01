@@ -76,10 +76,10 @@ export function getEmployeeBadge(points, verifiedFollowers) {
 
 export function getMilestoneProgress(points) {
   const milestones = [
-    { target: 10, label: 'Bronze Milestone', reward: 'Official Retain Growth Badge & Swag Pack' },
-    { target: 25, label: 'Silver Milestone', reward: '$100 Amazon Voucher & Founder Shoutout' },
-    { target: 50, label: 'Gold Milestone', reward: 'VIP Team Lunch & $250 Wellness Grant' },
-    { target: 100, label: 'Grand Champion', reward: 'MacBook Air / Tech Package + 1st Place Trophy' }
+    { target: 10, label: 'Bronze Milestone', reward: 'Official Dochase Growth Badge & Swag Pack' },
+    { target: 25, label: 'Silver Milestone', reward: 'Special Recognition & Founder Shoutout' },
+    { target: 50, label: 'Gold Milestone', reward: 'VIP Founder Lunch & Executive Milestone Reward' },
+    { target: 100, label: 'Grand Champion', reward: '₦50,000 Cash Prize + 1st Place Trophy' }
   ];
 
   for (let i = 0; i < milestones.length; i++) {
