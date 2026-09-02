@@ -36,8 +36,9 @@ export function AdminApp() {
     }
   }, []);
 
-  // Subscribe to real-time store updates
+  // Subscribe to real-time store updates and sync immediately
   useEffect(() => {
+    setAppState({ ...store.getState() });
     const unsubscribe = store.subscribe((newState) => {
       setAppState({ ...newState });
     });
@@ -101,6 +102,7 @@ export function AdminApp() {
   const handleLogin = (email, password) => {
     try {
       store.loginAdmin(email, password);
+      setAppState({ ...store.getState() });
       showToast('Welcome to the Admin Control Center', 'success');
     } catch (err) {
       showToast(err.message, 'error');
@@ -109,12 +111,14 @@ export function AdminApp() {
 
   const handleLogout = () => {
     store.logoutAdmin();
+    setAppState({ ...store.getState() });
     showToast('Logged out of Admin Control Center.', 'info');
   };
 
   const handleVerifySubmission = (id) => {
     try {
       store.verifySubmission(id, 'Admin Verified');
+      setAppState({ ...store.getState() });
       showToast('Submission verified and points awarded!', 'success');
     } catch (err) {
       showToast(err.message, 'error');
@@ -130,6 +134,7 @@ export function AdminApp() {
     try {
       store.rejectSubmission(rejectModalSubId, reason, 'Admin Verified');
       setRejectModalSubId(null);
+      setAppState({ ...store.getState() });
       showToast('Submission rejected and audit note recorded.', 'warning');
     } catch (err) {
       showToast(err.message, 'error');
@@ -139,6 +144,7 @@ export function AdminApp() {
   const handleDeleteSubmission = (id) => {
     if (window.confirm('Are you sure you want to delete this submission record?')) {
       store.deleteSubmission(id);
+      setAppState({ ...store.getState() });
       showToast('Submission deleted.', 'info');
     }
   };
@@ -149,6 +155,7 @@ export function AdminApp() {
       const created = store.registerEmployee(newEmpName, newEmpEmail, newEmpDept);
       setNewEmpName('');
       setNewEmpEmail('');
+      setAppState({ ...store.getState() });
       showToast(`Employee ${created.name} added (Code: ${created.referralCode})`, 'success');
     } catch (err) {
       showToast(err.message, 'error');
@@ -174,6 +181,7 @@ export function AdminApp() {
       store.adjustEmployeePoints(adjustEmpId, delta, adjustNote.trim(), 'Admin');
       setAdjustDelta('');
       setAdjustNote('');
+      setAppState({ ...store.getState() });
       showToast(`Adjusted points by ${delta > 0 ? '+' : ''}${delta}`, 'success');
     } catch (err) {
       showToast(err.message, 'error');
@@ -182,6 +190,7 @@ export function AdminApp() {
 
   const handlePublishWinner = () => {
     store.publishWinner();
+    setAppState({ ...store.getState() });
     if (window.confetti) {
       window.confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 }, colors: ['#EF4444', '#F43F5E', '#FB923C', '#10B981'] });
     }
@@ -191,6 +200,7 @@ export function AdminApp() {
   const handleResetData = async () => {
     if (window.confirm('Clear all campaign data completely from local state and Cloud Firestore?')) {
       await store.resetToSeedData();
+      setAppState({ ...store.getState() });
       showToast('All campaign data cleared completely.', 'info');
     }
   };
@@ -701,10 +711,10 @@ export function AdminApp() {
       ${editPlatformKey && html`
         <${EditPlatformModal} 
           platformKey=${editPlatformKey} 
-          platformData=${settings.platforms[editPlatformKey]} 
+          platformData=${settings?.platforms?.[editPlatformKey] || {}} 
           onClose=${() => setEditPlatformKey(null)} 
           onSave=${(updates) => {
-            store.updatePlatform(editPlatformKey, updates);
+            store.updateSocialPlatform(editPlatformKey, updates);
             setEditPlatformKey(null);
             showToast('Platform settings saved.', 'success');
           }} 
@@ -714,10 +724,10 @@ export function AdminApp() {
       ${editTemplateKey && html`
         <${EditTemplateModal} 
           templateKey=${editTemplateKey} 
-          templateData=${settings.templates[editTemplateKey]} 
+          templateData=${settings?.templates?.[editTemplateKey] || {}} 
           onClose=${() => setEditTemplateKey(null)} 
           onSave=${(updates) => {
-            store.updateTemplate(editTemplateKey, updates);
+            store.updateOutreachTemplate(editTemplateKey, updates);
             setEditTemplateKey(null);
             showToast('Outreach template updated.', 'success');
           }} 
@@ -797,6 +807,25 @@ function CampaignSettingsTab({ settings, showToast, onEditPlatform, onEditTempla
   const [secondDesc, setSecondDesc] = useState(prizes.second?.desc || 'Awarded to the #2 ranked employee on the final verified leaderboard + executive silver plaque');
   const [thirdPrize, setThirdPrize] = useState(prizes.third?.reward || '₦15,000 Cash Prize');
   const [thirdDesc, setThirdDesc] = useState(prizes.third?.desc || 'Awarded to the #3 ranked employee on the final verified leaderboard');
+
+  // Synchronize local form state whenever settings are loaded or updated from Cloud Firestore
+  useEffect(() => {
+    if (settings) {
+      setTitle(settings.title || '');
+      setTagline(settings.tagline || '');
+      setStartDate(settings.startDate || '2026-09-01');
+      setEndDate((settings.endDate || '2026-09-30').slice(0, 10));
+      setAnnouncementMsg(settings.announcement?.message || '');
+      setAnnouncementEnabled(Boolean(settings.announcement?.enabled));
+      const p = settings.prizes || {};
+      setFirstPrize(p.first?.reward || '₦50,000 Cash Prize');
+      setFirstDesc(p.first?.desc || 'Awarded to the #1 overall growth champion with the highest verified score + executive gold trophy');
+      setSecondPrize(p.second?.reward || '₦30,000 Cash Prize');
+      setSecondDesc(p.second?.desc || 'Awarded to the #2 ranked employee on the final verified leaderboard + executive silver plaque');
+      setThirdPrize(p.third?.reward || '₦15,000 Cash Prize');
+      setThirdDesc(p.third?.desc || 'Awarded to the #3 ranked employee on the final verified leaderboard');
+    }
+  }, [settings]);
 
   const handleSaveCampaignDates = (e) => {
     e.preventDefault();
@@ -1382,7 +1411,21 @@ function EditPlatformModal({ platformKey, platformData, onClose, onSave }) {
   const [handle, setHandle] = useState(platformData?.handle || '');
   const [url, setUrl] = useState(platformData?.url || '');
   const [baseline, setBaseline] = useState(platformData?.baseline || 0);
-  const [enabled, setEnabled] = useState(Boolean(platformData?.enabled));
+  const [enabled, setEnabled] = useState(platformData?.enabled !== undefined ? Boolean(platformData.enabled) : true);
+
+  useEffect(() => {
+    if (platformData) {
+      setName(platformData.name || '');
+      setHandle(platformData.handle || '');
+      setUrl(platformData.url || '');
+      setBaseline(platformData.baseline || 0);
+      setEnabled(platformData.enabled !== undefined ? Boolean(platformData.enabled) : true);
+    }
+  }, [platformKey, platformData]);
+
+  useEffect(() => {
+    if (window.lucide) window.lucide.createIcons();
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -1425,7 +1468,7 @@ function EditPlatformModal({ platformKey, platformData, onClose, onSave }) {
               required 
               value=${handle} 
               onInput=${(e) => setHandle(e.target.value)} 
-              placeholder="e.g. @retaindigital" 
+              placeholder="e.g. @dochasedigital" 
               className="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 font-mono focus:outline-none focus:border-rose-500" 
             />
           </div>
@@ -1480,6 +1523,18 @@ function EditTemplateModal({ templateKey, templateData, onClose, onSave }) {
   const [title, setTitle] = useState(templateData?.title || '');
   const [subject, setSubject] = useState(templateData?.subject || '');
   const [templateBody, setTemplateBody] = useState(templateData?.template || '');
+
+  useEffect(() => {
+    if (templateData) {
+      setTitle(templateData.title || '');
+      setSubject(templateData.subject || '');
+      setTemplateBody(templateData.template || '');
+    }
+  }, [templateKey, templateData]);
+
+  useEffect(() => {
+    if (window.lucide) window.lucide.createIcons();
+  }, []);
 
   const handleInsertToken = (token) => {
     setTemplateBody(prev => prev + ` ${token}`);

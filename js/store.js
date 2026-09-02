@@ -168,13 +168,13 @@ class Store {
 
   initSession() {
     try {
-      const savedEmpId = sessionStorage.getItem('retain_current_emp_id');
+      const savedEmpId = sessionStorage.getItem('retain_current_emp_id') || localStorage.getItem('retain_current_emp_id');
       if (savedEmpId && this.getEmployeeById(savedEmpId)) {
         this.state.auth.employee = { isLoggedIn: true, employeeId: savedEmpId };
         this.state.currentEmployeeId = savedEmpId;
       }
 
-      const savedAdminEmail = sessionStorage.getItem('retain_current_admin_email');
+      const savedAdminEmail = sessionStorage.getItem('retain_current_admin_email') || localStorage.getItem('retain_current_admin_email');
       if (savedAdminEmail) {
         this.state.auth.admin = { isLoggedIn: true, adminEmail: savedAdminEmail };
       }
@@ -285,34 +285,47 @@ class Store {
   }
 
   loginEmployee(emailOrCode) {
-    const trimmed = (emailOrCode || '').trim().toLowerCase();
-    if (!trimmed) {
+    const raw = (emailOrCode || '').trim();
+    if (!raw) {
       throw new Error('Please enter your work email or referral code.');
     }
 
-    let emp = this.state.employees.find(e => 
-      (e.email && e.email.toLowerCase() === trimmed) || 
-      (e.referralCode && e.referralCode.toLowerCase() === trimmed) ||
-      (e.id && e.id.toLowerCase() === trimmed) ||
-      (e.name && e.name.toLowerCase() === trimmed)
-    );
+    const clean = raw.toLowerCase();
+    const cleanUpper = raw.toUpperCase();
 
-    // If profile does not exist yet, auto-register on the fly seamlessly!
+    // 1. Exact match on email, referral code, employee ID, or full name
+    let emp = this.state.employees.find(e => {
+      const eEmail = (e.email || '').trim().toLowerCase();
+      const eCode = (e.referralCode || '').trim().toUpperCase();
+      const eId = (e.id || '').trim().toLowerCase();
+      const eName = (e.name || '').trim().toLowerCase();
+
+      return eEmail === clean || 
+             eCode === cleanUpper || 
+             eId === clean || 
+             eName === clean;
+    });
+
+    // 2. Fuzzy match on referral code (case-insensitive and format-tolerant)
     if (!emp) {
-      if (trimmed.includes('@') || trimmed.length >= 2) {
-        let name = trimmed;
-        let email = trimmed;
-        if (trimmed.includes('@')) {
-          const prefix = trimmed.split('@')[0];
-          name = prefix.replace(/[._-]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-        } else {
-          name = trimmed.replace(/\b\w/g, l => l.toUpperCase());
-          email = `${trimmed.replace(/\s+/g, '.').toLowerCase()}@dochase.com`;
-        }
-        emp = this.registerEmployee(name, email, 'Growth & Strategy');
-      } else {
-        throw new Error(`Employee profile not found for "${emailOrCode}". Please check your email or register.`);
+      const strippedInput = cleanUpper.replace(/[^A-Z0-9]/g, '');
+      emp = this.state.employees.find(e => {
+        const strippedCode = (e.referralCode || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+        return strippedCode && strippedCode === strippedInput;
+      });
+    }
+
+    // 3. If still not found:
+    if (!emp) {
+      // If the user entered a referral code or non-email identifier, NEVER create a duplicate profile!
+      if (!clean.includes('@')) {
+        throw new Error(`Employee profile for "${raw}" was not found. Please verify your referral code or register a new profile.`);
       }
+
+      // If the user entered an email that is not yet registered, register their official profile cleanly
+      const prefix = clean.split('@')[0];
+      const formattedName = prefix.replace(/[._-]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+      emp = this.registerEmployee(formattedName, clean, 'Growth & Strategy');
     }
 
     this.state.auth.employee = {
@@ -322,6 +335,7 @@ class Store {
     this.state.currentEmployeeId = emp.id;
     try {
       sessionStorage.setItem('retain_current_emp_id', emp.id);
+      localStorage.setItem('retain_current_emp_id', emp.id);
     } catch (e) {}
 
     this.saveState();
@@ -357,6 +371,7 @@ class Store {
     };
     try {
       sessionStorage.setItem('retain_current_admin_email', email.trim());
+      localStorage.setItem('retain_current_admin_email', email.trim());
     } catch (e) {}
 
     this.saveState();
@@ -370,6 +385,7 @@ class Store {
     };
     try {
       sessionStorage.removeItem('retain_current_admin_email');
+      localStorage.removeItem('retain_current_admin_email');
     } catch (e) {}
     this.saveState();
   }
@@ -806,6 +822,14 @@ class Store {
 
       this.saveState();
     }
+  }
+
+  updatePlatform(platformKey, data) {
+    return this.updateSocialPlatform(platformKey, data);
+  }
+
+  updateTemplate(templateKey, data) {
+    return this.updateOutreachTemplate(templateKey, data);
   }
 
   publishWinner() {
