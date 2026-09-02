@@ -96,9 +96,9 @@ export function renderLeaderboard() {
   function renderTableData() {
     const leaderboard = store.getLeaderboard(activeDept);
     const filtered = leaderboard.filter(e => 
-      e.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      e.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      e.referralCode.toLowerCase().includes(searchTerm.toLowerCase())
+      (e.name || '').toLowerCase().includes(searchTerm.toLowerCase()) || 
+      (e.department || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (e.referralCode || '').toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     // Render Podium for Top 3 (from overall leaderboard)
@@ -152,18 +152,18 @@ export function renderLeaderboard() {
             <div class="order-2 md:order-1 modern-card p-6 text-center relative border-slate-200 hover:scale-105 transition-all">
               <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-700 font-black text-sm flex items-center justify-center mx-auto mb-2.5 border border-slate-200">2</div>
               <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-white font-black text-xl mb-3 shadow-md" style="background-color: ${second.color || '#1E293B'}">
-                ${second.avatar || second.name.substring(0, 2).toUpperCase()}
+                ${second.avatar || (second.name ? second.name.substring(0, 2).toUpperCase() : 'RD')}
               </div>
-              <h4 class="font-black text-slate-900 text-base">${second.name}</h4>
-              <span class="text-xs text-slate-500 block">${second.department}</span>
+              <h4 class="font-black text-slate-900 text-base">${second.name || 'Anonymous'}</h4>
+              <span class="text-xs text-slate-500 block">${second.department || 'Dochase Team'}</span>
               <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-center gap-4">
                 <div>
                   <span class="text-[10px] text-slate-400 block font-medium">Followers</span>
-                  <span class="text-sm font-bold text-slate-800">${second.verifiedFollowerCount}</span>
+                  <span class="text-sm font-bold text-slate-800">${second.verifiedFollowerCount || 0}</span>
                 </div>
                 <div>
                   <span class="text-[10px] text-slate-400 block font-medium">Points</span>
-                  <span class="text-xl font-black text-slate-900">${second.totalPoints}</span>
+                  <span class="text-xl font-black text-slate-900">${second.totalPoints || 0}</span>
                 </div>
               </div>
             </div>
@@ -186,18 +186,18 @@ export function renderLeaderboard() {
             </div>
             <div class="w-10 h-10 rounded-full bg-white/20 text-white font-black text-base flex items-center justify-center mx-auto mt-2 mb-3 border border-white/20">1</div>
             <div class="w-20 h-20 rounded-2xl mx-auto flex items-center justify-center text-slate-950 font-black text-2xl mb-3 shadow-xl ring-4 ring-rose-400/40 bg-white">
-              ${first.avatar || first.name.substring(0, 2).toUpperCase()}
+              ${first.avatar || (first.name ? first.name.substring(0, 2).toUpperCase() : 'RD')}
             </div>
-            <h4 class="font-black text-white text-lg">${first.name}</h4>
-            <span class="text-xs text-rose-200 block font-medium">${first.department}</span>
+            <h4 class="font-black text-white text-lg">${first.name || 'Anonymous'}</h4>
+            <span class="text-xs text-rose-200 block font-medium">${first.department || 'Dochase Team'}</span>
             <div class="mt-4 pt-3 border-t border-white/20 flex items-center justify-center gap-5">
               <div>
                 <span class="text-[10px] text-rose-200 block font-medium">Followers</span>
-                <span class="text-sm font-bold text-white">${first.verifiedFollowerCount}</span>
+                <span class="text-sm font-bold text-white">${first.verifiedFollowerCount || 0}</span>
               </div>
               <div>
                 <span class="text-[10px] text-rose-200 block font-black">Total Points</span>
-                <span class="text-2xl font-black text-white">${first.totalPoints}</span>
+                <span class="text-2xl font-black text-white">${first.totalPoints || 0}</span>
               </div>
             </div>
           </div>
@@ -207,18 +207,18 @@ export function renderLeaderboard() {
             <div class="order-3 md:order-3 modern-card p-6 text-center relative border-slate-200 hover:scale-105 transition-all">
               <div class="w-8 h-8 rounded-full bg-amber-50 text-amber-800 font-black text-sm flex items-center justify-center mx-auto mb-2.5 border border-amber-200">3</div>
               <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-white font-black text-xl mb-3 shadow-md" style="background-color: ${third.color || '#D97706'}">
-                ${third.avatar || third.name.substring(0, 2).toUpperCase()}
+                ${third.avatar || (third.name ? third.name.substring(0, 2).toUpperCase() : 'RD')}
               </div>
-              <h4 class="font-black text-slate-900 text-base">${third.name}</h4>
-              <span class="text-xs text-slate-500 block">${third.department}</span>
+              <h4 class="font-black text-slate-900 text-base">${third.name || 'Anonymous'}</h4>
+              <span class="text-xs text-slate-500 block">${third.department || 'Dochase Team'}</span>
               <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-center gap-4">
                 <div>
                   <span class="text-[10px] text-slate-400 block font-medium">Followers</span>
-                  <span class="text-sm font-bold text-slate-800">${third.verifiedFollowerCount}</span>
+                  <span class="text-sm font-bold text-slate-800">${third.verifiedFollowerCount || 0}</span>
                 </div>
                 <div>
                   <span class="text-[10px] text-slate-400 block font-medium">Points</span>
-                  <span class="text-xl font-black text-amber-700">${third.totalPoints}</span>
+                  <span class="text-xl font-black text-amber-700">${third.totalPoints || 0}</span>
                 </div>
               </div>
             </div>
@@ -279,32 +279,32 @@ export function renderLeaderboard() {
           <td class="py-4 px-6">
             <div class="flex items-center gap-3">
               <div class="w-9 h-9 rounded-xl flex items-center justify-center text-white font-black text-xs shadow-sm flex-shrink-0" style="background-color: ${emp.color || '#EF4444'}">
-                ${emp.avatar}
+                ${emp.avatar || (emp.name ? emp.name.substring(0, 2).toUpperCase() : 'RD')}
               </div>
               <div>
                 <div class="flex items-center gap-2">
-                  <span class="font-black text-slate-900">${emp.name}</span>
+                  <span class="font-black text-slate-900">${emp.name || 'Anonymous'}</span>
                   ${isCurrent ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-900 text-white font-black uppercase tracking-wider">YOU</span>' : ''}
                 </div>
-                <span class="text-xs text-slate-400 font-mono">${emp.referralCode}</span>
+                <span class="text-xs text-slate-400 font-mono">${emp.referralCode || ''}</span>
               </div>
             </div>
           </td>
 
-          <td class="py-4 px-6 text-slate-600 text-xs font-semibold">${emp.department}</td>
+          <td class="py-4 px-6 text-slate-600 text-xs font-semibold">${emp.department || 'General'}</td>
 
           <td class="py-4 px-6 text-center font-bold text-slate-800">
-            ${emp.verifiedFollowerCount}
+            ${emp.verifiedFollowerCount || 0}
           </td>
 
           <td class="py-4 px-6 text-center font-black text-base ${emp.rank <= 3 ? 'text-rose-600' : 'text-slate-700'}">
-            ${emp.totalPoints}
+            ${emp.totalPoints || 0}
           </td>
 
           <td class="py-4 px-6">
             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-slate-200 bg-[#FAFBF7] text-slate-700 text-xs font-bold">
-              <i data-lucide="${emp.badge.icon}" class="w-3.5 h-3.5 text-rose-500"></i>
-              <span>${emp.badge.name}</span>
+              <i data-lucide="${emp.badge?.icon || 'award'}" class="w-3.5 h-3.5 text-rose-500"></i>
+              <span>${emp.badge?.name || 'Active Contender'}</span>
             </span>
           </td>
         </tr>

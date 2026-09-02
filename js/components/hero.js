@@ -71,7 +71,7 @@ export function renderHero() {
               </div>
               <div class="flex -space-x-2">
                 ${employees.length > 0 ? employees.slice(0, 3).map(e => `
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center font-bold text-[9px] border-2 border-white text-white" style="background-color: ${e.color || '#EF4444'}">${e.avatar || e.name.substring(0, 2).toUpperCase()}</div>
+                  <div class="w-7 h-7 rounded-full flex items-center justify-center font-bold text-[9px] border-2 border-white text-white" style="background-color: ${e.color || '#EF4444'}">${e.avatar || (e.name ? e.name.substring(0, 2).toUpperCase() : 'RD')}</div>
                 `).join('') : `
                   <div class="w-7 h-7 rounded-full bg-[#EF4444] text-white flex items-center justify-center font-bold text-[9px] border-2 border-white">RD</div>
                   <div class="w-7 h-7 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-[9px] border-2 border-white">RT</div>
@@ -155,9 +155,6 @@ export function renderHero() {
           
           <!-- Countdown Block -->
           <div class="lg:col-span-5 border-b lg:border-b-0 lg:border-r border-slate-200 pb-6 lg:pb-0 lg:pr-8">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="category-eyebrow">(CAMPAIGN SPRINT COUNTDOWN)</span>
-            </div>
             <h4 class="text-lg font-black text-slate-900 mb-4">Time Remaining in Challenge</h4>
             
             <div class="grid grid-cols-4 gap-3 text-center">

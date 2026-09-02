@@ -1,0 +1,19 @@
+{
+  "name": "dochase-growth-challenge",
+  "version": "1.0.0",
+  "description": "Dochase Social Growth Challenge Platform",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "serve": "node server.js"
+  },
+  "keywords": [
+    "dochase",
+    "growth-challenge",
+    "referral",
+    "leaderboard"
+  ],
+  "author": "Dochase",
+  "license": "MIT"
+}

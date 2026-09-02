@@ -97,8 +97,7 @@ class FirebaseService {
             snapshot.forEach(doc => submissions.push({ id: doc.id, ...doc.data() }));
             submissions.sort((a, b) => new Date(b.submittedAt || 0) - new Date(a.submittedAt || 0));
           }
-          const cleanSubs = submissions.filter(s => !['sub-101', 'sub-102', 'sub-103', 'sub-104', 'sub-105', 'sub-106', 'sub-107', 'sub-108', 'sub-109', 'sub-110'].includes(s.id));
-          if (onSubmissionsUpdate) onSubmissionsUpdate(cleanSubs);
+          if (onSubmissionsUpdate) onSubmissionsUpdate(submissions);
         },
         (err) => console.warn('Firestore submissions listener notice:', err.message)
       );
@@ -111,8 +110,7 @@ class FirebaseService {
           if (!snapshot.empty) {
             snapshot.forEach(doc => employees.push({ id: doc.id, ...doc.data() }));
           }
-          const cleanEmps = employees.filter(e => !['emp-1', 'emp-2', 'emp-3', 'emp-4', 'emp-5', 'emp-6', 'emp-7', 'emp-8'].includes(e.id));
-          if (onEmployeesUpdate) onEmployeesUpdate(cleanEmps);
+          if (onEmployeesUpdate) onEmployeesUpdate(employees);
         },
         (err) => console.warn('Firestore employees listener notice:', err.message)
       );
@@ -126,8 +124,7 @@ class FirebaseService {
             snapshot.forEach(doc => logs.push({ id: doc.id, ...doc.data() }));
             logs.sort((a, b) => new Date(b.timestamp || 0) - new Date(a.timestamp || 0));
           }
-          const cleanLogs = logs.filter(l => !['aud-01', 'aud-02', 'aud-03', 'aud-04', 'aud-05', 'aud-06', 'aud-07', 'aud-08', 'aud-09'].includes(l.id));
-          if (onAuditLogsUpdate) onAuditLogsUpdate(cleanLogs);
+          if (onAuditLogsUpdate) onAuditLogsUpdate(logs);
         },
         (err) => console.warn('Firestore audit logs listener notice:', err.message)
       );

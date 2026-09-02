@@ -63,7 +63,6 @@ const SEED_DATA = {
         title: 'LinkedIn Network Share',
         template: "I'm proud to be part of the team at Retain. We're growing our online community and inviting more people to follow our journey. Connect with Retain across our official social channels here: {link}. My campaign referral code is {code}."
       },
-      },
       x: {
         id: 'x',
         platform: 'X (Twitter)',
@@ -81,7 +80,7 @@ const SEED_DATA = {
     winnerDetails: null
   },
   currentEmployeeId: null,
-  currentRole: 'public', // 'public' | 'employee' | 'admin'
+  currentRole: 'public',
   linkVisitsCount: 0,
   employees: [],
   submissions: [],
@@ -194,14 +193,14 @@ class Store {
         // Fetch initial full state from Cloud Firestore
         const cloudData = await firebaseService.fetchFullState();
         if (cloudData) {
-          if (cloudData.employees) {
-            this.state.employees = cloudData.employees.filter(e => !['emp-1', 'emp-2', 'emp-3', 'emp-4', 'emp-5', 'emp-6', 'emp-7', 'emp-8'].includes(e.id));
+          if (cloudData.employees && Array.isArray(cloudData.employees)) {
+            this.state.employees = cloudData.employees;
           }
-          if (cloudData.submissions) {
-            this.state.submissions = cloudData.submissions.filter(s => !['sub-101', 'sub-102', 'sub-103', 'sub-104', 'sub-105', 'sub-106', 'sub-107', 'sub-108', 'sub-109', 'sub-110'].includes(s.id));
+          if (cloudData.submissions && Array.isArray(cloudData.submissions)) {
+            this.state.submissions = cloudData.submissions;
           }
-          if (cloudData.auditLogs) {
-            this.state.auditLogs = cloudData.auditLogs.filter(l => !['aud-01', 'aud-02', 'aud-03', 'aud-04', 'aud-05', 'aud-06', 'aud-07', 'aud-08', 'aud-09'].includes(l.id));
+          if (cloudData.auditLogs && Array.isArray(cloudData.auditLogs)) {
+            this.state.auditLogs = cloudData.auditLogs;
           }
           if (cloudData.settings) {
             const sanitized = sanitizeSettings(cloudData.settings);
@@ -216,15 +215,15 @@ class Store {
         // Setup real-time listeners across all Firestore collections
         firebaseService.setupRealtimeSync({
           onSubmissionsUpdate: (submissions) => {
-            this.state.submissions = submissions;
+            this.state.submissions = submissions || [];
             this.notify();
           },
           onEmployeesUpdate: (employees) => {
-            this.state.employees = employees;
+            this.state.employees = employees || [];
             this.notify();
           },
           onAuditLogsUpdate: (auditLogs) => {
-            this.state.auditLogs = auditLogs;
+            this.state.auditLogs = auditLogs || [];
             this.notify();
           },
           onSettingsUpdate: (settings) => {
@@ -287,13 +286,33 @@ class Store {
 
   loginEmployee(emailOrCode) {
     const trimmed = (emailOrCode || '').trim().toLowerCase();
-    const emp = this.state.employees.find(e => 
-      e.email.toLowerCase() === trimmed || 
-      e.referralCode.toLowerCase() === trimmed
+    if (!trimmed) {
+      throw new Error('Please enter your work email or referral code.');
+    }
+
+    let emp = this.state.employees.find(e => 
+      (e.email && e.email.toLowerCase() === trimmed) || 
+      (e.referralCode && e.referralCode.toLowerCase() === trimmed) ||
+      (e.id && e.id.toLowerCase() === trimmed) ||
+      (e.name && e.name.toLowerCase() === trimmed)
     );
 
+    // If profile does not exist yet, auto-register on the fly seamlessly!
     if (!emp) {
-      throw new Error(`Employee profile not found for "${emailOrCode}". Please check your email or referral code.`);
+      if (trimmed.includes('@') || trimmed.length >= 2) {
+        let name = trimmed;
+        let email = trimmed;
+        if (trimmed.includes('@')) {
+          const prefix = trimmed.split('@')[0];
+          name = prefix.replace(/[._-]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        } else {
+          name = trimmed.replace(/\b\w/g, l => l.toUpperCase());
+          email = `${trimmed.replace(/\s+/g, '.').toLowerCase()}@dochase.com`;
+        }
+        emp = this.registerEmployee(name, email, 'Growth & Strategy');
+      } else {
+        throw new Error(`Employee profile not found for "${emailOrCode}". Please check your email or register.`);
+      }
     }
 
     this.state.auth.employee = {
@@ -393,12 +412,12 @@ class Store {
       .replace(/[^a-zA-Z]/g, '')
       .toUpperCase() || 'MEMBER';
     const rand = Math.floor(10 + Math.random() * 90);
-    let code = `RETAIN-${cleanFirst}-${rand}`;
+    let code = `DOCHASE-${cleanFirst}-${rand}`;
 
     // Ensure uniqueness
     let counter = 1;
     while (this.state.employees.some(e => e.referralCode === code)) {
-      code = `RETAIN-${cleanFirst}-${rand + counter}`;
+      code = `DOCHASE-${cleanFirst}-${rand + counter}`;
       counter++;
     }
     return code;

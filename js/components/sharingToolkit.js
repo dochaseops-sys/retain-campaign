@@ -85,7 +85,6 @@ export function renderSharingToolkit() {
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       
       <div class="text-center max-w-3xl mx-auto mb-14">
-        <span class="category-eyebrow mb-3">(EMPLOYEE TOOLKIT)</span>
         <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mt-2 mb-4">
           Ready-made outreach <span class="marker-highlight">templates</span>.
         </h2>

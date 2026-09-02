@@ -32,28 +32,11 @@ export function renderEmployeeDashboard() {
   container.innerHTML = `
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       
-      <!-- Top Bar: Title & Employee Switcher -->
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-        <div>
-          <span class="category-eyebrow mb-1">(EMPLOYEE PORTAL)</span>
-          <h2 class="text-3xl font-black text-slate-900 mt-1">
-            My Referral <span class="marker-highlight">Dashboard</span>
-          </h2>
-        </div>
-
-        <!-- Employee Switcher -->
-        <div class="flex flex-wrap items-center gap-3">
-          <div class="flex items-center gap-2 bg-white border border-slate-200 rounded-full px-4 py-2 shadow-sm">
-            <span class="text-xs text-slate-500 font-semibold">Active Profile:</span>
-            <select id="emp-select-switcher" class="bg-transparent text-xs font-bold text-slate-900 focus:outline-none cursor-pointer">
-              ${state.employees.map(e => `
-                <option value="${e.id}" ${e.id === currentEmp.id ? 'selected' : ''} class="bg-white text-slate-900">
-                  ${e.name} (${e.department})
-                </option>
-              `).join('')}
-            </select>
-          </div>
-        </div>
+      <!-- Top Bar: Title -->
+      <div class="mb-8">
+        <h2 class="text-3xl font-black text-slate-900">
+          My Referral <span class="marker-highlight">Dashboard</span>
+        </h2>
       </div>
 
       <!-- Employee Profile Header Card -->
@@ -68,8 +51,8 @@ export function renderEmployeeDashboard() {
               <div class="flex items-center gap-3 flex-wrap">
                 <h3 class="text-2xl font-black text-slate-900">${currentEmp.name}</h3>
                 <span class="text-xs px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-800 font-black flex items-center gap-1.5 shadow-sm">
-                  <i data-lucide="${stats.employee.badge.icon}" class="w-3.5 h-3.5 text-rose-600"></i>
-                  <span>${stats.employee.badge.name}</span>
+                  <i data-lucide="${stats.employee?.badge?.icon || 'award'}" class="w-3.5 h-3.5 text-rose-600"></i>
+                  <span>${stats.employee?.badge?.name || 'Contender'}</span>
                 </span>
               </div>
               <p class="text-xs sm:text-sm text-slate-600 mt-1">${currentEmp.department} &bull; <span class="text-slate-500">${currentEmp.email}</span></p>
