@@ -74,26 +74,26 @@
   <!-- Navigation Header -->
   <header class="sticky top-0 z-40 bg-[#FAFBF7]/90 backdrop-blur-md border-b border-slate-200/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-20">
+      <div class="flex items-center justify-between h-16 sm:h-20">
         
         <!-- Brand Logo & Title -->
-        <a href="admin.html" class="flex items-center gap-3 group">
-          <div class="w-10 h-10 rounded-2xl bg-slate-900 flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
-            <i data-lucide="shield-check" class="w-5 h-5 text-rose-500"></i>
+        <a href="admin.html" class="flex items-center gap-2.5 sm:gap-3 group flex-shrink-0">
+          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-slate-900 flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
+            <i data-lucide="shield-check" class="w-4 h-4 sm:w-5 sm:h-5 text-rose-500"></i>
           </div>
           <div>
-            <div class="flex items-center gap-2">
-              <span class="text-xl font-black tracking-tight text-slate-900">Retain<span class="text-rose-600">.</span></span>
-              <span class="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-slate-900 text-white uppercase tracking-wider">Admin</span>
+            <div class="flex items-center gap-1.5 sm:gap-2">
+              <span class="text-lg sm:text-xl font-black tracking-tight text-slate-900">Dochase<span class="text-rose-600">.</span></span>
+              <span class="text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded-full bg-slate-900 text-white uppercase tracking-wider">Admin</span>
             </div>
-            <span class="text-[11px] font-semibold text-slate-500 block -mt-0.5">Control Center & Audit</span>
+            <span class="hidden sm:block text-[11px] font-semibold text-slate-500 -mt-0.5">Control Center & Audit</span>
           </div>
         </a>
 
         <!-- Navigation Links -->
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 sm:gap-4">
           <a href="campaign.html" class="hidden md:flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-slate-950 transition-colors">
-            <i data-lucide="info" class="w-3.5 h-3.5 text-slate-500"></i>
+            <i data-lucide="compass" class="w-3.5 h-3.5 text-slate-500"></i>
             <span>Campaign</span>
           </a>
           <a href="follow.html" target="_blank" class="hidden md:flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-slate-950 transition-colors">
@@ -101,11 +101,37 @@
             <span>Follower Page</span>
           </a>
           <a href="employee.html" class="hidden md:flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-slate-950 transition-colors">
-            <i data-lucide="user" class="w-3.5 h-3.5 text-slate-500"></i>
+            <i data-lucide="layout-dashboard" class="w-3.5 h-3.5 text-slate-500"></i>
             <span>Employee Hub</span>
           </a>
+
+          <!-- Mobile Hamburger Toggle -->
+          <button id="admin-mobile-menu-btn" class="md:hidden w-10 h-10 rounded-xl sm:rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-700 hover:text-slate-950 shadow-sm touch-target cursor-pointer" aria-label="Toggle navigation menu">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
         </div>
 
+      </div>
+    </div>
+
+    <!-- Mobile Slide-Down Menu Drawer -->
+    <div id="admin-mobile-menu-drawer" class="hidden md:hidden border-t border-slate-200 bg-[#FAFBF7]/95 backdrop-blur-xl px-4 pt-4 pb-6 space-y-3 animate-slide-up shadow-2xl">
+      <div class="grid grid-cols-2 gap-2">
+        <a href="campaign.html" class="flex items-center gap-2 p-3 rounded-xl font-bold text-xs text-slate-800 bg-white border border-slate-200/80 hover:border-rose-500 transition-all">
+          <i data-lucide="compass" class="w-4 h-4 text-rose-500"></i>
+          <span>Campaign Overview</span>
+        </a>
+        <a href="employee.html" class="flex items-center gap-2 p-3 rounded-xl font-bold text-xs text-slate-800 bg-white border border-slate-200/80 hover:border-rose-500 transition-all">
+          <i data-lucide="layout-dashboard" class="w-4 h-4 text-rose-500"></i>
+          <span>Employee Hub</span>
+        </a>
+      </div>
+
+      <div class="pt-2 border-t border-slate-200 flex flex-col gap-2">
+        <a href="follow.html" target="_blank" class="w-full py-2.5 px-4 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-2">
+          <i data-lucide="globe" class="w-3.5 h-3.5 text-slate-500"></i>
+          <span>Preview Public Follower Page</span>
+        </a>
       </div>
     </div>
   </header>
@@ -114,18 +140,20 @@
   <main id="admin-react-root" class="flex-grow flex flex-col justify-center min-w-0"></main>
 
   <!-- Footer -->
-  <footer class="border-t border-slate-200 bg-[#FAFBF7] text-slate-500 text-xs py-10 mt-auto">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-2">
-        <span class="font-bold text-slate-900">Retain Social Growth Challenge</span>
-        <span>&bull; Authorized Administrator Portal</span>
+  <footer class="border-t border-slate-200 bg-[#FAFBF7] text-slate-500 text-xs py-8 sm:py-10 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+      <div class="flex items-center gap-2 justify-center sm:justify-start">
+        <div class="w-6 h-6 rounded-lg bg-slate-900 flex items-center justify-center text-rose-500 font-black text-xs">DC</div>
+        <span class="font-bold text-slate-900">Dochase Growth Challenge</span>
+        <span class="text-slate-400">&bull; Admin Portal</span>
       </div>
-      <div class="flex items-center gap-4">
-        <a href="follow.html" target="_blank" class="hover:text-slate-900 transition-colors">Follower Landing Page</a>
-        <a href="employee.html" class="hover:text-slate-900 transition-colors">Employee Portal</a>
+      <div class="flex items-center justify-center gap-4 font-medium text-slate-600">
+        <a href="campaign.html" class="hover:text-slate-950 transition-colors">Campaign</a>
+        <a href="employee.html" class="hover:text-slate-950 transition-colors">Employee Hub</a>
+        <a href="follow.html" target="_blank" class="hover:text-slate-950 transition-colors">Follower Page</a>
       </div>
       <div class="text-slate-400 text-[11px]">
-        &copy; 2026 Retain. Confidential & Internal Use Only.
+        &copy; 2026 Dochase. Confidential & Internal Use Only.
       </div>
     </div>
   </footer>
@@ -169,6 +197,16 @@
         setTimeout(() => toast.remove(), 300);
       }, 4000);
     };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('admin-mobile-menu-btn');
+      const drawer = document.getElementById('admin-mobile-menu-drawer');
+      if (btn && drawer) {
+        btn.addEventListener('click', () => {
+          drawer.classList.toggle('hidden');
+        });
+      }
+    });
   </script>
 
   <!-- React 18 Admin Portal Application Module (Native Browser ESM) -->

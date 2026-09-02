@@ -49,14 +49,25 @@ function renderEmployeeView() {
   const loginBox = document.getElementById('employee-login-box');
   const dashboardContent = document.getElementById('employee-dashboard-content');
   const navUserSection = document.getElementById('nav-user-section');
+  const mobileDrawerUserSection = document.getElementById('mobile-drawer-user-section');
 
   if (!isLoggedIn) {
     if (loginBox) loginBox.classList.remove('hidden');
     if (dashboardContent) dashboardContent.classList.add('hidden');
+    
     if (navUserSection) {
       navUserSection.innerHTML = `
         <a href="#employee-access-section" class="btn-dark-pill text-xs flex items-center gap-1.5 hover:scale-105 active:scale-95">
           <i data-lucide="log-in" class="w-3.5 h-3.5 text-rose-400"></i>
+          <span>Sign In / Register</span>
+        </a>
+      `;
+    }
+
+    if (mobileDrawerUserSection) {
+      mobileDrawerUserSection.innerHTML = `
+        <a href="#employee-access-section" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-rose-600 to-orange-500 text-white font-black text-xs flex items-center justify-center gap-2 shadow-md active:scale-98 transition-all">
+          <i data-lucide="log-in" class="w-4 h-4 text-white"></i>
           <span>Sign In / Register</span>
         </a>
       `;
@@ -66,28 +77,61 @@ function renderEmployeeView() {
     if (dashboardContent) dashboardContent.classList.remove('hidden');
 
     const currentEmp = store.getCurrentEmployee();
-    if (navUserSection && currentEmp) {
-      navUserSection.innerHTML = `
-        <div class="flex items-center gap-3">
-          <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-xl flex items-center justify-center text-white font-black text-xs shadow-sm" style="background-color: ${currentEmp.color || '#EF4444'}">
-              ${currentEmp.avatar || 'RD'}
+    if (currentEmp) {
+      if (navUserSection) {
+        navUserSection.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-xl flex items-center justify-center text-white font-black text-xs shadow-sm" style="background-color: ${currentEmp.color || '#EF4444'}">
+                ${currentEmp.avatar || 'DC'}
+              </div>
+              <span class="text-xs font-bold text-slate-900">${currentEmp.name}</span>
             </div>
-            <span class="text-xs font-bold text-slate-900 hidden sm:inline">${currentEmp.name}</span>
+            <button id="emp-logout-btn" class="px-3.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer">
+              <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+              <span>Log Out</span>
+            </button>
           </div>
-          <button id="emp-logout-btn" class="px-3.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer">
-            <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
-            <span>Log Out</span>
-          </button>
-        </div>
-      `;
+        `;
 
-      const logoutBtn = document.getElementById('emp-logout-btn');
-      if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-          store.logoutEmployee();
-          window.showToast('Logged out successfully.', 'info');
-        });
+        const logoutBtn = document.getElementById('emp-logout-btn');
+        if (logoutBtn) {
+          logoutBtn.addEventListener('click', () => {
+            store.logoutEmployee();
+            window.showToast('Logged out successfully.', 'info');
+          });
+        }
+      }
+
+      if (mobileDrawerUserSection) {
+        mobileDrawerUserSection.innerHTML = `
+          <div class="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center text-white font-black text-xs shadow-sm" style="background-color: ${currentEmp.color || '#EF4444'}">
+                  ${currentEmp.avatar || 'DC'}
+                </div>
+                <div>
+                  <span class="text-xs font-black text-slate-900 block">${currentEmp.name}</span>
+                  <span class="text-[10px] text-slate-500 font-mono">${currentEmp.referralCode} &bull; ${currentEmp.department}</span>
+                </div>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200">Active</span>
+            </div>
+            <button id="emp-mobile-logout-btn" class="w-full py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+              <i data-lucide="log-out" class="w-3.5 h-3.5 text-slate-500"></i>
+              <span>Log Out</span>
+            </button>
+          </div>
+        `;
+
+        const mobileLogoutBtn = document.getElementById('emp-mobile-logout-btn');
+        if (mobileLogoutBtn) {
+          mobileLogoutBtn.addEventListener('click', () => {
+            store.logoutEmployee();
+            window.showToast('Logged out successfully.', 'info');
+          });
+        }
       }
     }
 

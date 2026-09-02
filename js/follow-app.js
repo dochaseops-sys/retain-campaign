@@ -57,5 +57,19 @@ document.addEventListener('DOMContentLoaded', () => {
     renderFollowPage();
   });
 
+  const mobileBtn = document.getElementById('follow-mobile-menu-btn');
+  const mobileDrawer = document.getElementById('follow-mobile-menu-drawer');
+  if (mobileBtn && mobileDrawer) {
+    mobileBtn.addEventListener('click', () => {
+      mobileDrawer.classList.toggle('hidden');
+    });
+
+    mobileDrawer.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileDrawer.classList.add('hidden');
+      });
+    });
+  }
+
   renderFollowPage();
 });

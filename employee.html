@@ -61,49 +61,54 @@
   <!-- Navigation Header (Clean & Focused) -->
   <header class="sticky top-0 z-40 bg-[#FAFBF7]/90 backdrop-blur-md border-b border-slate-200/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-20">
+      <div class="flex items-center justify-between h-16 sm:h-20">
         
         <!-- Brand Logo & Title -->
-        <a href="employee.html" class="flex items-center gap-3 group">
-          <div class="w-10 h-10 rounded-2xl bg-slate-900 flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
-            <i data-lucide="trending-up" class="w-5 h-5 text-rose-500"></i>
+        <a href="employee.html" class="flex items-center gap-2.5 sm:gap-3 group flex-shrink-0">
+          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-slate-900 flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
+            <i data-lucide="trending-up" class="w-4 h-4 sm:w-5 sm:h-5 text-rose-500"></i>
           </div>
           <div>
-            <div class="flex items-center gap-2">
-              <span class="text-xl font-black tracking-tight text-slate-900">Retain<span class="text-rose-600">.</span></span>
-              <span class="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-slate-900 text-white uppercase tracking-wider">Employee Hub</span>
+            <div class="flex items-center gap-1.5 sm:gap-2">
+              <span class="text-lg sm:text-xl font-black tracking-tight text-slate-900">Dochase<span class="text-rose-600">.</span></span>
+              <span class="text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded-full bg-slate-900 text-white uppercase tracking-wider">Employee Hub</span>
             </div>
-            <span class="text-[11px] font-semibold text-slate-500 block -mt-0.5">Referral & Sharing Dashboard</span>
+            <span class="hidden sm:block text-[11px] font-semibold text-slate-500 -mt-0.5">Referral & Sharing Dashboard</span>
           </div>
         </a>
 
         <!-- Streamlined Navigation Links -->
         <nav class="hidden md:flex items-center p-1 bg-white border border-slate-200/90 rounded-full shadow-sm text-xs font-bold text-slate-600">
-          <a href="campaign.html" class="px-4 py-2 rounded-full hover:bg-slate-900 hover:text-white transition-all flex items-center gap-1.5">
-            <i data-lucide="info" class="w-3.5 h-3.5"></i>
-            <span>Campaign Overview</span>
+          <a href="campaign.html" class="px-3.5 lg:px-4 py-2 rounded-full hover:bg-slate-900 hover:text-white transition-all flex items-center gap-1.5">
+            <i data-lucide="compass" class="w-3.5 h-3.5"></i>
+            <span>Overview</span>
           </a>
-          <a href="campaign.html#leaderboard-section" class="px-4 py-2 rounded-full hover:bg-slate-900 hover:text-white transition-all flex items-center gap-1.5">
+          <a href="campaign.html#prizes-section" class="px-3.5 lg:px-4 py-2 rounded-full hover:bg-slate-900 hover:text-white transition-all flex items-center gap-1.5">
+            <i data-lucide="trophy" class="w-3.5 h-3.5"></i>
+            <span>Prizes</span>
+          </a>
+          <a href="campaign.html#leaderboard-section" class="px-3.5 lg:px-4 py-2 rounded-full hover:bg-slate-900 hover:text-white transition-all flex items-center gap-1.5">
             <i data-lucide="award" class="w-3.5 h-3.5"></i>
-            <span>Full Leaderboard</span>
+            <span>Leaderboard</span>
           </a>
-          <a href="campaign.html#rules-section" class="px-4 py-2 rounded-full hover:bg-slate-900 hover:text-white transition-all flex items-center gap-1.5">
+          <a href="campaign.html#rules-section" class="px-3.5 lg:px-4 py-2 rounded-full hover:bg-slate-900 hover:text-white transition-all flex items-center gap-1.5">
             <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
-            <span>Scoring & Rules</span>
+            <span>Rules</span>
           </a>
         </nav>
 
         <!-- Right Side: Profile & Actions -->
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           <a href="follow.html" target="_blank" class="hidden lg:flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-slate-950 px-3 py-2 rounded-full hover:bg-slate-100 transition-colors" title="Preview public follower confirmation page">
             <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-500"></i>
             <span>Public Page</span>
           </a>
           
-          <div id="nav-user-section" class="flex items-center gap-3"></div>
+          <!-- Desktop User Section -->
+          <div id="nav-user-section" class="hidden md:flex items-center gap-2 sm:gap-3"></div>
 
           <!-- Mobile Hamburger Toggle -->
-          <button id="mobile-menu-btn" class="md:hidden w-10 h-10 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-700 hover:text-slate-950 shadow-sm" aria-label="Toggle navigation menu">
+          <button id="mobile-menu-btn" class="md:hidden w-10 h-10 rounded-xl sm:rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-700 hover:text-slate-950 shadow-sm touch-target cursor-pointer" aria-label="Toggle navigation menu">
             <i data-lucide="menu" class="w-5 h-5"></i>
           </button>
         </div>
@@ -112,23 +117,32 @@
     </div>
 
     <!-- Mobile Slide-Down Menu Drawer -->
-    <div id="mobile-menu-drawer" class="hidden md:hidden border-t border-slate-200 bg-[#FAFBF7] px-4 pt-3 pb-6 space-y-2 animate-slide-up shadow-lg">
-      <a href="campaign.html" class="mobile-nav-link flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs text-slate-800 hover:bg-slate-100">
-        <i data-lucide="book-open" class="w-4 h-4 text-slate-500"></i>
-        <span>Campaign Overview & Prizes</span>
-      </a>
-      <a href="campaign.html#leaderboard-section" class="mobile-nav-link flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs text-slate-800 hover:bg-slate-100">
-        <i data-lucide="award" class="w-4 h-4 text-slate-500"></i>
-        <span>Full Leaderboard</span>
-      </a>
-      <a href="campaign.html#scoring-section" class="mobile-nav-link flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs text-slate-800 hover:bg-slate-100">
-        <i data-lucide="zap" class="w-4 h-4 text-slate-500"></i>
-        <span>Scoring & Rules</span>
-      </a>
-      <div class="pt-3 border-t border-slate-200">
-        <a href="follow.html" target="_blank" class="text-xs font-bold text-slate-600 flex items-center gap-1.5">
-          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-          <span>Public Follower Page</span>
+    <div id="mobile-menu-drawer" class="hidden md:hidden border-t border-slate-200 bg-[#FAFBF7]/95 backdrop-blur-xl px-4 pt-4 pb-6 space-y-3 animate-slide-up shadow-2xl">
+      <!-- Mobile User Action Section -->
+      <div id="mobile-drawer-user-section"></div>
+
+      <div class="grid grid-cols-2 gap-2">
+        <a href="campaign.html" class="mobile-nav-link flex items-center gap-2 p-3 rounded-xl font-bold text-xs text-slate-800 bg-white border border-slate-200/80 hover:border-rose-500 transition-all">
+          <i data-lucide="compass" class="w-4 h-4 text-rose-500"></i>
+          <span>Campaign Overview</span>
+        </a>
+        <a href="campaign.html#prizes-section" class="mobile-nav-link flex items-center gap-2 p-3 rounded-xl font-bold text-xs text-slate-800 bg-white border border-slate-200/80 hover:border-rose-500 transition-all">
+          <i data-lucide="trophy" class="w-4 h-4 text-amber-500"></i>
+          <span>Flagship Prizes</span>
+        </a>
+        <a href="campaign.html#leaderboard-section" class="mobile-nav-link flex items-center gap-2 p-3 rounded-xl font-bold text-xs text-slate-800 bg-white border border-slate-200/80 hover:border-rose-500 transition-all">
+          <i data-lucide="award" class="w-4 h-4 text-rose-600"></i>
+          <span>Live Leaderboard</span>
+        </a>
+        <a href="campaign.html#scoring-section" class="mobile-nav-link flex items-center gap-2 p-3 rounded-xl font-bold text-xs text-slate-800 bg-white border border-slate-200/80 hover:border-rose-500 transition-all">
+          <i data-lucide="zap" class="w-4 h-4 text-rose-500"></i>
+          <span>Scoring Calculator</span>
+        </a>
+      </div>
+      <div class="pt-2 border-t border-slate-200 flex flex-col gap-2">
+        <a href="follow.html" target="_blank" class="w-full py-2.5 px-4 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-2">
+          <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-500"></i>
+          <span>Preview Public Follower Page</span>
         </a>
       </div>
     </div>
@@ -256,31 +270,67 @@
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-slate-200 bg-[#FAFBF7] text-slate-500 text-xs py-12">
+  <footer class="border-t border-slate-200 bg-[#FAFBF7] text-slate-600 text-xs py-10 sm:py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+      
+      <!-- Footer Main Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8 sm:mb-12">
         
-        <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-rose-500 font-black text-sm shadow-sm">
-            RD
+        <!-- Column 1: Brand Info -->
+        <div class="sm:col-span-2 space-y-3">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-slate-900 flex items-center justify-center text-rose-500 font-black text-sm shadow-sm">
+              DC
+            </div>
+            <div>
+              <span class="font-extrabold text-slate-900 text-sm sm:text-base">Dochase Growth Challenge</span>
+              <p class="text-slate-500 text-[11px]">Employee Referral & Sharing Hub.</p>
+            </div>
           </div>
-          <div>
-            <span class="font-extrabold text-slate-900 text-sm">Retain Social Growth Challenge</span>
-            <p class="text-slate-500 text-[11px]">Employee Referral & Sharing Hub.</p>
+          <p class="text-slate-500 text-xs leading-relaxed max-w-md">
+            Driving organic audience expansion, brand authority, and digital leadership across global advertising technology and programmatic solutions.
+          </p>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[10px] font-bold text-emerald-800">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>Active Sprint &bull; Sept 1 &ndash; Sept 30</span>
           </div>
         </div>
 
-        <div class="flex flex-wrap items-center gap-6 text-slate-500 font-medium">
-          <a href="campaign.html" class="hover:text-slate-900 transition-colors font-bold text-rose-600">Campaign Overview & Rules</a>
-          <a href="campaign.html#leaderboard-section" class="hover:text-slate-900 transition-colors">Leaderboard</a>
-          <a href="follow.html" target="_blank" class="hover:text-slate-900 transition-colors">Public Follower Page</a>
+        <!-- Column 2: Challenge Navigation -->
+        <div>
+          <h4 class="text-xs font-black uppercase tracking-wider text-slate-900 mb-3">Challenge Sections</h4>
+          <ul class="space-y-2 text-slate-600 font-medium text-xs">
+            <li><a href="campaign.html#hero-section" class="hover:text-rose-600 transition-colors block py-0.5">Campaign Overview</a></li>
+            <li><a href="campaign.html#how-it-works-section" class="hover:text-rose-600 transition-colors block py-0.5">How It Works</a></li>
+            <li><a href="campaign.html#prizes-section" class="hover:text-rose-600 transition-colors block py-0.5">Flagship Cash Prizes</a></li>
+            <li><a href="campaign.html#scoring-section" class="hover:text-rose-600 transition-colors block py-0.5">Scoring & Calculator</a></li>
+            <li><a href="campaign.html#leaderboard-section" class="hover:text-rose-600 transition-colors block py-0.5">Live Leaderboard</a></li>
+            <li><a href="campaign.html#rules-section" class="hover:text-rose-600 transition-colors block py-0.5">Fair Play & Audit Rules</a></li>
+          </ul>
         </div>
 
-        <div class="text-slate-500 text-[11px] text-center md:text-right font-medium">
-          &copy; 2026 Retain. Internal Staff Only.
+        <!-- Column 3: Quick Portals -->
+        <div>
+          <h4 class="text-xs font-black uppercase tracking-wider text-slate-900 mb-3">Staff Portals</h4>
+          <ul class="space-y-2 text-slate-600 font-medium text-xs">
+            <li><a href="employee.html" class="hover:text-rose-600 font-bold text-rose-600 flex items-center gap-1.5 py-0.5"><i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i> Employee Dashboard</a></li>
+            <li><a href="follow.html" target="_blank" class="hover:text-slate-900 flex items-center gap-1.5 py-0.5"><i data-lucide="external-link" class="w-3.5 h-3.5"></i> Public Follower Page</a></li>
+            <li><a href="admin.html" class="hover:text-slate-900 flex items-center gap-1.5 py-0.5"><i data-lucide="shield" class="w-3.5 h-3.5"></i> Admin Control Center</a></li>
+          </ul>
         </div>
 
       </div>
+
+      <!-- Footer Bottom Strip -->
+      <div class="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-slate-400 text-[11px] font-medium text-center sm:text-left">
+        <p>&copy; 2026 Dochase. Internal Staff Competition &bull; All Rights Reserved.</p>
+        <p class="flex items-center gap-2">
+          <span>Official Social Growth Challenge</span>
+          <span>&bull;</span>
+          <span>Confidential</span>
+        </p>
+      </div>
+
     </div>
   </footer>
 

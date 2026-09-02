@@ -19,28 +19,28 @@ export function renderReferralForm() {
   const defaultCode = codeParam.trim();
 
   container.innerHTML = `
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-20">
       
-      <div class="modern-card p-8 sm:p-14 shadow-2xl relative overflow-hidden">
+      <div class="modern-card p-5 sm:p-10 lg:p-14 shadow-2xl relative overflow-hidden">
         
         <!-- Header -->
-        <div class="text-center max-w-2xl mx-auto mb-12">
-          <h2 class="text-3xl sm:text-5xl font-black text-slate-900 mb-4">
+        <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+          <h2 class="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 mb-3 sm:mb-4">
             Confirm your follow & <span class="marker-highlight">support</span>.
           </h2>
-          <p class="text-slate-600 text-base leading-relaxed">
+          <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
             Followed Retain on social media? Fill in this quick form with your referrer's code so we can acknowledge your support!
           </p>
         </div>
 
         <!-- Submission Feedback Message Alert (Initially Hidden) -->
-        <div id="form-feedback-alert" class="hidden mb-10 p-6 rounded-2xl bg-slate-900 text-white flex items-start gap-4 animate-slide-up shadow-xl">
-          <div class="w-10 h-10 rounded-xl bg-rose-500 flex items-center justify-center text-white flex-shrink-0 font-bold">
-            <i data-lucide="check-circle" class="w-6 h-6"></i>
+        <div id="form-feedback-alert" class="hidden mb-6 sm:mb-10 p-4 sm:p-6 rounded-2xl bg-slate-900 text-white flex items-start gap-3 sm:gap-4 animate-slide-up shadow-xl">
+          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-rose-500 flex items-center justify-center text-white flex-shrink-0 font-bold">
+            <i data-lucide="check-circle" class="w-5 h-5 sm:w-6 sm:h-6"></i>
           </div>
           <div>
-            <h4 class="text-lg font-black text-white mb-1">Submission Successful!</h4>
-            <p id="form-feedback-text" class="text-sm text-slate-300 leading-relaxed font-medium">
+            <h4 class="text-base sm:text-lg font-black text-white mb-1">Submission Successful!</h4>
+            <p id="form-feedback-text" class="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
               Thank you for supporting Retain. Your submission has been received and will be verified.
             </p>
             <div class="mt-3 flex items-center gap-3">
@@ -52,62 +52,38 @@ export function renderReferralForm() {
         </div>
 
         <!-- Form Element -->
-        <form id="referral-confirmation-form" class="space-y-6">
+        <form id="referral-confirmation-form" class="space-y-5 sm:space-y-6">
           
-          <!-- Name & Email Grid -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label for="follower-fullname" class="block text-xs font-black uppercase tracking-wider text-slate-700 mb-2">
-                Full Name <span class="text-rose-500">*</span>
-              </label>
-              <div class="relative">
-                <i data-lucide="user" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5"></i>
-                <input type="text" id="follower-fullname" required placeholder="e.g. Alex Morgan" class="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:border-rose-500 focus:outline-none transition-all" />
-              </div>
-            </div>
-
-            <div>
-              <label for="follower-email" class="block text-xs font-black uppercase tracking-wider text-slate-700 mb-2">
-                Email Address <span class="text-rose-500">*</span>
-              </label>
-              <div class="relative">
-                <i data-lucide="mail" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5"></i>
-                <input type="email" id="follower-email" required placeholder="e.g. alex@example.com" class="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:border-rose-500 focus:outline-none transition-all" />
-              </div>
-              <span class="text-[11px] text-slate-500 mt-1 block">Used only for follow verification and duplicate checks.</span>
-            </div>
-          </div>
-
           <!-- Social Username & Referral Code Grid -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div>
-              <label for="follower-handle" class="block text-xs font-black uppercase tracking-wider text-slate-700 mb-2">
-                Social Media Handle <span class="text-rose-500">*</span>
+              <label for="follower-handle" class="block text-xs font-black uppercase tracking-wider text-slate-700 mb-1.5 sm:mb-2">
+                Your Social Media Handle <span class="text-rose-500">*</span>
               </label>
               <div class="relative">
                 <i data-lucide="at-sign" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5"></i>
-                <input type="text" id="follower-handle" required placeholder="e.g. @alexmorgan_dev" class="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:border-rose-500 focus:outline-none transition-all" />
+                <input type="text" id="follower-handle" required placeholder="e.g. @alexmorgan or alex_dev" class="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:border-rose-500 focus:outline-none transition-all" />
               </div>
-              <span class="text-[11px] text-slate-500 mt-1 block">The primary account handle you used to follow Retain.</span>
+              <span class="text-[11px] text-slate-500 mt-1 block">The account handle you used to follow Dochase.</span>
             </div>
 
             <div>
-              <label for="employee-ref-code" class="block text-xs font-black uppercase tracking-wider text-slate-700 mb-2">
+              <label for="employee-ref-code" class="block text-xs font-black uppercase tracking-wider text-slate-700 mb-1.5 sm:mb-2">
                 Employee Referral Code <span class="text-rose-500">*</span>
               </label>
               <div class="relative">
                 <i data-lucide="key" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5"></i>
-                <input type="text" id="employee-ref-code" value="${defaultCode}" required placeholder="e.g. RETAIN-CODE-12" class="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl pl-10 pr-4 py-3 text-sm font-mono font-bold text-slate-900 placeholder-slate-400 uppercase focus:border-rose-500 focus:outline-none transition-all" />
+                <input type="text" id="employee-ref-code" value="${defaultCode}" required placeholder="e.g. DOCHASE-GBENGA-31" class="w-full bg-[#FAFBF7] border border-slate-300 rounded-xl pl-10 pr-4 py-3 text-sm font-mono font-bold text-slate-900 placeholder-slate-400 uppercase focus:border-rose-500 focus:outline-none transition-all" />
               </div>
               <span id="ref-code-helper" class="text-[11px] text-slate-500 mt-1 block font-medium">
-                ${defaultCode ? `Referred by code: ${defaultCode}` : 'Enter the code provided by the Retain employee.'}
+                ${defaultCode ? `Referred by code: ${defaultCode}` : 'Enter the unique referral code of the employee.'}
               </span>
             </div>
           </div>
 
           <!-- Platforms Followed Checkboxes -->
           <div>
-            <div class="flex items-center justify-between mb-2.5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2.5">
               <label class="block text-xs font-black uppercase tracking-wider text-slate-700">
                 Platforms Followed <span class="text-rose-500">*</span>
               </label>
@@ -116,9 +92,9 @@ export function renderReferralForm() {
               </span>
             </div>
             
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3">
               ${activePlatforms.map(([key, plat]) => `
-                <label class="form-platform-item flex items-center gap-3 p-3.5 rounded-2xl bg-[#FAFBF7] border border-slate-200 hover:border-rose-500 cursor-pointer transition-all">
+                <label class="form-platform-item flex items-center gap-3 p-3 rounded-2xl bg-[#FAFBF7] border border-slate-200 hover:border-rose-500 cursor-pointer transition-all">
                   <input type="checkbox" name="form-platforms" value="${key}" class="form-plat-cb rounded bg-white border-slate-300 text-rose-600 focus:ring-rose-500 w-4 h-4" />
                   <div class="flex items-center gap-2">
                     <span class="text-slate-700">${getSocialIcon(key, 'w-4 h-4')}</span>
@@ -218,8 +194,6 @@ export function renderReferralForm() {
       e.preventDefault();
       errorBanner.classList.add('hidden');
 
-      const fullName = document.getElementById('follower-fullname').value.trim();
-      const email = document.getElementById('follower-email').value.trim();
       const handle = document.getElementById('follower-handle').value.trim();
       const employeeCode = document.getElementById('employee-ref-code').value.trim().toUpperCase();
       const platformsFollowed = Array.from(platCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
@@ -227,8 +201,8 @@ export function renderReferralForm() {
       const consent = document.getElementById('follower-consent').checked;
 
       // Validation
-      if (!fullName || !email || !handle || !employeeCode) {
-        errorMsg.innerText = 'Please fill in all required fields.';
+      if (!handle || !employeeCode) {
+        errorMsg.innerText = 'Please enter your social media handle and employee referral code.';
         errorBanner.classList.remove('hidden');
         return;
       }
@@ -248,13 +222,13 @@ export function renderReferralForm() {
       // Check if employee code exists
       const employee = store.getEmployeeByCode(employeeCode);
       if (!employee) {
-        errorMsg.innerText = `Invalid referral code "${employeeCode}". Please check with your Retain contact.`;
+        errorMsg.innerText = `Invalid referral code "${employeeCode}". Please check with your Dochase contact.`;
         errorBanner.classList.remove('hidden');
         return;
       }
 
-      // Duplicate check
-      const duplicate = store.checkDuplicateSubmission(email, handle);
+      // Duplicate check (by handle)
+      const duplicate = store.checkDuplicateSubmission('', handle);
       if (duplicate.isDuplicate) {
         errorMsg.innerText = duplicate.reason;
         errorBanner.classList.remove('hidden');
@@ -264,8 +238,6 @@ export function renderReferralForm() {
       // Submit
       try {
         store.addSubmission({
-          followerName: fullName,
-          followerEmail: email,
           followerHandle: handle,
           employeeCode: employeeCode,
           platformsFollowed: platformsFollowed,
@@ -286,10 +258,10 @@ export function renderReferralForm() {
         form.classList.add('hidden');
         feedbackAlert.classList.remove('hidden');
         if (feedbackText) {
-          feedbackText.innerText = 'Thank you for supporting Retain. Your submission has been received and will be verified.';
+          feedbackText.innerText = 'Thank you for supporting Dochase. Your submission has been received and will be verified.';
         }
 
-        window.showToast('Submission confirmed! Thank you for following Retain.', 'success');
+        window.showToast('Submission confirmed! Thank you for following Dochase.', 'success');
       } catch (err) {
         errorMsg.innerText = err.message || 'Error submitting confirmation. Please try again.';
         errorBanner.classList.remove('hidden');

@@ -33,25 +33,25 @@ export function renderLeaderboard() {
       </div>
 
       <!-- Filters & Search Bar -->
-      <div class="modern-card p-5 sm:p-6 mb-8 border-slate-200">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div class="modern-card p-4 sm:p-6 mb-6 sm:mb-8 border-slate-200">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
           
           <!-- Department Filter Buttons -->
-          <div class="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-none">
-            <button class="dept-filter-btn px-4 py-2 rounded-full text-xs font-black transition-all bg-slate-900 text-white shadow-sm" data-dept="all">
+          <div class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto touch-scroll pb-2 sm:pb-0 scrollbar-none -mx-2 px-2 sm:mx-0 sm:px-0">
+            <button class="dept-filter-btn px-3.5 sm:px-4 py-2 rounded-full text-xs font-black transition-all bg-slate-900 text-white shadow-sm flex-shrink-0 touch-target" data-dept="all">
               All Departments
             </button>
             ${departments.map(dept => `
-              <button class="dept-filter-btn px-4 py-2 rounded-full text-xs font-bold transition-all bg-white hover:bg-slate-100 text-slate-700 border border-slate-200" data-dept="${dept}">
+              <button class="dept-filter-btn px-3.5 sm:px-4 py-2 rounded-full text-xs font-bold transition-all bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 flex-shrink-0 touch-target" data-dept="${dept}">
                 ${dept}
               </button>
             `).join('')}
           </div>
 
           <!-- Search Input -->
-          <div class="relative min-w-[240px]">
-            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
-            <input type="text" id="leaderboard-search-input" placeholder="Search employee..." class="w-full bg-[#FAFBF7] border border-slate-200 rounded-full pl-10 pr-4 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-rose-500 transition-all" />
+          <div class="relative w-full sm:min-w-[240px]">
+            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5"></i>
+            <input type="text" id="leaderboard-search-input" placeholder="Search employee..." class="w-full bg-[#FAFBF7] border border-slate-200 rounded-full pl-10 pr-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-rose-500 transition-all" />
           </div>
 
         </div>
@@ -59,16 +59,16 @@ export function renderLeaderboard() {
 
       <!-- Leaderboard Table Card -->
       <div class="modern-card border-slate-200 overflow-hidden shadow-xl">
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-sm text-slate-700">
+        <div class="overflow-x-auto touch-scroll">
+          <table class="w-full text-left text-sm text-slate-700 whitespace-nowrap">
             <thead class="text-[11px] font-black uppercase tracking-wider text-slate-500 bg-[#FAFBF7] border-b border-slate-200">
               <tr>
-                <th class="py-4 px-6 text-center w-16">Rank</th>
-                <th class="py-4 px-6">Employee</th>
-                <th class="py-4 px-6">Department</th>
-                <th class="py-4 px-6 text-center">Verified Followers</th>
-                <th class="py-4 px-6 text-center">Total Points</th>
-                <th class="py-4 px-6">Achievement Badge</th>
+                <th class="py-3.5 sm:py-4 px-3 sm:px-6 text-center w-14 sm:w-16">Rank</th>
+                <th class="py-3.5 sm:py-4 px-3 sm:px-6">Employee</th>
+                <th class="py-3.5 sm:py-4 px-3 sm:px-6">Department</th>
+                <th class="py-3.5 sm:py-4 px-3 sm:px-6 text-center">Verified Followers</th>
+                <th class="py-3.5 sm:py-4 px-3 sm:px-6 text-center">Total Points</th>
+                <th class="py-3.5 sm:py-4 px-3 sm:px-6">Achievement Badge</th>
               </tr>
             </thead>
             <tbody id="leaderboard-table-body" class="divide-y divide-slate-100 font-medium">

@@ -494,34 +494,38 @@ class Store {
     const cleanEmail = (email || '').trim().toLowerCase();
     const cleanHandle = (handle || '').trim().toLowerCase().replace(/^@/, '');
 
-    const existingEmail = this.state.submissions.find(s => s.status !== 'rejected' && s.email.toLowerCase() === cleanEmail);
-    if (existingEmail) {
-      return {
-        isDuplicate: true,
-        reason: `A submission with email ${email} was already received for referrer code ${existingEmail.employeeCode}.`
-      };
+    if (cleanEmail) {
+      const existingEmail = this.state.submissions.find(s => s.status !== 'rejected' && s.email && s.email.toLowerCase() === cleanEmail);
+      if (existingEmail) {
+        return {
+          isDuplicate: true,
+          reason: `A submission with email ${email} was already received for referrer code ${existingEmail.employeeCode}.`
+        };
+      }
     }
 
-    const existingHandle = this.state.submissions.find(s => s.status !== 'rejected' && s.handle.toLowerCase().replace(/^@/, '') === cleanHandle);
-    if (existingHandle) {
-      return {
-        isDuplicate: true,
-        reason: `A submission with handle @${cleanHandle} was already submitted for referrer code ${existingHandle.employeeCode}.`
-      };
+    if (cleanHandle) {
+      const existingHandle = this.state.submissions.find(s => s.status !== 'rejected' && s.handle && s.handle.toLowerCase().replace(/^@/, '') === cleanHandle);
+      if (existingHandle) {
+        return {
+          isDuplicate: true,
+          reason: `A submission with handle @${cleanHandle} was already submitted for referrer code ${existingHandle.employeeCode}.`
+        };
+      }
     }
 
     return { isDuplicate: false };
   }
 
   addSubmission({ followerName, followerEmail, followerHandle, employeeCode, platformsFollowed, postEngaged, status = 'pending' }) {
-    if (!followerName || !followerEmail || !followerHandle || !employeeCode) {
-      throw new Error('All required fields must be completed.');
+    if (!followerHandle || !employeeCode) {
+      throw new Error('Social media handle and referral code are required.');
     }
 
     const cleanCode = employeeCode.trim().toUpperCase();
     const referrer = this.getEmployeeByCode(cleanCode);
     if (!referrer) {
-      throw new Error(`Referral code "${cleanCode}" is not registered. Please check with your Retain contact.`);
+      throw new Error(`Referral code "${cleanCode}" is not registered. Please check with your Dochase contact.`);
     }
 
     const dupCheck = this.checkDuplicateSubmission(followerEmail, followerHandle);
@@ -534,11 +538,13 @@ class Store {
       ? calculateReferralPoints(platformsFollowed, postEngaged, activePlatformsCount)
       : 0;
 
+    const formattedHandle = followerHandle.trim().startsWith('@') ? followerHandle.trim() : `@${followerHandle.trim()}`;
+
     const newSub = {
       id: `sub-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
-      fullName: followerName.trim(),
-      email: followerEmail.trim(),
-      handle: followerHandle.trim().startsWith('@') ? followerHandle.trim() : `@${followerHandle.trim()}`,
+      fullName: followerName ? followerName.trim() : formattedHandle,
+      email: followerEmail ? followerEmail.trim() : '',
+      handle: formattedHandle,
       platforms: platformsFollowed || [],
       employeeCode: cleanCode,
       engaged: Boolean(postEngaged),
@@ -557,7 +563,7 @@ class Store {
       id: `aud-${Date.now()}`,
       timestamp: new Date().toISOString(),
       action: 'SUBMISSION_RECEIVED',
-      target: `${newSub.fullName} (${newSub.handle}) -> ${referrer.name}`,
+      target: `${newSub.handle} -> ${referrer.name}`,
       actor: 'Public Form',
       note: `Received follow confirmation across ${newSub.platforms.length} platform(s). Status: ${status}.`,
       pointsChange: status === 'verified' ? `+${initialPoints}` : '0'
@@ -745,6 +751,24 @@ class Store {
       ...this.state.settings,
       ...newSettings
     });
+
+    const auditEntry = {
+      id: `aud-${Date.now()}`,
+      timestamp: new Date().toISOString(),
+      action: 'SETTINGS_UPDATED',
+      target: 'Campaign Settings',
+      actor: 'Admin',
+      note: `Updated campaign parameters: Title="${this.state.settings.title}", Start=${this.state.settings.startDate}, End=${this.state.settings.endDate}`,
+      pointsChange: '0'
+    };
+
+    this.state.auditLogs.unshift(auditEntry);
+
+    if (firebaseService.isConfigured) {
+      firebaseService.saveSettings(this.state.settings);
+      firebaseService.saveAuditLog(auditEntry);
+    }
+
     this.saveState();
   }
 
@@ -754,12 +778,78 @@ class Store {
       ...prizes
     };
     delete this.state.settings.prizes.milestones;
+
+    const auditEntry = {
+      id: `aud-${Date.now()}`,
+      timestamp: new Date().toISOString(),
+      action: 'PRIZES_UPDATED',
+      target: 'Prize Tiers',
+      actor: 'Admin',
+      note: `Updated prize rewards: 1st="${this.state.settings.prizes.first?.reward}", 2nd="${this.state.settings.prizes.second?.reward}", 3rd="${this.state.settings.prizes.third?.reward}"`,
+      pointsChange: '0'
+    };
+
+    this.state.auditLogs.unshift(auditEntry);
+
+    if (firebaseService.isConfigured) {
+      firebaseService.saveSettings(this.state.settings);
+      firebaseService.saveAuditLog(auditEntry);
+    }
+
+    this.saveState();
+  }
+
+  updateAnnouncement(message, enabled, type = 'info') {
+    if (!this.state.settings.announcement) {
+      this.state.settings.announcement = { message: '', enabled: false, type: 'info' };
+    }
+    this.state.settings.announcement = {
+      message: message || '',
+      enabled: Boolean(enabled),
+      type: type || 'info'
+    };
+
+    const auditEntry = {
+      id: `aud-${Date.now()}`,
+      timestamp: new Date().toISOString(),
+      action: 'ANNOUNCEMENT_UPDATED',
+      target: 'Announcement Banner',
+      actor: 'Admin',
+      note: `Updated broadcast banner: "${message || ''}" (Enabled: ${Boolean(enabled)})`,
+      pointsChange: '0'
+    };
+
+    this.state.auditLogs.unshift(auditEntry);
+
+    if (firebaseService.isConfigured) {
+      firebaseService.saveSettings(this.state.settings);
+      firebaseService.saveAuditLog(auditEntry);
+    }
+
     this.saveState();
   }
 
   togglePlatform(platformKey, enabled) {
     if (this.state.settings.platforms[platformKey]) {
       this.state.settings.platforms[platformKey].enabled = Boolean(enabled);
+
+      const auditEntry = {
+        id: `aud-${Date.now()}`,
+        timestamp: new Date().toISOString(),
+        action: 'PLATFORM_TOGGLED',
+        target: this.state.settings.platforms[platformKey].name || platformKey,
+        actor: 'Admin',
+        note: `Set platform active status to: ${Boolean(enabled)}`,
+        pointsChange: '0'
+      };
+
+      this.state.auditLogs.unshift(auditEntry);
+
+      if (firebaseService.isConfigured) {
+        firebaseService.saveSettings(this.state.settings);
+        firebaseService.saveAuditLog(auditEntry);
+      }
+
       this.saveState();
     }
   }
@@ -809,7 +899,7 @@ class Store {
         action: 'TEMPLATE_UPDATED',
         target: this.state.settings.templates[templateKey].title || templateKey,
         actor: 'Admin',
-        note: `Updated outreach template message/copy.`,
+        note: `Updated outreach template message/copy for ${this.state.settings.templates[templateKey].title || templateKey}.`,
         pointsChange: '0'
       };
 
@@ -842,6 +932,24 @@ class Store {
         publishedAt: new Date().toISOString(),
         topThree: leaderboard.slice(0, 3)
       };
+
+      const auditEntry = {
+        id: `aud-${Date.now()}`,
+        timestamp: new Date().toISOString(),
+        action: 'WINNER_PUBLISHED',
+        target: `${topWinner.name} (${topWinner.totalPoints} pts)`,
+        actor: 'Admin',
+        note: `Official campaign winner finalized and published across the website.`,
+        pointsChange: '0'
+      };
+
+      this.state.auditLogs.unshift(auditEntry);
+
+      if (firebaseService.isConfigured) {
+        firebaseService.saveSettings(this.state.settings);
+        firebaseService.saveAuditLog(auditEntry);
+      }
+
       this.saveState();
     }
   }

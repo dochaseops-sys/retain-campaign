@@ -235,75 +235,71 @@ export function AdminApp() {
   }
 
   return html`
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in min-w-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-16 animate-fade-in min-w-0">
       
-      
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-8 pb-6 border-b border-slate-200 min-w-0">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6 sm:mb-8 pb-5 sm:pb-6 border-b border-slate-200 min-w-0">
         <div>
-          <h2 className="text-3xl font-black text-slate-900">
-            Campaign Control <span className="marker-highlight">Center</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-900">
+            Campaign Control <span class="marker-highlight">Center</span>
           </h2>
         </div>
 
-        
-        <div className="flex flex-wrap items-center gap-2.5 min-w-0">
-          <button onClick=${() => handleExportCSV('submissions')} className="btn-outline-pill text-xs py-2 px-4 flex items-center gap-1.5 shadow-sm cursor-pointer flex-shrink-0">
-            <i data-lucide="download" className="w-4 h-4 text-slate-700"></i>
+        <div class="flex flex-wrap items-center gap-2 sm:gap-2.5 min-w-0">
+          <button onClick=${() => handleExportCSV('submissions')} className="btn-outline-pill text-xs py-2 px-3.5 sm:px-4 flex items-center gap-1.5 shadow-sm cursor-pointer flex-shrink-0 touch-target">
+            <i data-lucide="download" className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-700"></i>
             <span>Export CSV</span>
           </button>
-          <button onClick=${handlePublishWinner} className="btn-retain text-xs py-2 px-4 flex items-center gap-1.5 cursor-pointer flex-shrink-0">
-            <i data-lucide="award" className="w-4 h-4 text-white"></i>
+          <button onClick=${handlePublishWinner} className="btn-retain text-xs py-2 px-3.5 sm:px-4 flex items-center gap-1.5 cursor-pointer flex-shrink-0 touch-target">
+            <i data-lucide="award" className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white"></i>
             <span>${settings.winnerPublished ? 'Winner Finalized' : 'Finalize Winner'}</span>
           </button>
-          <button onClick=${handleResetData} className="px-3.5 py-2 rounded-full bg-rose-50 hover:bg-rose-100 border border-rose-200 text-xs font-bold text-rose-700 transition-all flex items-center gap-1.5 cursor-pointer flex-shrink-0" title="Clear all campaign data completely">
+          <button onClick=${handleResetData} className="px-3.5 py-2 rounded-full bg-rose-50 hover:bg-rose-100 border border-rose-200 text-xs font-bold text-rose-700 transition-all flex items-center gap-1.5 cursor-pointer flex-shrink-0 touch-target" title="Clear all campaign data completely">
             <i data-lucide="refresh-cw" className="w-3.5 h-3.5"></i>
             <span>Clear Data</span>
           </button>
-          <button onClick=${handleLogout} className="px-3 py-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all flex items-center gap-1 cursor-pointer flex-shrink-0">
+          <button onClick=${handleLogout} className="px-3 py-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all flex items-center gap-1 cursor-pointer flex-shrink-0 touch-target">
             <i data-lucide="log-out" className="w-3.5 h-3.5"></i>
             <span>Logout</span>
           </button>
         </div>
       </div>
 
-      
-      <div className="flex items-center gap-2 border-b border-slate-200 mb-8 overflow-x-auto scrollbar-none min-w-0 flex-nowrap">
+      <div class="flex items-center gap-1.5 sm:gap-2 border-b border-slate-200 mb-6 sm:mb-8 overflow-x-auto touch-scroll scrollbar-none min-w-0 flex-nowrap -mx-4 px-4 sm:mx-0 sm:px-0">
         <button 
           onClick=${() => setActiveTab('submissions')} 
-          className=${`admin-tab-btn px-4 py-2.5 text-xs flex items-center gap-2 flex-shrink-0 transition-all cursor-pointer ${activeTab === 'submissions' ? 'font-black border-b-2 border-rose-600 text-rose-600' : 'font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900'}`}
+          className=${`admin-tab-btn px-3.5 sm:px-4 py-2.5 text-xs flex items-center gap-2 flex-shrink-0 transition-all cursor-pointer touch-target whitespace-nowrap ${activeTab === 'submissions' ? 'font-black border-b-2 border-rose-600 text-rose-600' : 'font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900'}`}
         >
           <i data-lucide="list-checks" className="w-4 h-4"></i>
           <span>Submissions Queue</span>
-          <span className="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">${pendingCount} pending</span>
+          <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">${pendingCount}</span>
         </button>
 
         <button 
           onClick=${() => setActiveTab('employees')} 
-          className=${`admin-tab-btn px-4 py-2.5 text-xs flex items-center gap-2 flex-shrink-0 transition-all cursor-pointer ${activeTab === 'employees' ? 'font-black border-b-2 border-rose-600 text-rose-600' : 'font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900'}`}
+          className=${`admin-tab-btn px-3.5 sm:px-4 py-2.5 text-xs flex items-center gap-2 flex-shrink-0 transition-all cursor-pointer touch-target whitespace-nowrap ${activeTab === 'employees' ? 'font-black border-b-2 border-rose-600 text-rose-600' : 'font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900'}`}
         >
           <i data-lucide="users" className="w-4 h-4"></i>
-          <span>Employees & Points Audit</span>
+          <span>Employees & Points</span>
           <span className="text-slate-400 text-[10px]">(${(employees || []).length})</span>
         </button>
 
         <button 
           onClick=${() => setActiveTab('settings')} 
-          className=${`admin-tab-btn px-4 py-2.5 text-xs flex items-center gap-2 flex-shrink-0 transition-all cursor-pointer ${activeTab === 'settings' ? 'font-black border-b-2 border-rose-600 text-rose-600' : 'font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900'}`}
+          className=${`admin-tab-btn px-3.5 sm:px-4 py-2.5 text-xs flex items-center gap-2 flex-shrink-0 transition-all cursor-pointer touch-target whitespace-nowrap ${activeTab === 'settings' ? 'font-black border-b-2 border-rose-600 text-rose-600' : 'font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900'}`}
         >
           <i data-lucide="settings" className="w-4 h-4"></i>
-          <span>Campaign Settings & Toolkit</span>
+          <span>Campaign Settings</span>
         </button>
 
         <button 
           onClick=${() => setActiveTab('analytics')} 
-          className=${`admin-tab-btn px-4 py-2.5 text-xs flex items-center gap-2 flex-shrink-0 transition-all cursor-pointer ${activeTab === 'analytics' ? 'font-black border-b-2 border-rose-600 text-rose-600' : 'font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900'}`}
+          className=${`admin-tab-btn px-3.5 sm:px-4 py-2.5 text-xs flex items-center gap-2 flex-shrink-0 transition-all cursor-pointer touch-target whitespace-nowrap ${activeTab === 'analytics' ? 'font-black border-b-2 border-rose-600 text-rose-600' : 'font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900'}`}
         >
           <i data-lucide="bar-chart-3" className="w-4 h-4"></i>
           <span>Campaign Intelligence</span>
         </button>
       </div>
 
-      
       ${activeTab === 'submissions' && html`
         <div className="space-y-6 animate-fade-in min-w-0">
           
@@ -338,16 +334,15 @@ export function AdminApp() {
 
           
           <div className="modern-card border-slate-200 overflow-hidden shadow-xl min-w-0">
-            <div className="overflow-x-auto w-full">
-              <table className="w-full text-left text-xs text-slate-700 min-w-[700px]">
+            <div className="overflow-x-auto touch-scroll w-full">
+              <table className="w-full text-left text-xs text-slate-700 min-w-[650px]">
                 <thead className="text-[10px] font-black uppercase tracking-wider text-slate-500 bg-[#FAFBF7] border-b border-slate-200">
                   <tr>
-                    <th className="py-3.5 px-4">Follower Details</th>
                     <th className="py-3.5 px-4">Social Handle</th>
                     <th className="py-3.5 px-4">Platforms</th>
                     <th className="py-3.5 px-4">Referrer (Code)</th>
                     <th className="py-3.5 px-4">Engaged?</th>
-                    <th className="py-3.5 px-4">Status / Duplicate Check</th>
+                    <th className="py-3.5 px-4">Status / Audit</th>
                     <th className="py-3.5 px-4 text-center">Points</th>
                     <th className="py-3.5 px-4 text-right">Actions</th>
                   </tr>
@@ -355,24 +350,19 @@ export function AdminApp() {
                 <tbody className="divide-y divide-slate-100 font-medium">
                   ${filteredSubmissions.length === 0 ? html`
                     <tr>
-                      <td colSpan="8" className="text-center py-12 text-slate-400 text-xs">
+                      <td colSpan="7" className="text-center py-12 text-slate-400 text-xs">
                         No submissions found matching criteria.
                       </td>
                     </tr>
                   ` : filteredSubmissions.map((sub) => {
-                    const isDupEmail = emailCounts[(sub.email || '').toLowerCase().trim()] > 1;
                     const isDupHandle = handleCounts[(sub.handle || '').toLowerCase().trim()] > 1;
                     const emp = store.getEmployeeByCode(sub.employeeCode);
 
                     return html`
                       <tr key=${sub.id} className="hover:bg-slate-50 transition-colors">
-                        <td className="py-3.5 px-4 min-w-[160px]">
-                          <span className="font-bold text-slate-900 block truncate max-w-[180px]" title=${sub.fullName}>${sub.fullName}</span>
-                          <span className="text-[11px] text-slate-500 font-mono block truncate max-w-[180px]" title=${sub.email}>${sub.email}</span>
-                        </td>
-
-                        <td className="py-3.5 px-4 font-mono text-slate-900 font-bold min-w-[120px]">
-                          <span className="truncate block max-w-[140px]" title=${sub.handle}>${sub.handle}</span>
+                        <td className="py-3.5 px-4 font-mono text-slate-900 font-bold min-w-[140px]">
+                          <span className="truncate block max-w-[160px]" title=${sub.handle}>${sub.handle}</span>
+                          ${sub.fullName && sub.fullName !== sub.handle ? html`<span className="text-[10px] text-slate-400 font-normal block truncate max-w-[160px]">${sub.fullName}</span>` : ''}
                         </td>
 
                         <td className="py-3.5 px-4 min-w-[140px]">

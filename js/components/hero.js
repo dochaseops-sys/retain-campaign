@@ -16,55 +16,55 @@ export function renderHero() {
   const activeEmployees = employees.filter(e => (e.totalPoints || 0) > 0).length || employees.length;
 
   container.innerHTML = `
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-12 pb-12 sm:pb-20">
       
       <!-- Pinned Announcement Banner (if enabled) -->
       ${settings.announcement && settings.announcement.enabled ? `
-        <div class="mb-10 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-slate-900 flex items-center justify-between gap-4 shadow-sm animate-slide-up">
-          <div class="flex items-center gap-3">
-            <span class="w-8 h-8 rounded-full bg-slate-900 text-rose-400 flex items-center justify-center flex-shrink-0 font-bold text-xs">
-              <i data-lucide="zap" class="w-4 h-4"></i>
+        <div class="mb-6 sm:mb-10 p-3.5 sm:p-4 rounded-2xl bg-rose-50 border border-rose-200 text-slate-900 flex items-center justify-between gap-3 sm:gap-4 shadow-sm animate-slide-up">
+          <div class="flex items-center gap-2.5 sm:gap-3">
+            <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-900 text-rose-400 flex items-center justify-center flex-shrink-0 font-bold text-xs">
+              <i data-lucide="zap" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
             </span>
             <span class="text-xs sm:text-sm font-bold text-slate-800">${settings.announcement.message}</span>
           </div>
-          <span class="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-slate-900 text-white flex-shrink-0">PINNED</span>
+          <span class="text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full bg-slate-900 text-white flex-shrink-0">PINNED</span>
         </div>
       ` : ''}
 
       <!-- Main Hero Split Grid (Editorial Retain Composition) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-16">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-10 sm:mb-16">
         
         <!-- Left Column: Editorial Headline & Floating Widgets -->
         <div class="lg:col-span-7">
 
           <!-- Headline with Marker Pen Highlight -->
-          <h1 class="text-4xl sm:text-6xl font-black text-slate-900 tracking-tight leading-[1.12] mb-6">
+          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.15] mb-4 sm:mb-6">
             Grow the community. <br />
             <span class="marker-highlight">Own the leaderboard</span>.
           </h1>
 
           <!-- Supporting Text -->
-          <p class="text-slate-600 text-base sm:text-lg leading-relaxed max-w-xl mb-8">
+          <p class="text-slate-600 text-sm sm:text-lg leading-relaxed max-w-xl mb-6 sm:mb-8">
             ${settings.supportingText || 'This is your Growth Challenge, invite genuine followers, earn points, and see your name climb to the top!'}
           </p>
 
           <!-- Floating Badges & Action Buttons -->
-          <div class="flex flex-wrap items-center gap-4 mb-8">
-            <a href="employee.html" class="btn-retain flex items-center gap-2">
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+            <a href="employee.html" class="btn-retain flex items-center justify-center gap-2 touch-target">
               <span>Join the Challenge</span>
               <i data-lucide="arrow-right" class="w-4 h-4"></i>
             </a>
-            <a href="#leaderboard-section" class="btn-outline-pill flex items-center gap-2">
+            <a href="#leaderboard-section" class="btn-outline-pill flex items-center justify-center gap-2 touch-target">
               <i data-lucide="trophy" class="w-4 h-4 text-rose-600"></i>
               <span>View Leaderboard</span>
             </a>
           </div>
 
           <!-- Floating Micro-Widgets Row -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-200/80">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-4 border-t border-slate-200/80">
             
             <!-- Widget 1: Team Report Card -->
-            <div class="modern-card p-4 flex items-center justify-between gap-3">
+            <div class="modern-card p-3.5 sm:p-4 flex items-center justify-between gap-3">
               <div>
                 <span class="text-[11px] font-bold text-slate-800 block">Staff Participation</span>
                 <span class="text-xs text-slate-500 font-medium">${employees.length > 0 ? `${employees.length} team members registered` : 'All Retain employees eligible'}</span>
@@ -81,7 +81,7 @@ export function renderHero() {
             </div>
 
             <!-- Widget 2: Floating Pill -->
-            <div class="modern-card p-4 flex items-center gap-3">
+            <div class="modern-card p-3.5 sm:p-4 flex items-center gap-3">
               <div class="w-8 h-8 rounded-full bg-slate-900 text-rose-400 flex items-center justify-center flex-shrink-0">
                 <i data-lucide="shield-check" class="w-4 h-4"></i>
               </div>
@@ -97,17 +97,17 @@ export function renderHero() {
 
         <!-- Right Column: Retain Gradient Hero Card -->
         <div class="lg:col-span-5">
-          <div class="retain-card p-8 sm:p-10 flex flex-col justify-between min-h-[440px]">
+          <div class="retain-card p-6 sm:p-8 lg:p-10 flex flex-col justify-between min-h-[380px] sm:min-h-[440px]">
             
             <!-- Top Status Pill -->
             <div>
-              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold mb-6">
+              <div class="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold mb-5 sm:mb-6">
                 <span class="w-2 h-2 rounded-full bg-[#FB923C] animate-ping"></span>
                 <span>Active Sprint &bull; 30-Day Sprint Live</span>
               </div>
 
               <!-- Grand Prize Title -->
-              <h3 class="text-2xl sm:text-3xl font-black text-white leading-snug mb-4">
+              <h3 class="text-2xl sm:text-3xl font-black text-white leading-snug mb-3 sm:mb-4">
                 Grand Champion: <br />
                 <span class="text-[#FFEDD5]">₦50,000</span> Cash Prize
               </h3>
@@ -119,8 +119,8 @@ export function renderHero() {
 
             <!-- Bottom Section: Action & Social Proof Pill -->
             <div>
-              <div class="mb-6">
-                <a href="employee.html" class="px-5 py-2.5 rounded-full bg-white hover:bg-slate-100 text-slate-950 font-black text-xs inline-flex items-center gap-2 shadow-md transition-all">
+              <div class="mb-5 sm:mb-6">
+                <a href="employee.html" class="w-full sm:w-auto px-5 py-3 rounded-full bg-white hover:bg-slate-100 text-slate-950 font-black text-xs inline-flex items-center justify-center gap-2 shadow-md transition-all touch-target">
                   <span>Get started now</span>
                   <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-rose-600"></i>
                 </a>
@@ -150,47 +150,47 @@ export function renderHero() {
       </div>
 
       <!-- Live Countdown Timer & High Impact Stats -->
-      <div class="modern-card p-8 sm:p-10">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <div class="modern-card p-5 sm:p-8 lg:p-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
           
           <!-- Countdown Block -->
           <div class="lg:col-span-5 border-b lg:border-b-0 lg:border-r border-slate-200 pb-6 lg:pb-0 lg:pr-8">
-            <h4 class="text-lg font-black text-slate-900 mb-4">Time Remaining in Challenge</h4>
+            <h4 class="text-base sm:text-lg font-black text-slate-900 mb-3 sm:mb-4">Time Remaining in Challenge</h4>
             
-            <div class="grid grid-cols-4 gap-3 text-center">
-              <div class="bg-[#FAFBF7] border border-slate-200 rounded-2xl p-3 shadow-inner">
-                <span id="hero-cd-days" class="text-2xl sm:text-3xl font-black text-slate-900 block font-mono">00</span>
-                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">DAYS</span>
+            <div class="grid grid-cols-4 gap-2 sm:gap-3 text-center">
+              <div class="bg-[#FAFBF7] border border-slate-200 rounded-xl sm:rounded-2xl p-2 sm:p-3 shadow-inner">
+                <span id="hero-cd-days" class="text-xl sm:text-3xl font-black text-slate-900 block font-mono">00</span>
+                <span class="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider">DAYS</span>
               </div>
-              <div class="bg-[#FAFBF7] border border-slate-200 rounded-2xl p-3 shadow-inner">
-                <span id="hero-cd-hours" class="text-2xl sm:text-3xl font-black text-slate-900 block font-mono">00</span>
-                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">HOURS</span>
+              <div class="bg-[#FAFBF7] border border-slate-200 rounded-xl sm:rounded-2xl p-2 sm:p-3 shadow-inner">
+                <span id="hero-cd-hours" class="text-xl sm:text-3xl font-black text-slate-900 block font-mono">00</span>
+                <span class="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider">HOURS</span>
               </div>
-              <div class="bg-[#FAFBF7] border border-slate-200 rounded-2xl p-3 shadow-inner">
-                <span id="hero-cd-mins" class="text-2xl sm:text-3xl font-black text-slate-900 block font-mono">00</span>
-                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">MINS</span>
+              <div class="bg-[#FAFBF7] border border-slate-200 rounded-xl sm:rounded-2xl p-2 sm:p-3 shadow-inner">
+                <span id="hero-cd-mins" class="text-xl sm:text-3xl font-black text-slate-900 block font-mono">00</span>
+                <span class="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider">MINS</span>
               </div>
-              <div class="bg-[#FAFBF7] border border-slate-200 rounded-2xl p-3 shadow-inner">
-                <span id="hero-cd-secs" class="text-2xl sm:text-3xl font-black text-rose-600 block font-mono">00</span>
-                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">SECS</span>
+              <div class="bg-[#FAFBF7] border border-slate-200 rounded-xl sm:rounded-2xl p-2 sm:p-3 shadow-inner">
+                <span id="hero-cd-secs" class="text-xl sm:text-3xl font-black text-rose-600 block font-mono">00</span>
+                <span class="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-wider">SECS</span>
               </div>
             </div>
           </div>
 
           <!-- Big Stat Numbers -->
           <div class="lg:col-span-7">
-            <div class="grid grid-cols-3 gap-6 text-center">
+            <div class="grid grid-cols-3 gap-2 sm:gap-6 text-center">
               <div>
-                <span class="text-3xl sm:text-5xl font-black text-slate-900 block tracking-tight">${verifiedCount}</span>
-                <span class="text-xs sm:text-sm font-semibold text-slate-500 mt-1 block">Verified Referrals</span>
+                <span class="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 block tracking-tight">${verifiedCount}</span>
+                <span class="text-[10px] sm:text-xs lg:text-sm font-semibold text-slate-500 mt-1 block">Verified Referrals</span>
               </div>
-              <div class="border-x border-slate-200 px-4">
-                <span class="text-3xl sm:text-5xl font-black text-slate-900 block tracking-tight">100%</span>
-                <span class="text-xs sm:text-sm font-semibold text-slate-500 mt-1 block">Organic Reach</span>
+              <div class="border-x border-slate-200 px-2 sm:px-4">
+                <span class="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 block tracking-tight">100%</span>
+                <span class="text-[10px] sm:text-xs lg:text-sm font-semibold text-slate-500 mt-1 block">Organic Reach</span>
               </div>
               <div>
-                <span class="text-3xl sm:text-5xl font-black text-slate-900 block tracking-tight">6</span>
-                <span class="text-xs sm:text-sm font-semibold text-slate-500 mt-1 block">Active Channels</span>
+                <span class="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 block tracking-tight">6</span>
+                <span class="text-[10px] sm:text-xs lg:text-sm font-semibold text-slate-500 mt-1 block">Active Channels</span>
               </div>
             </div>
           </div>
